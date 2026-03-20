@@ -1,0 +1,241 @@
+/**
+ * 全局样式配置
+ *
+ * 包含:
+ * - CSS Variables (主题色、动画、布局)
+ * - Tailwind基础样式
+ * - 全局重置
+ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ========================================
+   CSS Variables - 主题配置
+   ======================================== */
+
+:root {
+  /* 主题色 */
+  --color-bg: #faf9f7;
+  --color-accent: #1a1a1a;
+  --color-primary: #b91c1c;
+  --color-secondary: #78716c;
+  --color-text-muted: #78716c;
+  --color-gold-accent: #b91c1c;
+  --color-dark-blue: #1e3a5f;
+
+  /* 玻璃态效果 */
+  --glass-bg: rgba(255, 255, 255, 0.15);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-blur: 12px;
+
+  /* 动画时长 */
+  --duration-fast: 200ms;
+  --duration-normal: 400ms;
+  --duration-slow: 800ms;
+
+  /* 布局 */
+  --navbar-height: 4rem;
+  --content-max-width: 1200px;
+
+  /* 图片布局 */
+  --img-h: 70vh;
+  --img-w: 50vh;
+  --gap: 3vh;
+}
+
+/* ========================================
+   暗色主题
+   ======================================== */
+
+[data-theme="dark"] {
+  --color-bg: #1a1a1a;
+  --color-accent: #faf9f7;
+  --color-primary: #ef4444;
+  --color-secondary: #a8a29e;
+  --color-text-muted: #a8a29e;
+
+  --glass-bg: rgba(0, 0, 0, 0.3);
+  --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+/* ========================================
+   基础重置
+   ======================================== */
+
+@layer base {
+  html {
+    @apply scroll-smooth antialiased;
+  }
+
+  body {
+    @apply bg-bg text-accent font-sans;
+    margin: 0;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  /* 隐藏滚动条但允许滚动 */
+  html,
+  body {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* 确保html也没有滚动条 */
+  html {
+    overflow: auto;
+    scrollbar-width: none;
+  }
+
+  html::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ========================================
+   全局组件样式
+   ======================================== */
+
+@layer components {
+  /* 玻璃态效果 */
+  .glass {
+    backdrop-filter: blur(var(--glass-blur));
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+  }
+
+  /* 平滑过渡 */
+  .smooth-transition {
+    transition: all var(--duration-normal) cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* 文字渐变 */
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(
+      135deg,
+      var(--color-primary),
+      var(--color-gold-accent)
+    );
+  }
+}
+
+/* ========================================
+   动画关键帧
+   ======================================== */
+
+@layer utilities {
+  /* 淡入淡出 */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+
+  /* 浮动动画 */
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  /* 脉冲动画 */
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  /* 旋转动画 */
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* 动画工具类 */
+  .animate-fade-in {
+    animation: fadeIn var(--duration-normal) ease-in;
+  }
+
+  .animate-fade-out {
+    animation: fadeOut var(--duration-normal) ease-out;
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .animate-pulse-custom {
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  .animate-spin-slow {
+    animation: spin 3s linear infinite;
+  }
+}
+
+/* ========================================
+   自定义选择样式
+   ======================================== */
+
+::selection {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+::-moz-selection {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+/* ========================================
+   可访问性优化
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* 焦点样式 */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
