@@ -146,9 +146,9 @@ replicate-website-effect/
 │  │  ├── ErrorBoundary                                       │  │
 │  │  │   └── Suspense (懒加载)                               │  │
 │  │  │       ├── /          → Opening                        │  │
-│  │  │       ├── /home      → App (主应用)                   │  │
 │  │  │       ├── /router    → Router                         │  │
-│  │  │       └── /exhibition → Exhibition                    │  │
+│  │  │       ├── /exhibition → Exhibition                    │  │
+│  │  │       └── /charts    → Charts                         │  │
 │  └──────────────────────────────────────────────────────────┘  │
 └────────────────────────────────────────────────────────────────┘
                                 │

@@ -38,7 +38,6 @@ createRoot(document.getElementById('root')!).render(
             </Suspense>
           }
         />
-        <Route path="/home" element={<App />} />
         <Route
           path="/router"
           element={
