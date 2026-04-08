@@ -1,6 +1,6 @@
 # 故宫斗拱结构沉浸式交互网站
 
-> 26年计算机设计大赛参赛作品 | AESTHETE - Cinematic Art Transition
+> 26年计算机设计大赛参赛作品 | 紫禁匠心
 
 ---
 
@@ -10,14 +10,13 @@
 
 - **参赛赛道**：信息可视化 - 交互式信息设计
 - **开源时间**：2026年4月
-- **开发团队**：THE EXTRAORDINARY LAB
+- **开发团队**：郎浩宇 付德民 赵永睿 赵梓翔 王科硕
 
 本项目采用 MIT 许可证开源，欢迎学习交流。如需引用或二次开发，请注明出处：
 
 ```
 故宫斗拱结构沉浸式交互网站
 https://github.com/LangHY/forbidden-city-structure-code
-© 2026 THE EXTRAORDINARY LAB
 ```
 
 ---
@@ -218,7 +217,3 @@ MIT License
 
 ---
 
-<p align="center">
-  <b>AESTHETE - Cinematic Art Transition</b><br>
-  <sub>© 2026 THE EXTRAORDINARY LAB</sub>
-</p>
