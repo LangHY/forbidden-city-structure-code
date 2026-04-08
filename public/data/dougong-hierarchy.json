@@ -1,159 +1,25 @@
-{
-  "name": "斗拱",
-  "description": "中国传统建筑特有的构件体系，由斗、拱、昂等组成",
-  "children": [
-    {
-      "name": "斗类",
-      "description": "方形木块，起承托和传递荷载作用",
-      "children": [
-        {
-          "name": "栌斗",
-          "value": 1,
-          "description": "坐于柱头的大方斗，是斗拱的底座",
-          "material": "楠木",
-          "function": "承重基座",
-          "position": "柱头之上",
-          "size": "一斗"
-        },
-        {
-          "name": "交互斗",
-          "value": 2,
-          "description": "位于拱件交叉处，连接上下层构件",
-          "material": "松木",
-          "function": "连接传递",
-          "position": "拱件交叉处",
-          "size": "小斗"
-        },
-        {
-          "name": "齐心斗",
-          "value": 1,
-          "description": "位于拱心位置，承托上层构件",
-          "material": "松木",
-          "function": "对心承托",
-          "position": "拱心之上",
-          "size": "小斗"
-        },
-        {
-          "name": "散斗",
-          "value": 3,
-          "description": "分布于拱身，承托横拱",
-          "material": "松木",
-          "function": "分散承重",
-          "position": "拱身之上",
-          "size": "小斗"
-        }
-      ]
-    },
-    {
-      "name": "拱类",
-      "description": "弓形短木，横向或纵向伸出，承托屋檐",
-      "children": [
-        {
-          "name": "华拱",
-          "value": 3,
-          "description": "前后方向挑出的拱，是主要承重构件",
-          "material": "松木",
-          "function": "前后悬挑",
-          "position": "斗上前后方向",
-          "direction": "前后"
-        },
-        {
-          "name": "泥道拱",
-          "value": 2,
-          "description": "第一层横向拱，位于栌斗之上",
-          "material": "松木",
-          "function": "横向承托",
-          "position": "栌斗之上第一层",
-          "direction": "左右"
-        },
-        {
-          "name": "令拱",
-          "value": 2,
-          "description": "最上层横向拱，承托撩檐枋",
-          "material": "松木",
-          "function": "承托屋檐",
-          "position": "最上层",
-          "direction": "左右"
-        },
-        {
-          "name": "瓜子拱",
-          "value": 2,
-          "description": "中间层横向拱，连接华拱",
-          "material": "松木",
-          "function": "中间连接",
-          "position": "华拱之上",
-          "direction": "左右"
-        },
-        {
-          "name": "慢拱",
-          "value": 1,
-          "description": "位于瓜子拱之上，较长",
-          "material": "松木",
-          "function": "延伸承托",
-          "position": "瓜子拱之上",
-          "direction": "左右"
-        }
-      ]
-    },
-    {
-      "name": "昂类",
-      "description": "斜向伸出的构件，起杠杆作用",
-      "children": [
-        {
-          "name": "下昂",
-          "value": 2,
-          "description": "斜向下方伸出，前端承托屋檐",
-          "material": "柏木",
-          "function": "杠杆传力",
-          "position": "拱上斜向",
-          "angle": "向下倾斜"
-        },
-        {
-          "name": "上昂",
-          "value": 1,
-          "description": "斜向上方支撑，较少使用",
-          "material": "柏木",
-          "function": "向上支撑",
-          "position": "拱下斜向",
-          "angle": "向上倾斜"
-        }
-      ]
-    },
-    {
-      "name": "枋类",
-      "description": "水平横木，连接各构件",
-      "children": [
-        {
-          "name": "柱头枋",
-          "value": 1,
-          "description": "位于柱头位置的水平枋木",
-          "material": "楠木",
-          "function": "连接柱头",
-          "position": "柱头连线"
-        },
-        {
-          "name": "撩檐枋",
-          "value": 1,
-          "description": "承托屋檐的水平枋木",
-          "material": "楠木",
-          "function": "承托屋檐",
-          "position": "斗拱最外端"
-        },
-        {
-          "name": "罗汉枋",
-          "value": 1,
-          "description": "位于中间层的水平枋木",
-          "material": "松木",
-          "function": "中间连接",
-          "position": "中层"
-        }
-      ]
-    }
-  ],
-  "metadata": {
-    "source": "《营造法式》",
-    "dynasty": "宋",
-    "application": "宫殿、寺庙等高等级建筑",
-    "notes": "斗拱是中国古代建筑的核心构件，不用一钉一铆，通过榫卯连接"
-  }
-}
+[
+  {"name": "斗拱", "parent": null, "value": null, "description": "中国传统建筑特有的构件体系"},
+
+  {"name": "斗类", "parent": "斗拱", "value": null, "description": "方形木块，起承托和传递荷载作用"},
+  {"name": "栌斗", "parent": "斗类", "value": 1, "description": "坐于柱头的大方斗，是斗拱的底座", "material": "楠木", "function": "承重基座"},
+  {"name": "交互斗", "parent": "斗类", "value": 2, "description": "位于拱件交叉处，连接上下层构件", "material": "松木", "function": "连接传递"},
+  {"name": "齐心斗", "parent": "斗类", "value": 1, "description": "位于拱心位置，承托上层构件", "material": "松木", "function": "对心承托"},
+  {"name": "散斗", "parent": "斗类", "value": 3, "description": "分布于拱身，承托横拱", "material": "松木", "function": "分散承重"},
+
+  {"name": "拱类", "parent": "斗拱", "value": null, "description": "弓形短木，横向或纵向伸出"},
+  {"name": "华拱", "parent": "拱类", "value": 3, "description": "前后方向挑出的拱，是主要承重构件", "material": "松木", "function": "前后悬挑"},
+  {"name": "泥道拱", "parent": "拱类", "value": 2, "description": "第一层横向拱，位于栌斗之上", "material": "松木", "function": "横向承托"},
+  {"name": "令拱", "parent": "拱类", "value": 2, "description": "最上层横向拱，承托撩檐枋", "material": "松木", "function": "承托屋檐"},
+  {"name": "瓜子拱", "parent": "拱类", "value": 2, "description": "中间层横向拱，连接华拱", "material": "松木", "function": "中间连接"},
+  {"name": "慢拱", "parent": "拱类", "value": 1, "description": "位于瓜子拱之上，较长", "material": "松木", "function": "延伸承托"},
+
+  {"name": "昂类", "parent": "斗拱", "value": null, "description": "斜向伸出的构件，起杠杆作用"},
+  {"name": "下昂", "parent": "昂类", "value": 2, "description": "斜向下方伸出，前端承托屋檐", "material": "柏木", "function": "杠杆传力"},
+  {"name": "上昂", "parent": "昂类", "value": 1, "description": "斜向上方支撑，较少使用", "material": "柏木", "function": "向上支撑"},
+
+  {"name": "枋类", "parent": "斗拱", "value": null, "description": "水平横木，连接各构件"},
+  {"name": "柱头枋", "parent": "枋类", "value": 1, "description": "位于柱头位置的水平枋木", "material": "楠木", "function": "连接柱头"},
+  {"name": "撩檐枋", "parent": "枋类", "value": 1, "description": "承托屋檐的水平枋木", "material": "楠木", "function": "承托屋檐"},
+  {"name": "罗汉枋", "parent": "枋类", "value": 1, "description": "位于中间层的水平枋木", "material": "松木", "function": "中间连接"}
+]
