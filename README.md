@@ -1,73 +1,194 @@
-# React + TypeScript + Vite
+# 故宫斗拱结构沉浸式交互网站
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> 26年计算机设计大赛参赛作品 | AESTHETE - Cinematic Art Transition
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 项目简介
 
-## React Compiler
+本项目是一个以**故宫古建筑**为主题的沉浸式交互网站，通过现代 Web 技术展现中国传统建筑之美。融合了 3D 可视化、AI 内容生成、电影级动画效果等前沿技术，为用户提供身临其境的文化探索体验。
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 核心功能
 
-## Expanding the ESLint configuration
+| 功能 | 描述 |
+|------|------|
+| 🎬 **电影级开场动画** | 基于视频帧的滚动驱动动画，支持定格最后一帧 + 高斯模糊过渡 |
+| 🏛️ **3D 斗拱展览** | 使用 Three.js 展示 23 种斗拱结构的 3D 模型 |
+| 🤖 **AI 内容生成** | 集成 GLM-4-Flash 大语言模型，动态生成诗句和结构描述 |
+| 🌓 **主题切换** | 支持亮/暗主题无缝切换 |
+| ⌨️ **滚轮交互** | 滚轮驱动的章节切换，带滑动动画效果 |
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 技术栈
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+React 19 + TypeScript 5.9
+├── 构建工具: Vite 7.3
+├── 样式: Tailwind CSS 4.2
+├── 3D 渲染: Three.js + @react-three/fiber
+├── 动画: Framer Motion + GSAP
+└── AI: GLM-4-Flash API (智谱 AI)
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 快速开始
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 环境要求
+
+- Node.js 18.0+
+- npm 9.0+
+- 现代浏览器 (Chrome 90+, Firefox 88+, Safari 14+)
+
+### 安装运行
+
+```bash
+# 克隆仓库
+git clone https://github.com/LangHY/forbidden-city-structure-code.git
+cd forbidden-city-structure-code
+
+# 安装依赖
+npm install
+
+# 配置环境变量
+cp .env.example .env.local
+# 编辑 .env.local，填入你的 GLM API Key
+
+# 启动开发服务器
+npm run dev
+
+# 访问 http://localhost:5173
 ```
+
+### 构建部署
+
+```bash
+# 生产构建
+npm run build
+
+# 预览构建结果
+npm run preview
+```
+
+---
+
+## 页面导航
+
+| 路径 | 页面 | 描述 |
+|------|------|------|
+| `/` | 开场页 | 电影风格开场动画，展示故宫意境 |
+| `/router` | 路由页 | 导航门户，进入不同展厅 |
+| `/exhibition` | 展览页 | 3D 斗拱结构展览，23 种类型 |
+| `/home` | 主页 | AI 诗句生成展示 |
+
+---
+
+## 操作指南
+
+### 开场页
+
+| 操作 | 效果 |
+|------|------|
+| **向下滚动** | 触发视频定格动画，过渡到路由页 |
+| **点击右上角图标** | 切换亮/暗主题 |
+| **等待 10 秒** | 自动生成新的 AI 诗句 |
+
+### 展览页
+
+| 操作 | 效果 |
+|------|------|
+| **滚轮向下/向上** | 切换到上/下一个斗拱类型 |
+| **鼠标拖拽** | 旋转 3D 模型 |
+| **点击左侧章节** | 直接跳转到对应章节 |
+| **点击"放大"按钮** | 相机推进 20% |
+| **点击"重置"按钮** | 恢复初始视角 |
+
+---
+
+## 📚 详细文档
+
+### 用户文档
+
+- [使用说明](./docs/user-guide.md) - 面向用户的功能介绍和操作指南
+- [斗拱知识速查](./docs/user-guide.md#附录) - 斗拱构件和历史知识
+
+### 技术文档
+
+- [技术规格文档](./docs/technical-specification.md) - 技术架构、核心模块实现、API 接口
+- [运行手册](./docs/operation-manual.md) - 开发环境配置、构建部署、故障排查
+
+### 文档目录
+
+```
+docs/
+├── README.md                    # 文档索引
+├── technical-specification.md   # 技术规格文档
+├── user-guide.md               # 使用说明
+└── operation-manual.md         # 运行手册
+```
+
+---
+
+## 项目结构
+
+```
+├── src/
+│   ├── main.tsx                 # 应用入口
+│   ├── App.tsx                  # 主应用组件
+│   ├── pages/                   # 页面组件
+│   │   ├── Opening.tsx          # 开场页
+│   │   ├── Exhibition.tsx       # 展览页
+│   │   └── Router.tsx           # 路由页
+│   ├── components/              # 组件目录
+│   │   ├── opening/             # 开场页组件
+│   │   ├── exhibition/          # 展览页组件
+│   │   ├── router/              # 路由页组件
+│   │   └── ui/                  # 通用 UI 组件
+│   ├── store/                   # 状态管理
+│   └── styles/                  # 样式文件
+├── public/
+│   ├── models/structures/       # 3D 斗拱模型 (GLB)
+│   ├── fonts/                   # 自定义字体
+│   └── *.mp4                    # 视频资源
+├── docs/                        # 技术文档
+└── package.json
+```
+
+---
+
+## 环境变量
+
+| 变量名 | 描述 | 获取方式 |
+|--------|------|---------|
+| `VITE_GLM_API_KEY` | GLM-4-Flash API Key | [智谱 AI 开放平台](https://open.bigmodel.cn/) |
+
+---
+
+## 浏览器兼容性
+
+| 浏览器 | 最低版本 | 推荐版本 |
+|--------|---------|---------|
+| Chrome | 90 | 最新版 |
+| Firefox | 88 | 最新版 |
+| Safari | 14 | 最新版 |
+| Edge | 90 | 最新版 |
+
+---
+
+## 许可证
+
+MIT License
+
+---
+
+## 致谢
+
+- 3D 模型来源：故宫斗拱结构数字档案
+- AI 服务：[智谱 AI GLM-4-Flash](https://open.bigmodel.cn/)
+- 字体：[权衡度量体](https://fonts.google.com/)
+
+---
+
+<p align="center">
+  <b>AESTHETE - Cinematic Art Transition</b><br>
+  <sub>© 2026 THE EXTRAORDINARY LAB</sub>
+</p>
