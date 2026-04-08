@@ -42,7 +42,10 @@
       "Bash(brew install:*)",
       "Bash(gh auth:*)",
       "Bash(gh repo:*)",
-      "Bash(ping:*)"
+      "Bash(ping:*)",
+      "WebFetch(domain:app.flourish.studio)",
+      "mcp__plugin_vercel-plugin_vercel__web_fetch_vercel_url",
+      "WebSearch"
     ]
   },
   "outputStyle": "Coding Vibes",

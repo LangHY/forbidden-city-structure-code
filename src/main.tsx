@@ -14,6 +14,9 @@ const Opening = lazy(() => import('./pages/Opening.tsx'))
 // 懒加载 Router 页面
 const Router = lazy(() => import('./pages/Router.tsx'))
 
+// 懒加载 Charts 页面
+const Charts = lazy(() => import('./pages/Charts.tsx'))
+
 // 加载中占位组件
 function LoadingFallback() {
   return (
@@ -52,6 +55,14 @@ createRoot(document.getElementById('root')!).render(
                 <Exhibition />
               </Suspense>
             </ErrorBoundary>
+          }
+        />
+        <Route
+          path="/charts"
+          element={
+            <Suspense fallback={<LoadingFallback />}>
+              <Charts />
+            </Suspense>
           }
         />
       </Routes>
