@@ -4,6 +4,24 @@
 
 ---
 
+## 版权声明
+
+本项目为 **2026年中国大学生计算机设计大赛** 参赛作品，由参赛团队原创开发。
+
+- **参赛赛道**：信息可视化 - 交互式信息设计
+- **开源时间**：2026年4月
+- **开发团队**：THE EXTRAORDINARY LAB
+
+本项目采用 MIT 许可证开源，欢迎学习交流。如需引用或二次开发，请注明出处：
+
+```
+故宫斗拱结构沉浸式交互网站
+https://github.com/LangHY/forbidden-city-structure-code
+© 2026 THE EXTRAORDINARY LAB
+```
+
+---
+
 ## 项目简介
 
 本项目是一个以**故宫古建筑**为主题的沉浸式交互网站，通过现代 Web 技术展现中国传统建筑之美。融合了 3D 可视化、AI 内容生成、电影级动画效果等前沿技术，为用户提供身临其境的文化探索体验。
@@ -71,6 +89,12 @@ npm run preview
 
 ---
 
+## 在线演示
+
+🔗 **https://replicate-website-effect.vercel.app**
+
+---
+
 ## 页面导航
 
 | 路径 | 页面 | 描述 |
@@ -78,7 +102,7 @@ npm run preview
 | `/` | 开场页 | 电影风格开场动画，展示故宫意境 |
 | `/router` | 路由页 | 导航门户，进入不同展厅 |
 | `/exhibition` | 展览页 | 3D 斗拱结构展览，23 种类型 |
-| `/home` | 主页 | AI 诗句生成展示 |
+| `/charts` | 图表页 | 数据可视化，藏品统计与历史演变 |
 
 ---
 
@@ -109,12 +133,13 @@ npm run preview
 ### 用户文档
 
 - [使用说明](./docs/user-guide.md) - 面向用户的功能介绍和操作指南
-- [斗拱知识速查](./docs/user-guide.md#附录) - 斗拱构件和历史知识
 
 ### 技术文档
 
-- [技术规格文档](./docs/technical-specification.md) - 技术架构、核心模块实现、API 接口
-- [运行手册](./docs/operation-manual.md) - 开发环境配置、构建部署、故障排查
+- [技术规格文档](./docs/technical-specification.md) - 技术架构、核心模块实现
+- [运行手册](./docs/operation-manual.md) - 开发环境配置、构建部署
+- [AI 技术应用说明](./docs/ai-application.md) - AI 技术在项目中的应用
+- [开源组件说明](./docs/open-source-components.md) - 开源代码与组件
 
 ### 文档目录
 
@@ -123,7 +148,9 @@ docs/
 ├── README.md                    # 文档索引
 ├── technical-specification.md   # 技术规格文档
 ├── user-guide.md               # 使用说明
-└── operation-manual.md         # 运行手册
+├── operation-manual.md         # 运行手册
+├── ai-application.md           # AI 技术应用说明
+└── open-source-components.md   # 开源组件说明
 ```
 
 ---
@@ -137,16 +164,19 @@ docs/
 │   ├── pages/                   # 页面组件
 │   │   ├── Opening.tsx          # 开场页
 │   │   ├── Exhibition.tsx       # 展览页
-│   │   └── Router.tsx           # 路由页
+│   │   ├── Router.tsx           # 路由页
+│   │   └── Charts.tsx           # 图表页
 │   ├── components/              # 组件目录
 │   │   ├── opening/             # 开场页组件
 │   │   ├── exhibition/          # 展览页组件
 │   │   ├── router/              # 路由页组件
+│   │   ├── charts/              # 图表页组件
 │   │   └── ui/                  # 通用 UI 组件
 │   ├── store/                   # 状态管理
 │   └── styles/                  # 样式文件
 ├── public/
 │   ├── models/structures/       # 3D 斗拱模型 (GLB)
+│   ├── data/                    # 数据文件 (JSON/CSV)
 │   ├── fonts/                   # 自定义字体
 │   └── *.mp4                    # 视频资源
 ├── docs/                        # 技术文档
