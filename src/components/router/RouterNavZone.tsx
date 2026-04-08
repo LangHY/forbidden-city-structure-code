@@ -20,7 +20,7 @@ const navZones: NavZone[] = [
     titleCn: '数字考古',
     titleEn: 'DIGITAL ARCHIVE',
     action: 'ACCESS DATABASE',
-    href: '/exhibition',
+    href: '/charts',
   },
   {
     id: 'blueprint',
