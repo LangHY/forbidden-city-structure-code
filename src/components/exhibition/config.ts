@@ -108,11 +108,7 @@ export const dougongComponents: DougongComponent[] = [
 /**
  * 导航链接
  */
-export const navLinks = [
-  { label: '数字档案', href: '#' },
-  { label: '工艺拆解', href: '#' },
-  { label: '历代演变', href: '#' },
-];
+export const navLinks: { label: string; href: string }[] = [];
 
 /**
  * 文物来源

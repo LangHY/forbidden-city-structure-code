@@ -367,8 +367,8 @@ npm run dev
 
 如有问题或建议，请通过以下方式联系：
 
-- **项目地址：** [GitHub 仓库链接]
-- **问题反馈：** [Issues 页面]
+- **项目地址：** [[GitHub 仓库链接]](https://github.com/LangHY/forbidden-city-structure-code)
+- **问题反馈：** [[Issues 页面]](https://github.com/LangHY/forbidden-city-structure-code/issues)
 
 ---
 

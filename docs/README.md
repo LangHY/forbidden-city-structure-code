@@ -120,8 +120,8 @@ React 19 + TypeScript 5.9
 
 ## 联系方式
 
-- **问题反馈：** [GitHub Issues]
-- **项目地址：** [GitHub Repository]
+- **问题反馈：** [[GitHub Issues]](https://github.com/LangHY/forbidden-city-structure-code/issues)
+- **项目地址：** [[GitHub Repository]](https://github.com/LangHY/forbidden-city-structure-code)
 
 ---
 
