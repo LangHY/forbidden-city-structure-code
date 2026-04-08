@@ -96,6 +96,25 @@ coverage/
 # ========================================
 .trae/
 .claude/
+.obsidian/
+
+# ========================================
+# 开发缓存和临时文件 (Dev Cache & Temp)
+# ========================================
+.vite/
+logs/
+*.bak
+*.backup
+
+# 开发原型文件（非最终产物）
+public/stitch/*.bak
+public/opening_backup*.html
+public/test.html
+public/diagnostic.html
+public/axis-map.html
+
+# 大型资源文件（建议使用 Git LFS 或云存储）
+# public/models/  # 取消注释以忽略 3D 模型
 
 # ========================================
 # 其他 (Others)

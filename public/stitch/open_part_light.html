@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@1,6..72,200;1,6..72,400&amp;family=Inter:wght@300;400&amp;family=Space+Grotesk:wght@300;400&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "on-primary": "#392f16",
+                "tertiary-fixed": "#f2e1bc",
+                "surface-container-high": "#272b2a",
+                "inverse-on-surface": "#2e3130",
+                "secondary-fixed": "#e1e3e1",
+                "secondary-container": "#474a49",
+                "on-surface": "#e1e3e1",
+                "surface-container-highest": "#323534",
+                "on-tertiary-fixed-variant": "#50462a",
+                "on-primary-fixed-variant": "#50462a",
+                "on-primary-fixed": "#231b04",
+                "tertiary-container": "#f2e1bc",
+                "secondary-fixed-dim": "#c5c7c5",
+                "on-primary-container": "#6f6345",
+                "primary-fixed-dim": "#d5c5a1",
+                "surface-bright": "#373a39",
+                "primary-fixed": "#f2e1bc",
+                "on-error": "#690005",
+                "tertiary": "#ffffff",
+                "error": "#ffb4ab",
+                "on-tertiary": "#392f16",
+                "on-secondary-fixed": "#191c1b",
+                "inverse-surface": "#e1e3e1",
+                "on-surface-variant": "#cdc6b9",
+                "on-secondary": "#2e3130",
+                "primary-container": "#f2e1bc",
+                "background": "#000000",
+                "primary": "#ffffff",
+                "on-tertiary-container": "#6f6345",
+                "on-secondary-fixed-variant": "#444746",
+                "secondary": "#c5c7c5",
+                "surface-container": "#1d201f",
+                "error-container": "#93000a",
+                "surface-tint": "#d5c5a1",
+                "inverse-primary": "#695d40",
+                "outline": "#969084",
+                "surface-dim": "#000000",
+                "surface-container-low": "#191c1b",
+                "on-tertiary-fixed": "#231b04",
+                "outline-variant": "#4b463c",
+                "surface": "#000000",
+                "on-secondary-container": "#b7b9b7",
+                "on-error-container": "#ffdad6",
+                "tertiary-fixed-dim": "#d5c5a1",
+                "surface-container-lowest": "#0c0f0e",
+                "on-background": "#e1e3e1",
+                "surface-variant": "#323534"
+              },
+              fontFamily: {
+                "headline": ["Newsreader", "serif"],
+                "body": ["Inter", "sans-serif"],
+                "label": ["Space Grotesk", "monospace"]
+              },
+              borderRadius: {"DEFAULT": "0px", "lg": "0px", "xl": "0px", "full": "9999px"},
+            },
+          },
+        }
+    </script>
+<style>
+        .perspective-grid {
+            perspective: 1000px;
+            background-image: 
+                linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 60px 60px;
+            transform: rotateX(60deg) translateY(-200px);
+            width: 200%;
+            height: 200%;
+            position: absolute;
+            top: 0;
+            left: -50%;
+            z-index: 0;
+            mask-image: radial-gradient(circle at center, black 20%, transparent 80%);
+        }
+
+        .text-outline {
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.4);
+            color: transparent;
+        }
+
+        .vignette {
+            background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.8) 100%);
+        }
+
+        .crosshair {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body selection:bg-primary-container selection:text-on-primary-container overflow-hidden">
+<!-- 3D Perspective Grid Background -->
+<div class="fixed inset-0 pointer-events-none overflow-hidden">
+<div class="perspective-grid"></div>
+<div class="vignette absolute inset-0"></div>
+</div>
+<!-- UI: TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-12 py-8 bg-transparent backdrop-blur-xl">
+<div class="text-2xl font-serif italic tracking-tighter text-stone-100 dark:text-stone-50">
+            THE EXTRAORDINARY LAB
+        </div>
+<nav class="hidden md:flex items-center gap-12">
+<a class="font-mono text-[10px] tracking-widest uppercase Space Grotesk text-stone-50 font-bold border-b border-stone-50 pb-1 Active: scale 0.99x transition-transform" href="#">GALLERY</a>
+<a class="font-mono text-[10px] tracking-widest uppercase Space Grotesk text-stone-400 font-normal hover:text-stone-200 transition-colors hover:opacity-80 transition-opacity duration-300" href="#">TECHNICAL</a>
+<a class="font-mono text-[10px] tracking-widest uppercase Space Grotesk text-stone-400 font-normal hover:text-stone-200 transition-colors hover:opacity-80 transition-opacity duration-300" href="#">ABOUT</a>
+</nav>
+<div class="flex items-center gap-4 text-stone-100 dark:text-stone-50">
+<span class="material-symbols-outlined hover:opacity-80 transition-opacity duration-300 cursor-pointer" data-icon="menu">menu</span>
+</div>
+</header>
+<!-- Main Cinematic Canvas -->
+<main class="relative h-screen w-full flex flex-col items-center justify-center z-10">
+<!-- Central Hero Text (Background Layer) -->
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none px-4">
+<h1 class="font-headline italic text-7xl md:text-[12rem] text-outline leading-none text-center select-none opacity-40">
+                THE EXTRAORDINARY LAB
+            </h1>
+</div>
+<!-- 3D Content Placeholder (Central Focus) -->
+<div class="relative w-full max-w-4xl aspect-video flex items-center justify-center">
+<!-- Crosshairs -->
+<div class="crosshair top-0 left-0 border-r-0 border-b-0"></div>
+<div class="crosshair top-0 right-0 border-l-0 border-b-0"></div>
+<div class="crosshair bottom-0 left-0 border-r-0 border-t-0"></div>
+<div class="crosshair bottom-0 right-0 border-l-0 border-t-0"></div>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1px] h-8 bg-white/10"></div>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[1px] w-8 bg-white/10"></div>
+<!-- Subject Image -->
+<div class="relative w-4/5 h-4/5 group">
+<img alt="Chinese Dougong Structure" class="w-full h-full object-contain grayscale brightness-125 contrast-125 transition-transform duration-700 group-hover:scale-105" data-alt="Detailed 3D model of Chinese Dougong wooden bracket structure" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPFX0xNQqiGOuBqJN6O4GTuX2_oQl1YAAcE9lsps40GuG3ur29TCQg1AOUDDjThMr58tpjJB_4slelBZKux806xShjQbqgPo90GWHsO3tiLudKQ2iC3AVC62DOkDrnpruXsmeCZiA_R6XUAA3LyoBzRHmsaqlR421Nxf8datWrTChMDwL5_iar81kBiD5t7Zh9Q4vZStmK4TcRawA9kd4hzaaUXaUopP-jV4xTIsZF9eDIBc7ETdaljm7BCpXXndJkxZ-EzHEabkQ"/>
+<!-- HUD Metadata Overlays -->
+<div class="absolute -top-12 -left-4 font-label text-[10px] text-primary/40 tracking-[0.2em]">
+<p>[ SYSTEM.STATUS: ACTIVE ]</p>
+<p>GEOMETRY_ID: DG-4492-X</p>
+</div>
+<div class="absolute -bottom-12 -right-4 text-right font-label text-[10px] text-primary/40 tracking-[0.2em]">
+<p>VERTS: 42,912</p>
+<p>RENDER_ENGINE: ACES_CG</p>
+</div>
+</div>
+</div>
+<!-- Narrative Anchor (Asymmetric) -->
+<div class="absolute bottom-32 left-12 max-w-sm">
+<h2 class="font-headline italic text-3xl mb-4 text-primary">The Art of Tension</h2>
+<p class="font-body text-sm leading-relaxed text-secondary-fixed-dim/80">
+                Exploring the mathematical precision of ancient Chinese architecture through a high-fidelity digital lens. Every bracket, every interlocking joint, rendered as a sequence of architectural sequences.
+            </p>
+</div>
+</main>
+<!-- UI: Bottom HUD (BottomNavBar) -->
+<footer class="fixed bottom-0 left-0 w-full z-50 flex justify-between items-end px-12 pb-12 bg-transparent">
+<div class="flex items-center gap-16">
+<!-- REC Indicator -->
+<div class="flex flex-col items-center text-stone-50 bg-stone-100/10 rounded-none p-2 font-mono text-[10px] tracking-widest Space Grotesk">
+<span class="material-symbols-outlined text-red-500 mb-1" data-icon="videocam" style="font-variation-settings: 'FILL' 1;">videocam</span>
+<span>REC</span>
+</div>
+<!-- ISO 400 -->
+<div class="flex flex-col items-center text-stone-500 p-2 font-mono text-[10px] tracking-widest Space Grotesk hover:text-stone-200 transition-colors">
+<span class="material-symbols-outlined mb-1" data-icon="settings_input_component">settings_input_component</span>
+<span>ISO 400</span>
+</div>
+</div>
+<!-- Center Metadata (Decorative HUD) -->
+<div class="hidden lg:block font-label text-[9px] text-white/20 tracking-[0.5em] pb-2">
+            SCANNING_SPATIAL_AR_VOLUMETRICS
+        </div>
+<div class="flex items-center gap-16">
+<!-- 24FPS -->
+<div class="flex flex-col items-center text-stone-500 p-2 font-mono text-[10px] tracking-widest Space Grotesk hover:text-stone-200 transition-colors">
+<span class="material-symbols-outlined mb-1" data-icon="speed">speed</span>
+<span>24FPS</span>
+</div>
+<!-- SHUTTER -->
+<div class="flex flex-col items-center text-stone-500 p-2 font-mono text-[10px] tracking-widest Space Grotesk hover:text-stone-200 transition-colors">
+<span class="material-symbols-outlined mb-1" data-icon="camera_roll">camera_roll</span>
+<span>SHUTTER</span>
+</div>
+</div>
+</footer>
+<!-- Edge Embellishments -->
+<div class="fixed top-1/2 left-4 -translate-y-1/2 h-32 w-[1px] bg-white/10 hidden md:block"></div>
+<div class="fixed top-1/2 right-4 -translate-y-1/2 h-32 w-[1px] bg-white/10 hidden md:block"></div>
+</body></html>

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>坐斗数据 · 木色呼应系</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #F5F3EF;  /* 与方案辅助色接近的柔和背景 */
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        .chart-panel {
+            max-width: 1000px;
+            width: 100%;
+            background: #FFFFFF;
+            border-radius: 28px;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.04);
+            padding: 1.5rem;
+            border: 1px solid #EBE5DC;
+        }
+        .title-section {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .title-section h2 {
+            font-weight: 500;
+            color: #A67C52;
+            letter-spacing: -0.2px;
+            font-size: 1.5rem;
+        }
+        .title-section p {
+            color: #8B7A64;
+            font-size: 0.8rem;
+            margin-top: 0.25rem;
+        }
+        .charts-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.8rem;
+            justify-content: center;
+        }
+        .chart-card {
+            flex: 1;
+            min-width: 280px;
+            background: #FFFFFF;
+            border-radius: 20px;
+            padding: 0.8rem 0.2rem 0.2rem 0.2rem;
+        }
+        .chart-box {
+            width: 100%;
+            height: 280px;
+        }
+        .footnote {
+            text-align: center;
+            font-size: 0.7rem;
+            color: #B9AA98;
+            margin-top: 1.2rem;
+            border-top: 1px solid #F0EAE2;
+            padding-top: 1rem;
+        }
+        @media (max-width: 700px) {
+            body { padding: 1rem; }
+            .chart-box { height: 240px; }
+            .chart-panel { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="chart-panel">
+    <div class="title-section">
+        <h2>🪵 木色呼应系 · 坐斗数据</h2>
+        <p>浅棕木色主调 | 呼应木质模型纹理，温润古建质感</p >
+    </div>
+    <div class="charts-container">
+        <!-- 环形占比图 -->
+        <div class="chart-card">
+            <div id="donut-chart" class="chart-box"></div>
+        </div>
+        <!-- 柱状分布图 -->
+        <div class="chart-card">
+            <div id="bar-chart" class="chart-box"></div>
+        </div>
+    </div>
+    <div class="footnote">
+        坐斗占故宫斗拱总构件 4.0% · 在配殿/门楼中占比最高（40%）
+    </div>
+</div>
+
+<script>
+    // 方案四配色：主色浅棕木 #A67C52，辅助浅米灰 #F2EFE9
+    const mainColor = '#A67C52';
+    const subColor = '#F2EFE9';
+
+    // 环形图
+    const donutDom = document.getElementById('donut-chart');
+    if (donutDom) {
+        const donutChart = echarts.init(donutDom);
+        donutChart.setOption({
+            tooltip: {
+                trigger: 'item',
+                formatter: '{b}: {d}%',
+                backgroundColor: 'rgba(255,250,240,0.96)',
+                borderColor: '#E0D8CD',
+                borderWidth: 1
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left',
+                textStyle: { color: '#6F5E4A', fontSize: 11 },
+                itemWidth: 20,
+                itemHeight: 12
+            },
+            series: [{
+                type: 'pie',
+                radius: ['48%', '70%'],
+                avoidLabelOverlap: false,
+                label: {
+                    show: true,
+                    position: 'outside',
+                    formatter: '{b}: {d}%',
+                    fontSize: 10,
+                    fontWeight: 500,
+                    color: '#5F5342'
+                },
+                labelLine: {
+                    length: 10,
+                    length2: 8,
+                    smooth: true
+                },
+                data: [
+                    { value: 4, name: '坐斗', itemStyle: { color: mainColor } },
+                    { value: 96, name: '其他构件', itemStyle: { color: subColor } }
+                ],
+                itemStyle: {
+                    borderRadius: 5,
+                    borderColor: '#FFFFFF',
+                    borderWidth: 1.2
+                }
+            }],
+            graphic: [{
+                type: 'text',
+                left: 'center',
+                top: 'center',
+                style: {
+                    text: '坐斗\n4%',
+                    fill: mainColor,
+                    fontSize: 16,
+                    fontWeight: 'bold',
+                    textAlign: 'center',
+                    lineHeight: 22
+                },
+                z: 100
+            }],
+            backgroundColor: 'transparent'
+        });
+        window.addEventListener('resize', () => donutChart.resize());
+    }
+
+    // 柱状图
+    const barDom = document.getElementById('bar-chart');
+    if (barDom) {
+        const barChart = echarts.init(barDom);
+        barChart.setOption({
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: { type: 'shadow' },
+                formatter: '{b}<br/>坐斗占比：{c}%',
+                backgroundColor: 'rgba(255,250,240,0.96)',
+                borderColor: '#E0D8CD'
+            },
+            grid: {
+                left: '10%',
+                right: '6%',
+                top: 20,
+                bottom: 15,
+                containLabel: true
+            },
+            xAxis: {
+                type: 'category',
+                data: ['太和殿', '乾清宫', '东西六宫', '配殿/门楼', '角楼'],
+                axisTick: { show: false },
+                axisLine: { lineStyle: { color: '#CFC6B8' } },
+                axisLabel: {
+                    fontSize: 10,
+                    fontWeight: 500,
+                    color: '#6F5E4A',
+                    rotate: 0,
+                    interval: 0
+                }
+            },
+            yAxis: {
+                type: 'value',
+                name: '占比 (%)',
+                nameTextStyle: { fontSize: 10, color: '#8B7A64' },
+                min: 0,
+                max: 48,
+                splitLine: { lineStyle: { color: '#E6DED2', type: 'dashed' } },
+                axisLabel: {
+                    fontSize: 10,
+                    color: '#9B8A72',
+                    formatter: '{value}%'
+                },
+                axisLine: { show: false },
+                axisTick: { show: false }
+            },
+            series: [{
+                name: '坐斗占比',
+                type: 'bar',
+                data: [12, 10, 28, 40, 10],
+                barWidth: '48%',
+                itemStyle: {
+                    color: mainColor,
+                    borderRadius: [6, 6, 0, 0],
+                    label: {
+                        show: true,
+                        position: 'top',
+                        formatter: '{c}%',
+                        fontSize: 10,
+                        fontWeight: 600,
+                        color: mainColor,
+                        backgroundColor: 'rgba(255,250,240,0.8)',
+                        padding: [2, 6, 2, 6],
+                        borderRadius: 12
+                    }
+                },
+                showBackground: true,
+                backgroundStyle: {
+                    color: subColor,
+                    borderRadius: 6
+                }
+            }],
+            backgroundColor: 'transparent'
+        });
+        window.addEventListener('resize', () => barChart.resize());
+    }
+</script>
+</body>
+</html>

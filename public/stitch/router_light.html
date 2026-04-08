@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ARCH-LAB | CINEMATIC PORTAL</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@1,6..72,200..800&amp;family=Inter:wght@300;400;600&amp;family=Space+Grotesk:wght@300;400;500;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "outline-variant": "#d4cfc5",
+                    "on-primary-fixed": "#f5f2eb",
+                    "surface-container-lowest": "#f9f7f2",
+                    "tertiary-fixed": "#4a7c59",
+                    "on-tertiary": "#f5f2eb",
+                    "background": "#f9f7f2",
+                    "secondary-fixed-dim": "#6b635a",
+                    "on-error": "#f5f2eb",
+                    "outline": "#a39d93",
+                    "on-error-container": "#8b0000",
+                    "surface-container": "#f0ede6",
+                    "primary-fixed-dim": "#8b4513",
+                    "on-tertiary-fixed-variant": "#3d6449",
+                    "error": "#c41e3a",
+                    "secondary": "#6b635a",
+                    "surface-variant": "#e8e4dc",
+                    "tertiary": "#2a2520",
+                    "primary-fixed": "#8b4513",
+                    "on-tertiary-container": "#c4d4ca",
+                    "inverse-primary": "#d4a574",
+                    "primary-fixed": "#8b4513",
+                    "on-tertiary-container": "#c4d4ca",
+                    "inverse-surface": "#2a2520",
+                    "surface": "#f9f7f2",
+                    "secondary-fixed": "#e8e4dc",
+                    "primary": "#2a2520",
+                    "error-container": "#f5d5d5",
+                    "on-surface-variant": "#5c564e",
+                    "on-secondary-fixed-variant": "#d4cfc5",
+                    "on-primary-container": "#d4a574",
+                    "surface-container-low": "#f5f2eb",
+                    "secondary-container": "#e0dcd3",
+                    "surface-tint": "#8b4513",
+                    "surface-container-high": "#ebe7df",
+                    "surface-container-highest": "#e8e4dc",
+                    "on-tertiary-fixed": "#f5f2eb",
+                    "on-surface": "#2a2520",
+                    "inverse-on-surface": "#f5f2eb",
+                    "on-primary": "#f5f2eb",
+                    "tertiary-container": "#d4e5d9",
+                    "on-secondary-fixed": "#2a2520",
+                    "tertiary-fixed-dim": "#8b4513",
+                    "on-secondary-container": "#6b635a",
+                    "on-background": "#2a2520",
+                    "surface-bright": "#f9f7f2",
+                    "surface-dim": "#e8e4dc"
+            },
+            "fontFamily": {
+                    "headline": ["Newsreader"],
+                    "body": ["Inter"],
+                    "label": ["Space Grotesk"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        /* 宣纸纹理 - 细微噪点 */
+        .paper-texture {
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+        }
+        /* 浅色网格 - 淡墨色 */
+        .grid-overlay {
+            background-image:
+                linear-gradient(to right, rgba(42,37,32,0.04) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(42,37,32,0.04) 1px, transparent 1px);
+            background-size: 80px 80px;
+        }
+        /* 淡墨晕染效果 - 柔和的边缘 */
+        .ink-wash {
+            background: radial-gradient(circle, transparent 30%, rgba(42,37,32,0.03) 100%);
+        }
+        .blur-backdrop {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body overflow-hidden">
+<!-- Cinematic Background Layer -->
+<div class="fixed inset-0 z-0 bg-surface">
+<div class="absolute inset-0 paper-texture"></div>
+<div class="absolute inset-0 grid-overlay opacity-60"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="relative w-full h-full max-w-6xl max-h-[819px] opacity-50">
+<!-- Central 3D Model Placeholder -->
+<img class="w-full h-full object-contain filter grayscale contrast-110 brightness-95" data-alt="monochrome wireframe axonometric drawing of a traditional Chinese wooden pavilion architectural structure with intricate roof joinery details" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIwpkIbeug7VMxtxZUb-94PQNS_PtokOv6toCpaBsVqHb4Zp7ssPGTtqGkDm8Y6EYbOpL_P9s0zrUnlUNq8LY9aAuSyCBD2Ho2BMWTfPrGZpb1vH-wwW6LbpOZHfmuf8lZ09Y5CPZts_bhc4OxSi_k5T_00NC599hWGJvcRM49JgJMaZZw80ZlZm3Gd6dOXe8q-UYUxKRWU7av2qQlzMqF_U-STzvfxgzu-dfZVQrecN8eoGTfcYSYYZ6KNFqLyubHmMrzoyDdc0"/>
+<div class="absolute inset-0 ink-wash pointer-events-none"></div>
+</div>
+</div>
+</div>
+<!-- Top Navigation Shell -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center w-full px-12 py-6 bg-[#f9f7f2]/80 backdrop-blur-xl border-b border-[#2a2520]/5">
+<div class="text-2xl font-serif italic tracking-tighter text-[#2a2520]">ARCH-LAB</div>
+<nav class="hidden md:flex items-center gap-12">
+<a class="text-[#2a2520] border-b border-[#2a2520]/30 pb-1 font-mono text-xs tracking-widest transition-colors duration-500" href="#">EXPLORE</a>
+<a class="text-[#6b635a] font-mono text-xs tracking-widest hover:text-[#2a2520] transition-colors duration-500" href="#">ARCHIVE</a>
+<a class="text-[#6b635a] font-mono text-xs tracking-widest hover:text-[#2a2520] transition-colors duration-500" href="#">TECHNICAL</a>
+</nav>
+<div class="flex items-center gap-6 text-[#2a2520]">
+<span class="material-symbols-outlined text-[20px]">videocam</span>
+<span class="material-symbols-outlined text-[20px]">settings</span>
+</div>
+</header>
+<!-- Side HUD HUD Labels -->
+<aside class="fixed left-0 top-1/2 -translate-y-1/2 h-auto z-40 flex flex-col gap-8 px-6 bg-transparent">
+<div class="text-[#c41e3a] flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.2em]">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">radio_button_checked</span>
+            REC
+        </div>
+<div class="text-[#6b635a] flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.2em]">
+<span class="material-symbols-outlined text-sm">timer</span>
+            TC 00:14:02:12
+        </div>
+<div class="text-[#6b635a] flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.2em]">
+<span class="material-symbols-outlined text-sm">settings_input_component</span>
+            ISO 800
+        </div>
+</aside>
+<!-- Right Side HUD Context -->
+<aside class="fixed right-6 top-1/2 -translate-y-1/2 z-40 flex flex-col items-end gap-1 font-mono text-[10px] tracking-widest text-[#6b635a] uppercase">
+<div class="flex items-center gap-2">
+<span>24 FPS</span>
+<div class="w-1 h-1 bg-[#6b635a] rounded-full"></div>
+</div>
+<div class="flex items-center gap-2">
+<span>4K RAW</span>
+<div class="w-1 h-1 bg-[#6b635a] rounded-full"></div>
+</div>
+<div class="mt-4 flex flex-col items-end opacity-40">
+<div class="h-12 w-[1px] bg-[#6b635a] mb-2"></div>
+<span class="rotate-90 origin-bottom-right mb-12">SCALE_REF</span>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="relative z-10 min-h-screen flex flex-col items-center justify-center px-6 md:px-24">
+<!-- Massive Floating Title -->
+<div class="mb-24 text-center pointer-events-none">
+<h1 class="font-headline italic text-5xl md:text-9xl text-[#2a2520] opacity-[0.06] tracking-[0.3em] leading-none select-none">
+                ARCHITECTURAL<br/>LAB
+            </h1>
+</div>
+<!-- Central Navigation Zones -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-0 w-full max-w-7xl border-x border-[#2a2520]/5">
+<!-- Zone 1: Digital Archive -->
+<a class="group relative block p-12 border-r border-[#2a2520]/5 transition-all duration-700 hover:bg-[#2a2520]/[0.02]" href="#">
+<div class="absolute top-0 left-0 w-4 h-[1px] bg-[#2a2520]/20 group-hover:bg-[#8b4513] transition-colors"></div>
+<div class="absolute top-0 left-0 w-[1px] h-4 bg-[#2a2520]/20 group-hover:bg-[#8b4513] transition-colors"></div>
+<div class="mb-20 font-label text-[10px] tracking-[0.4em] text-[#6b635a] group-hover:text-[#4a7c59] transition-colors uppercase">
+                    / SEQUENCE_01
+                </div>
+<div class="space-y-2">
+<span class="block font-headline italic text-3xl text-[#2a2520]">数字考古</span>
+<h2 class="font-label text-xl tracking-tighter text-[#6b635a] group-hover:text-[#2a2520] transition-colors">DIGITAL ARCHIVE</h2>
+</div>
+<div class="mt-12 flex items-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+<span class="text-[10px] font-mono tracking-widest text-[#6b635a]">ACCESS DATABASE [ ]</span>
+<div class="h-[1px] flex-grow bg-[#2a2520]/10"></div>
+</div>
+</a>
+<!-- Zone 2: Structural Blueprint -->
+<a class="group relative block p-12 border-r border-[#2a2520]/5 transition-all duration-700 hover:bg-[#2a2520]/[0.02]" href="#">
+<div class="mb-20 font-label text-[10px] tracking-[0.4em] text-[#6b635a] group-hover:text-[#4a7c59] transition-colors uppercase">
+                    / SEQUENCE_02
+                </div>
+<div class="space-y-2">
+<span class="block font-headline italic text-3xl text-[#2a2520]">结构蓝图</span>
+<h2 class="font-label text-xl tracking-tighter text-[#6b635a] group-hover:text-[#2a2520] transition-colors">STRUCTURAL BLUEPRINT</h2>
+</div>
+<div class="mt-12 flex items-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+<span class="text-[10px] font-mono tracking-widest text-[#6b635a]">RUN_SIMULATION [ ]</span>
+<div class="h-[1px] flex-grow bg-[#2a2520]/10"></div>
+</div>
+</a>
+<!-- Zone 3: Immersive Space -->
+<a class="group relative block p-12 transition-all duration-700 hover:bg-[#2a2520]/[0.02]" href="#">
+<div class="absolute top-0 right-0 w-4 h-[1px] bg-[#2a2520]/20 group-hover:bg-[#8b4513] transition-colors"></div>
+<div class="absolute top-0 right-0 w-[1px] h-4 bg-[#2a2520]/20 group-hover:bg-[#8b4513] transition-colors"></div>
+<div class="mb-20 font-label text-[10px] tracking-[0.4em] text-[#6b635a] group-hover:text-[#4a7c59] transition-colors uppercase">
+                    / SEQUENCE_03
+                </div>
+<div class="space-y-2">
+<span class="block font-headline italic text-3xl text-[#2a2520]">沉浸空间</span>
+<h2 class="font-label text-xl tracking-tighter text-[#6b635a] group-hover:text-[#2a2520] transition-colors">IMMERSIVE SPACE</h2>
+</div>
+<div class="mt-12 flex items-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+<span class="text-[10px] font-mono tracking-widest text-[#6b635a]">ENGAGE_VR [ ]</span>
+<div class="h-[1px] flex-grow bg-[#2a2520]/10"></div>
+</div>
+</a>
+</div>
+</main>
+<!-- Footer Shell -->
+<footer class="fixed bottom-0 w-full z-50 flex justify-between items-end w-full px-12 py-8 bg-transparent">
+<div class="font-mono text-[9px] tracking-widest text-[#6b635a]">
+            © 2024 ARCH-LAB / CINEMATIC SEQUENCE
+        </div>
+<div class="flex gap-12 font-mono text-[9px] tracking-widest text-[#a39d93]">
+<a class="hover:text-[#2a2520] transition-colors ease-in-out uppercase" href="#">TERMS</a>
+<a class="hover:text-[#2a2520] transition-colors ease-in-out uppercase" href="#">SENSORS</a>
+<a class="hover:text-[#2a2520] transition-colors ease-in-out uppercase text-[#2a2520]" href="#">HUD_v2.1</a>
+</div>
+</footer>
+<!-- Decorative Corner Markers -->
+<div class="fixed top-24 left-12 w-8 h-8 pointer-events-none opacity-20">
+<div class="absolute top-0 left-0 w-4 h-[1px] bg-[#2a2520]"></div>
+<div class="absolute top-0 left-0 w-[1px] h-4 bg-[#2a2520]"></div>
+</div>
+<div class="fixed bottom-24 right-12 w-8 h-8 pointer-events-none opacity-20">
+<div class="absolute bottom-0 right-0 w-4 h-[1px] bg-[#2a2520]"></div>
+<div class="absolute bottom-0 right-0 w-[1px] h-4 bg-[#2a2520]"></div>
+</div>
+</body></html>

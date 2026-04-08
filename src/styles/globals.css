@@ -3,13 +3,39 @@
  *
  * 包含:
  * - CSS Variables (主题色、动画、布局)
- * - Tailwind基础样式
+ * - Tailwind v4 基础样式
  * - 全局重置
  */
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Google Fonts - 必须放在最前面 (CSS 规范要求) */
+@import url('https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,200..900;1,7..72,200..900&family=Nunito+Sans:ital,opsz,wght@0,200..1000;1,200..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
+/* 开场页字体 */
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@1,6..72,200;1,6..72,400&family=Space+Grotesk:wght@300;400&display=swap');
+
+/* Tailwind v4 导入方式 */
+@import "tailwindcss";
+@config "../../tailwind.config.ts";
+
+/* 自定义字体 */
+@font-face {
+  font-family: 'Songti';
+  src: local('Source Han Serif CN'), local('Noto Serif CJK SC'), serif;
+}
+
+/* 权衡度量体 - 开场页诗句专用 */
+@font-face {
+  font-family: 'QuanHeng';
+  src: url('/fonts/权衡度量体.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Material Symbols 配置 */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+}
 
 /* ========================================
    CSS Variables - 主题配置
@@ -66,14 +92,19 @@
 
 @layer base {
   html {
-    @apply scroll-smooth antialiased;
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   body {
-    @apply bg-bg text-accent font-sans;
+    background-color: var(--color-bg);
+    color: var(--color-accent);
+    font-family: 'Inter', sans-serif;
     margin: 0;
-    overflow: hidden;
-    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    min-height: 100vh;
     width: 100vw;
   }
 
@@ -112,6 +143,70 @@
     border: 1px solid var(--glass-border);
   }
 
+  /* 玻璃态面板 - Exhibition 页面专用 */
+  .glass-panel {
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 8px 32px 0 rgba(74, 124, 89, 0.05);
+  }
+
+  /* 玻璃态面板 - 暗色模式 */
+  .glass-panel-dark {
+    background: rgba(250, 246, 240, 0.08);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  /* 增强磨砂玻璃 - 浅色模式 */
+  .glass-panel-enhanced {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.75) 0%,
+      rgba(255, 255, 255, 0.45) 50%,
+      rgba(255, 255, 255, 0.65) 100%
+    );
+    backdrop-filter: blur(40px) saturate(180%);
+    -webkit-backdrop-filter: blur(40px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.6),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.02);
+  }
+
+  /* 增强磨砂玻璃 - 暗色模式 */
+  .glass-panel-enhanced-dark {
+    background: linear-gradient(
+      135deg,
+      rgba(30, 30, 30, 0.85) 0%,
+      rgba(20, 20, 20, 0.65) 50%,
+      rgba(25, 25, 25, 0.75) 100%
+    );
+    backdrop-filter: blur(40px) saturate(120%);
+    -webkit-backdrop-filter: blur(40px) saturate(120%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  /* 木门飞入动画 */
+  .animate-door-in {
+    animation: doorSwingIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform-origin: right center;
+  }
+
+  /* 木门飞出动画 */
+  .animate-door-out {
+    animation: doorSwingOut 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: right center;
+    pointer-events: none;
+  }
+
   /* 平滑过渡 */
   .smooth-transition {
     transition: all var(--duration-normal) cubic-bezier(0.4, 0, 0.2, 1);
@@ -119,12 +214,20 @@
 
   /* 文字渐变 */
   .text-gradient {
-    @apply bg-clip-text text-transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
     background-image: linear-gradient(
       135deg,
       var(--color-primary),
       var(--color-gold-accent)
     );
+  }
+
+  /* 竖排文字 */
+  .writing-vertical {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
   }
 }
 
@@ -161,6 +264,78 @@
     50% {
       transform: translateY(-10px);
     }
+  }
+
+  /* 木门飞入动画 - 从倾斜状态旋转进入 */
+  @keyframes doorSwingIn {
+    0% {
+      transform: perspective(1000px) rotateY(-45deg);
+    }
+    50% {
+      transform: perspective(1000px) rotateY(8deg);
+    }
+    75% {
+      transform: perspective(1000px) rotateY(-3deg);
+    }
+    100% {
+      transform: perspective(1000px) rotateY(0deg);
+    }
+  }
+
+  /* 木门飞出动画 - 旋转到倾斜状态后消失 */
+  @keyframes doorSwingOut {
+    0% {
+      transform: perspective(1000px) rotateY(0deg);
+    }
+    100% {
+      transform: perspective(1000px) rotateY(-45deg);
+    }
+  }
+
+  /* 文字上浮动画 - 塑料瓶从水中浮现效果 */
+  @keyframes floatUp {
+    0% {
+      transform: translateY(40px);
+      opacity: 0;
+      filter: blur(8px);
+    }
+    40% {
+      opacity: 0.4;
+    }
+    70% {
+      transform: translateY(8px);
+      opacity: 0.8;
+      filter: blur(2px);
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+      filter: blur(0);
+    }
+  }
+
+  .animate-float-up {
+    animation: floatUp 1s cubic-bezier(0.33, 0, 0.2, 1) forwards;
+  }
+
+  /* 字符逐个浮现动画 - 使用 filter: none 确保模糊完全清除 */
+  @keyframes charFloat {
+    0% {
+      opacity: 0;
+      transform: translateY(12px);
+      filter: blur(4px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+      filter: none;
+    }
+  }
+
+  .animate-char-float {
+    display: inline;
+    animation: charFloat 0.35s ease-out forwards;
+    will-change: opacity, transform, filter;
   }
 
   /* 脉冲动画 */
@@ -209,6 +384,129 @@
 /* ========================================
    自定义选择样式
    ======================================== */
+
+/* ========================================
+   开场页样式
+   ======================================== */
+
+@layer components {
+  /* 暗色主题（默认） */
+  .perspective-grid {
+    perspective: 1000px;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 60px 60px;
+    transform: rotateX(60deg) translateY(-200px);
+    width: 200%;
+    height: 200%;
+    position: absolute;
+    top: 0;
+    left: -50%;
+    z-index: 0;
+    mask-image: radial-gradient(circle at center, black 20%, transparent 80%);
+  }
+
+  .text-outline {
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.4);
+    color: transparent;
+  }
+
+  .vignette {
+    background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.8) 100%);
+  }
+
+  .crosshair {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  /* 亮色主题 */
+  .perspective-grid-light {
+    perspective: 1000px;
+    background-image:
+      linear-gradient(to right, rgba(0,0,0,0.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0,0,0,0.06) 1px, transparent 1px);
+    background-size: 60px 60px;
+    transform: rotateX(60deg) translateY(-200px);
+    width: 200%;
+    height: 200%;
+    position: absolute;
+    top: 0;
+    left: -50%;
+    z-index: 0;
+    mask-image: radial-gradient(circle at center, black 20%, transparent 80%);
+  }
+
+  .text-outline-light {
+    -webkit-text-stroke: 1px rgba(0, 0, 0, 0.25);
+    color: transparent;
+  }
+
+  .vignette-light {
+    background: radial-gradient(circle, transparent 40%, rgba(249,247,242,0.4) 100%);
+  }
+
+  .crosshair-light {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+  }
+
+  /* 诗句加载动画 - 高斯模糊渐显 */
+  .poem-loading {
+    filter: blur(50px);
+    opacity: 0.2;
+    transition: filter 1s ease-in-out, opacity 1s ease-in-out;
+  }
+
+  .poem-loaded {
+    filter: blur(0);
+    opacity: 0.4;
+    transition: filter 1.5s ease-out, opacity 1.5s ease-out;
+  }
+
+  /* 亮色主题诗句透明度 */
+  .poem-loaded-light {
+    filter: blur(0);
+    opacity: 0.35;
+    transition: filter 1.5s ease-out, opacity 1.5s ease-out;
+  }
+
+  /* 描述标题动画 - 与诗句相同 */
+  .desc-title-loading {
+    filter: blur(50px);
+    opacity: 0.2;
+    transition: filter 1s ease-in-out, opacity 1s ease-in-out;
+  }
+
+  .desc-title-loaded {
+    filter: blur(0);
+    opacity: 1;
+    transition: filter 1.5s ease-out, opacity 1.5s ease-out;
+  }
+
+  /* 流式输出动画 */
+  .streaming-char {
+    display: inline;
+    animation: charFadeIn 0.3s ease-out forwards;
+    opacity: 0;
+  }
+
+  @keyframes charFadeIn {
+    from {
+      opacity: 0;
+      filter: blur(4px);
+    }
+    to {
+      opacity: 1;
+      filter: blur(0);
+    }
+  }
+}
 
 ::selection {
   background-color: var(--color-primary);

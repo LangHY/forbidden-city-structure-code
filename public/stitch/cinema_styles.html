@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,300;0,400;0,700;1,300;1,400&amp;family=Inter:wght@300;400;700&amp;family=Space+Grotesk:wght@300;400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-secondary": "#2e3130",
+              "on-tertiary-fixed-variant": "#50462a",
+              "inverse-surface": "#e1e3e1",
+              "surface-container-highest": "#323534",
+              "surface-variant": "#323534",
+              "on-primary-fixed": "#231b04",
+              "on-surface": "#e1e3e1",
+              "tertiary-container": "#f2e1bc",
+              "on-error": "#690005",
+              "surface-container-lowest": "#0c0f0e",
+              "outline": "#969084",
+              "on-primary-fixed-variant": "#50462a",
+              "on-tertiary-fixed": "#231b04",
+              "on-surface-variant": "#cdc6b9",
+              "primary-container": "#f2e1bc",
+              "surface-bright": "#373a39",
+              "primary": "#ffffff",
+              "on-secondary-fixed-variant": "#444746",
+              "on-primary-container": "#6f6345",
+              "inverse-primary": "#695d40",
+              "secondary": "#c5c7c5",
+              "surface-tint": "#d5c5a1",
+              "on-error-container": "#ffdad6",
+              "inverse-on-surface": "#2e3130",
+              "on-secondary-container": "#b7b9b7",
+              "on-tertiary": "#392f16",
+              "on-tertiary-container": "#6f6345",
+              "primary-fixed-dim": "#d5c5a1",
+              "surface-container-low": "#191c1b",
+              "error": "#ffb4ab",
+              "on-secondary-fixed": "#191c1b",
+              "tertiary-fixed-dim": "#d5c5a1",
+              "surface-container": "#1d201f",
+              "surface-container-high": "#272b2a",
+              "surface-dim": "#111413",
+              "secondary-container": "#474a49",
+              "tertiary": "#ffffff",
+              "error-container": "#93000a",
+              "primary-fixed": "#f2e1bc",
+              "secondary-fixed": "#e1e3e1",
+              "surface": "#111413",
+              "background": "#111413",
+              "on-background": "#e1e3e1",
+              "on-primary": "#392f16",
+              "outline-variant": "#4b463c",
+              "tertiary-fixed": "#f2e1bc",
+              "secondary-fixed-dim": "#c5c7c5"
+            },
+            fontFamily: {
+              "headline": ["Newsreader", "serif"],
+              "body": ["Inter", "sans-serif"],
+              "label": ["Space Grotesk", "monospace"],
+              "newsreader": ["Newsreader", "serif"]
+            },
+            borderRadius: {"DEFAULT": "0px", "lg": "0px", "xl": "0px", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 24;
+        }
+        .viewfinder-corner {
+            width: 24px;
+            height: 24px;
+            border-color: rgba(255, 238, 200, 0.3);
+        }
+        .central-bracket {
+            width: 40px;
+            height: 40px;
+            border-color: rgba(255, 238, 200, 0.5);
+        }
+        .vignette {
+            background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.8) 100%);
+        }
+        .film-strip-scale {
+            mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+        }
+        .waveform-bar {
+            height: var(--h);
+            background: rgba(255, 238, 200, 0.4);
+        }
+    </style>
+</head>
+<body class="bg-surface-dim text-on-surface font-body overflow-hidden">
+<!-- Global TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-start px-12 py-8 bg-transparent">
+<div class="flex items-start gap-8">
+<div class="flex flex-col gap-1">
+<span class="text-2xl font-newsreader italic text-[#FFEEC8]">ARCHIVE_01</span>
+<span class="font-newsreader text-[10px] tracking-widest text-[#FFEEC8]/40 uppercase">Director's Cut</span>
+</div>
+<div class="flex gap-8 ml-12 pt-2">
+<a class="font-newsreader text-sm tracking-tight text-[#FFEEC8] border-b border-[#FFEEC8]/30 pb-1 hover:text-white transition-opacity duration-500" href="#">REEL</a>
+<a class="font-newsreader text-sm tracking-tight text-[#FFEEC8]/50 hover:text-white transition-opacity duration-500" href="#">PROJECTS</a>
+<a class="font-newsreader text-sm tracking-tight text-[#FFEEC8]/50 hover:text-white transition-opacity duration-500" href="#">STUDIO</a>
+</div>
+</div>
+<div class="flex items-start gap-12">
+<!-- Battery & Storage -->
+<div class="flex flex-col items-end gap-1 font-newsreader text-[10px] tracking-widest text-[#FFEEC8]/60 uppercase">
+<div class="flex items-center gap-3">
+<span>SSD: 45m REM</span>
+<div class="w-8 h-3 border border-[#FFEEC8]/30 relative">
+<div class="absolute inset-0.5 bg-success/40" style="width: 65%;"></div>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<span>BAT: 88%</span>
+<div class="w-8 h-3 border border-[#FFEEC8]/30 relative">
+<div class="absolute inset-0.5 bg-[#FFEEC8]/60" style="width: 88%;"></div>
+</div>
+</div>
+</div>
+<!-- REC Indicator -->
+<div class="flex flex-col items-end gap-1">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-error animate-pulse"></div>
+<span class="font-newsreader text-[11px] tracking-widest uppercase text-white/80">REC 00:00:24:12</span>
+</div>
+<span class="font-newsreader text-[9px] tracking-widest text-[#FFEEC8]/40 uppercase">4K RAW · 2.39:1</span>
+</div>
+<span class="material-symbols-outlined text-[#FFEEC8] cursor-pointer pt-1" data-icon="menu">menu</span>
+</div>
+</header>
+<!-- Main Immersive Canvas -->
+<main class="relative h-screen w-screen bg-black flex items-center justify-center overflow-hidden">
+<!-- Background Asset -->
+<div class="absolute inset-0 z-0">
+<img alt="Detailed ancient Chinese timber structure" class="w-full h-full object-cover opacity-60 mix-blend-luminosity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzPY4vTObq0JmzksSV04UpIoIKUoaZFLldy_sgkIDnTIKzilBOytUOSNW_D_EEYXESd6h7sUTVIzptaSm7C1KQyq5pYcTDUUPwu75Clv-uUbE7N6WPcucvWUk7aSgwQ8KOEJxcOzhwXkA_vAsTiWZL2NUUAdsocbwV_3BH4zkExhwrBlfqaczAFZQK2sJlABSSkFq-iSXn4Ew-XDhKZgrtc9DZgt5vUnU8U9SF51QCsyVL1iIsLW0-xRLy5H5tvPPfG7C5z8lYdHU"/>
+<div class="absolute inset-0 vignette"></div>
+</div>
+<!-- Film Strip Metadata (Vertical Scales) -->
+<div class="absolute inset-y-0 left-[24%] z-20 flex flex-col justify-center gap-8 font-newsreader text-[10px] tracking-widest text-[#FFEEC8]/20 film-strip-scale pointer-events-none">
+<span>01</span><span>02</span><span>03</span><span>04</span><span>05</span><span class="text-[#FFEEC8]/40">06</span><span>07</span><span>08</span><span>09</span><span>10</span><span>11</span><span>12</span>
+</div>
+<div class="absolute inset-y-0 right-[24%] z-20 flex flex-col justify-center gap-8 font-newsreader text-[10px] tracking-widest text-[#FFEEC8]/20 film-strip-scale pointer-events-none text-right">
+<span>01</span><span>02</span><span>03</span><span>04</span><span>05</span><span class="text-[#FFEEC8]/40">06</span><span>07</span><span>08</span><span>09</span><span>10</span><span>11</span><span>12</span>
+</div>
+<!-- Viewfinder UI Elements -->
+<div class="absolute inset-12 pointer-events-none z-10">
+<div class="absolute top-0 left-0 viewfinder-corner border-t border-l"></div>
+<div class="absolute top-0 right-0 viewfinder-corner border-t border-r"></div>
+<div class="absolute bottom-0 left-0 viewfinder-corner border-b border-l"></div>
+<div class="absolute bottom-0 right-0 viewfinder-corner border-b border-r"></div>
+<!-- Central Cropping Brackets -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[240px] border border-white/5 bg-white/[0.02] backdrop-blur-[2px]">
+<div class="absolute top-0 left-0 central-bracket border-t border-l"></div>
+<div class="absolute bottom-0 left-0 central-bracket border-b border-l"></div>
+<!-- Small Center Cross -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 opacity-30">
+<div class="absolute top-1/2 left-0 w-full h-[1px] bg-[#FFEEC8]"></div>
+<div class="absolute top-0 left-1/2 w-[1px] h-full bg-[#FFEEC8]"></div>
+</div>
+</div>
+</div>
+<!-- Left Side Navigation & Parameters -->
+<nav class="fixed left-8 top-1/2 -translate-y-1/2 z-40 flex flex-col gap-16 font-newsreader text-[10px] tracking-widest uppercase text-[#FFEEC8]/40">
+<div class="flex flex-col gap-1 mb-4">
+<span class="text-[#FFEEC8] font-bold">SEQUENCE</span>
+<span class="opacity-60">001/004</span>
+</div>
+<div class="flex flex-col gap-10">
+<a class="group flex items-center gap-4 hover:text-[#FFEEC8] transition-colors" href="#">
+<span class="text-[#FFEEC8] font-bold before:content-['['] after:content-[']']">EXTERIOR</span>
+<span class="text-xs normal-case opacity-0 group-hover:opacity-100 transition-opacity">概览</span>
+</a>
+<a class="group flex items-center gap-4 hover:text-[#FFEEC8] transition-colors" href="#">
+<span>INTERIOR</span>
+<span class="text-xs normal-case opacity-0 group-hover:opacity-100 transition-opacity">营造</span>
+</a>
+<a class="group flex items-center gap-4 hover:text-[#FFEEC8] transition-colors" href="#">
+<span>LIGHTING</span>
+<span class="text-xs normal-case opacity-0 group-hover:opacity-100 transition-opacity">法式</span>
+</a>
+<a class="group flex items-center gap-4 hover:text-[#FFEEC8] transition-colors" href="#">
+<span>STILLS</span>
+<span class="text-xs normal-case opacity-0 group-hover:opacity-100 transition-opacity">影像</span>
+</a>
+</div>
+<!-- Exposure Metadata (Left Rail) -->
+<div class="mt-8 flex flex-col gap-6 pt-12 border-t border-white/10">
+<div class="flex flex-col">
+<span class="text-[9px] opacity-40">WB</span>
+<span class="text-[#FFEEC8]">5600K</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[9px] opacity-40">TINT</span>
+<span class="text-[#FFEEC8]">+0.5 G</span>
+</div>
+</div>
+</nav>
+<!-- Right Side Floating Info (No Background Container) -->
+<aside class="absolute right-12 top-1/2 -translate-y-1/2 z-30 w-72 p-8">
+<h2 class="font-newsreader text-xl italic text-[#FFEEC8] mb-1">斗拱结构解析</h2>
+<p class="font-newsreader text-[9px] tracking-widest uppercase text-[#FFEEC8]/40 mb-8">DOU GONG ANALYSIS</p>
+<ul class="space-y-6">
+<li class="group">
+<div class="flex justify-between items-end pb-2 border-b border-[#FFEEC8]/10 group-hover:border-[#FFEEC8]/40 transition-colors">
+<span class="font-newsreader text-lg text-[#FFEEC8]/80">栌斗</span>
+<span class="font-newsreader text-[10px] text-[#FFEEC8]/40 uppercase">Base Block</span>
+</div>
+</li>
+<li class="group">
+<div class="flex justify-between items-end pb-2 border-b border-[#FFEEC8]/10 group-hover:border-[#FFEEC8]/40 transition-colors">
+<span class="font-newsreader text-lg text-[#FFEEC8]/80">横拱</span>
+<span class="font-newsreader text-[10px] text-[#FFEEC8]/40 uppercase">Bracket Arm</span>
+</div>
+</li>
+<li class="group">
+<div class="flex justify-between items-end pb-2 border-b border-[#FFEEC8]/10 group-hover:border-[#FFEEC8]/40 transition-colors">
+<span class="font-newsreader text-lg text-[#FFEEC8]/80">昂</span>
+<span class="font-newsreader text-[10px] text-[#FFEEC8]/40 uppercase">Cantilever</span>
+</div>
+</li>
+</ul>
+<div class="mt-12 pt-6 border-t border-[#FFEEC8]/10">
+<p class="font-newsreader text-[11px] leading-relaxed text-[#FFEEC8]/60">
+                    The bracket system is the soul of Chinese timber architecture, distributing weight through precision interlocking joints without a single nail.
+                </p>
+</div>
+<!-- Waveform Cue -->
+<div class="mt-8 flex items-end gap-[2px] h-8 opacity-40">
+<div class="w-[3px] waveform-bar" style="--h: 40%"></div>
+<div class="w-[3px] waveform-bar" style="--h: 60%"></div>
+<div class="w-[3px] waveform-bar" style="--h: 80%"></div>
+<div class="w-[3px] waveform-bar" style="--h: 70%"></div>
+<div class="w-[3px] waveform-bar" style="--h: 95%"></div>
+<div class="w-[3px] waveform-bar" style="--h: 50%"></div>
+<div class="w-[3px] waveform-bar" style="--h: 30%"></div>
+<div class="w-[3px] waveform-bar" style="--h: 20%"></div>
+<div class="w-[3px] waveform-bar" style="--h: 40%"></div>
+<div class="w-[3px] waveform-bar" style="--h: 60%"></div>
+<div class="w-[3px] waveform-bar" style="--h: 75%"></div>
+<span class="ml-2 font-newsreader text-[8px] tracking-widest uppercase text-[#FFEEC8]">Waveform</span>
+</div>
+</aside>
+<!-- Technical Title -->
+<div class="absolute bottom-24 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center">
+<span class="font-newsreader text-3xl font-light tracking-tighter text-[#FFEEC8]">山西佛光寺东大殿</span>
+<span class="font-newsreader text-[10px] tracking-[0.4em] uppercase text-white/40 mt-2">(Tang Dynasty · 857 AD)</span>
+</div>
+</main>
+<!-- Footer Metadata -->
+<footer class="fixed bottom-0 left-0 w-full z-50 flex justify-between items-end px-12 py-10 bg-transparent">
+<div class="flex gap-16 font-newsreader text-[10px] tracking-[0.2em] uppercase text-[#FFEEC8]/60">
+<div class="flex flex-col">
+<span class="opacity-40 text-[9px]">SENSITIVITY</span>
+<span>ISO 400</span>
+</div>
+<div class="flex flex-col">
+<span class="opacity-40 text-[9px]">FRAME RATE</span>
+<span>23.98 FPS</span>
+</div>
+<div class="flex flex-col">
+<span class="opacity-40 text-[9px]">EXPOSURE</span>
+<span>180° SHUTTER</span>
+</div>
+<div class="flex flex-col">
+<span class="opacity-40 text-[9px]">TIMEBASE</span>
+<span>24.00p</span>
+</div>
+</div>
+<div class="flex flex-col items-end gap-3">
+<div class="flex gap-8 font-newsreader text-[10px] tracking-[0.2em] uppercase text-[#FFEEC8]/60">
+<div class="flex flex-col items-end">
+<span class="opacity-40 text-[9px]">FOCAL</span>
+<span>50 MM</span>
+</div>
+<div class="flex flex-col items-end">
+<span class="opacity-40 text-[9px]">IRIS</span>
+<span>f / 2.8</span>
+</div>
+<div class="flex flex-col items-end">
+<span class="opacity-40 text-[9px]">FOCUS</span>
+<span>12' 4" INF</span>
+</div>
+</div>
+<p class="font-newsreader text-[9px] tracking-[0.2em] uppercase text-[#FFEEC8]/40 mt-2">©2024 CINEMATIC ARCHIVE. ALL RIGHTS RESERVED.</p>
+</div>
+</footer>
+<!-- Subtle Grain Overlay -->
+<div class="fixed inset-0 pointer-events-none opacity-[0.03] z-[100] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
+</body></html>
