@@ -47,8 +47,6 @@ const chartSections = [
   },
 ];
 
-// 动画时长（毫秒）
-const ANIMATION_DURATION = 500;
 // 加载进度增量速度
 const LOADING_SPEED = 2;
 
