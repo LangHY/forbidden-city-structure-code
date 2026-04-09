@@ -7,9 +7,8 @@
  */
 
 import { memo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import type { ExhibitionNavProps, ThemeMode } from './types';
-import { navLinks } from './config';
 import ThemeToggle from './ThemeToggle';
 import MenuButton from './MenuButton';
 
@@ -22,7 +21,6 @@ interface ExtendedExhibitionNavProps extends ExhibitionNavProps {
 }
 
 function ExhibitionNav({
-  links = navLinks,
   theme = 'light',
   onThemeChange,
   isMenuOpen = false,
@@ -31,14 +29,23 @@ function ExhibitionNav({
   className = '',
 }: ExtendedExhibitionNavProps) {
   const navigate = useNavigate();
+  const location = useLocation();
 
   // 暗色模式使用更高对比度
   const textColor = theme === 'dark' ? 'text-stone-100' : 'text-[#4a7c59]';
   const linkColor = theme === 'dark' ? 'text-stone-300/90 hover:text-emerald-400' : 'text-[#4a4e4a] hover:text-[#4a7c59]';
+  const activeLinkColor = theme === 'dark' ? 'text-emerald-400' : 'text-[#4a7c59]';
 
   const handleLogoClick = () => {
     navigate('/');
   };
+
+  // 导航项配置
+  const navItems = [
+    { label: '数字考古', path: '/charts' },
+    { label: '结构蓝图', path: '/exhibition' },
+    { label: '沉浸空间', path: '/router' },
+  ];
 
   return (
     <header
@@ -56,14 +63,16 @@ function ExhibitionNav({
 
       <div className="flex gap-12">
         {/* 导航链接 */}
-        <nav className="hidden md:flex gap-8 items-center">
-          {links.map((link) => (
+        <nav className="hidden md:flex gap-10 items-center">
+          {navItems.map((item) => (
             <a
-              key={link.label}
-              href={link.href}
-              className={`${linkColor} transition-colors duration-300 text-sm tracking-widest font-serif`}
+              key={item.path}
+              href={item.path}
+              className={`transition-colors duration-300 text-sm tracking-widest font-serif ${
+                location.pathname === item.path ? activeLinkColor : linkColor
+              }`}
             >
-              {link.label}
+              {item.label}
             </a>
           ))}
         </nav>

@@ -45,7 +45,8 @@
       "Bash(ping:*)",
       "WebFetch(domain:app.flourish.studio)",
       "mcp__plugin_vercel-plugin_vercel__web_fetch_vercel_url",
-      "WebSearch"
+      "WebSearch",
+      "WebFetch(domain:help.flourish.studio)"
     ]
   },
   "outputStyle": "Coding Vibes",

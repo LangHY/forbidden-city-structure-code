@@ -6,16 +6,16 @@
 
 ## 一、开源技术栈概览
 
-| 层级 | 技术 | 版本 | 许可证 | 用途 |
-|------|------|------|--------|------|
-| **框架** | React | 19.2.0 | MIT | 前端 UI 框架 |
-| **构建** | Vite | 7.3.1 | MIT | 开发服务器与打包 |
-| **语言** | TypeScript | 5.9.3 | Apache-2.0 | 类型安全 |
-| **样式** | Tailwind CSS | 4.2.1 | MIT | 原子化 CSS |
-| **3D 渲染** | Three.js | 0.183.2 | MIT | WebGL 3D 引擎 |
-| **动画** | Framer Motion | 12.34.3 | MIT | React 动画库 |
-| **动画** | GSAP | 3.14.2 | GreenSock | 高性能动画 |
-| **路由** | React Router | 7.13.1 | MIT | 单页应用路由 |
+| 层级        | 技术            | 版本      | 许可证        | 用途          |
+| --------- | ------------- | ------- | ---------- | ----------- |
+| **框架**    | React         | 19.2.0  | MIT        | 前端 UI 框架    |
+| **构建**    | Vite          | 7.3.1   | MIT        | 开发服务器与打包    |
+| **语言**    | TypeScript    | 5.9.3   | Apache-2.0 | 类型安全        |
+| **样式**    | Tailwind CSS  | 4.2.1   | MIT        | 原子化 CSS     |
+| **3D 渲染** | Three.js      | 0.183.2 | MIT        | WebGL 3D 引擎 |
+| **动画**    | Framer Motion | 12.34.3 | MIT        | React 动画库   |
+| **动画**    | GSAP          | 3.14.2  | GreenSock  | 高性能动画       |
+| **路由**    | React Router  | 7.13.1  | MIT        | 单页应用路由      |
 
 ---
 
@@ -173,11 +173,11 @@
 - **工具**：FBX 转 GLB（fbx2gltf）
 
 ### 4.2 字体资源
-| 字体 | 来源 | 许可证 |
-|------|------|--------|
-| Literata | Google Fonts | OFL |
+| 字体          | 来源           | 许可证 |
+| ----------- | ------------ | --- |
+| Literata    | Google Fonts | OFL |
 | Nunito Sans | Google Fonts | OFL |
-| 权衡度量体 | 本地 | - |
+| 权衡度量体       | 本地           | -   |
 
 ### 4.3 视频素材
 - **文件**：`gugong_reverse.mp4`

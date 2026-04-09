@@ -1,7 +1,7 @@
 /**
  * TopAppBar - 顶部导航栏
  *
- * Logo + 导航链接 + 菜单按钮
+ * Logo + 菜单按钮
  * 支持亮/暗主题
  * 支持滚动退场动画
  * 点击 Logo 跳转首页
@@ -26,11 +26,6 @@ function TopAppBar({ theme = 'dark' }: TopAppBarProps) {
   const isDark = theme === 'dark';
 
   const logoColor = isDark ? 'text-stone-100' : 'text-stone-900';
-  const navActiveColor = isDark ? 'text-stone-50 border-stone-50' : 'text-stone-900 border-stone-900';
-  const navInactiveColor = isDark
-    ? 'text-stone-400 hover:text-stone-200'
-    : 'text-stone-500 hover:text-stone-800';
-  const menuColor = isDark ? 'text-stone-100' : 'text-stone-900';
   const blurClass = isDark ? 'backdrop-blur-xl' : 'backdrop-blur-sm';
 
   // 滚动进度
@@ -62,31 +57,6 @@ function TopAppBar({ theme = 'dark' }: TopAppBarProps) {
         onClick={handleLogoClick}
       >
         紫禁匠心
-      </div>
-      <nav className="hidden md:flex items-center gap-12">
-        <a
-          className={`text-sm tracking-widest font-serif font-bold border-b pb-1 hover:scale-[0.99] transition-transform ${navActiveColor}`}
-          href="#"
-        >
-          展廊
-        </a>
-        <a
-          className={`text-sm tracking-widest font-serif font-normal transition-colors ${navInactiveColor}`}
-          href="#"
-        >
-          技术
-        </a>
-        <a
-          className={`text-sm tracking-widest font-serif font-normal transition-colors ${navInactiveColor}`}
-          href="#"
-        >
-          关于
-        </a>
-      </nav>
-      <div className={`flex items-center gap-4 ${menuColor}`}>
-        <span className="material-symbols-outlined hover:opacity-70 transition-opacity cursor-pointer">
-          menu
-        </span>
       </div>
     </header>
   );

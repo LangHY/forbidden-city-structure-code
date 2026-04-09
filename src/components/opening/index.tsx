@@ -13,6 +13,7 @@ import HeroCanvas from './HeroCanvas';
 import BottomHUD from './BottomHUD';
 import EdgeDecorations from './EdgeDecorations';
 import SubjectVideo from './SubjectVideo';
+import OpeningMenu from './OpeningMenu';
 import type { OpeningTheme } from './types';
 import { useScrollProgress } from './hooks/useScrollProgress';
 import { ScrollProgressProvider } from './context/ScrollProgressContext';
@@ -30,6 +31,7 @@ interface OpeningProps {
 
 function Opening({ initialTheme = 'dark' }: OpeningProps) {
   const [theme, setTheme] = useState<OpeningTheme>(initialTheme);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const scrollProgress = useScrollProgress();
 
   const toggleTheme = useCallback(() => {
@@ -148,7 +150,7 @@ function Opening({ initialTheme = 'dark' }: OpeningProps) {
           {/* Theme Toggle */}
           <button
             onClick={toggleTheme}
-            className="fixed top-8 right-20 z-50 w-10 h-10 flex items-center justify-center rounded-full transition-all hover:scale-110 pointer-events-auto"
+            className="fixed top-8 right-24 z-50 w-10 h-10 flex items-center justify-center rounded-full transition-all hover:scale-110 pointer-events-auto"
             style={{ background: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)', display: scrollProgress > 0.85 ? 'none' : undefined }}
             aria-label="Toggle theme"
           >
@@ -156,7 +158,43 @@ function Opening({ initialTheme = 'dark' }: OpeningProps) {
               {isDark ? 'light_mode' : 'dark_mode'}
             </span>
           </button>
+
+          {/* Menu Button */}
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className={`fixed top-8 right-12 z-50 w-10 h-10 flex items-center justify-center rounded-full transition-all hover:scale-110 pointer-events-auto ${isDark ? 'text-stone-100' : 'text-stone-900'}`}
+            style={{ background: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)', display: scrollProgress > 0.85 ? 'none' : undefined }}
+            aria-label={isMenuOpen ? '关闭菜单' : '打开菜单'}
+          >
+            {isMenuOpen ? (
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            ) : (
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <line x1="3" y1="12" x2="21" y2="12" />
+                <line x1="3" y1="18" x2="21" y2="18" />
+              </svg>
+            )}
+          </button>
         </div>
+
+        {/* Menu Overlay */}
+        {isMenuOpen && (
+          <div
+            className="fixed inset-0 z-40 cursor-pointer bg-black/20 backdrop-blur-sm"
+            onClick={() => setIsMenuOpen(false)}
+          />
+        )}
+
+        {/* Route Menu */}
+        <OpeningMenu
+          isOpen={isMenuOpen}
+          theme={theme}
+          onClose={() => setIsMenuOpen(false)}
+        />
       </div>
 
       {/* 滚动占位空间 */}

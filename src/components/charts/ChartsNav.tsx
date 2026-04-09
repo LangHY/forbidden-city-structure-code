@@ -6,7 +6,7 @@
  */
 
 import { memo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import type { ThemeMode } from '../exhibition/types';
 import ThemeToggle from '../exhibition/ThemeToggle';
 import MenuButton from '../exhibition/MenuButton';
@@ -29,15 +29,24 @@ function ChartsNav({
   className = '',
 }: ChartsNavProps) {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const textColor = theme === 'dark' ? 'text-stone-100' : 'text-[#4a7c59]';
   const linkColor = theme === 'dark'
     ? 'text-stone-300/90 hover:text-emerald-400'
     : 'text-[#4a4e4a] hover:text-[#4a7c59]';
+  const activeLinkColor = theme === 'dark' ? 'text-emerald-400' : 'text-[#4a7c59]';
 
   const handleLogoClick = () => {
     navigate('/');
   };
+
+  // 导航项配置
+  const navItems = [
+    { label: '数字考古', path: '/charts' },
+    { label: '结构蓝图', path: '/exhibition' },
+    { label: '沉浸空间', path: '/router' },
+  ];
 
   return (
     <header
@@ -55,13 +64,18 @@ function ChartsNav({
 
       <div className="flex gap-12">
         {/* 导航链接 */}
-        <nav className="hidden md:flex gap-8 items-center">
-          <a
-            href="/exhibition"
-            className={`${linkColor} transition-colors duration-300 text-sm tracking-widest font-serif`}
-          >
-            斗拱展览
-          </a>
+        <nav className="hidden md:flex gap-10 items-center">
+          {navItems.map((item) => (
+            <a
+              key={item.path}
+              href={item.path}
+              className={`transition-colors duration-300 text-sm tracking-widest font-serif ${
+                location.pathname === item.path ? activeLinkColor : linkColor
+              }`}
+            >
+              {item.label}
+            </a>
+          ))}
         </nav>
 
         {/* 控件区域 */}
