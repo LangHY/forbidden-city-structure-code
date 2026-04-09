@@ -164,29 +164,56 @@
 
 ---
 
-## 四、开源资源
+## 四、数据可视化工具
 
-### 4.1 3D 模型
+### 4.1 Flourish 图表模板
+
+- **平台**：Flourish (https://flourish.studio/)
+- **用途**：数据可视化图表展示
+- **本项目使用**：
+  - 功能流向图（桑基图）
+  - 藏品统计图
+  - 斗拱结构层级图
+  - 建筑等级散点图
+
+**版权声明**：
+
+本项目使用 Flourish 平台的图表模板进行数据可视化展示。根据 Flourish 服务条款：
+- 图表模板版权归 Flourish 所有
+- 数据内容由项目团队独立采集、整理和维护
+- 图表逻辑、数据处理和视觉配置由团队自主设计
+- 嵌入式展示遵循 Flourish 免费版许可协议
+
+**数据来源**：
+- `public/data/building-density-heatmap.csv` - 建筑密度热力图数据
+- `public/data/dougong-building-sankey.csv` - 斗拱建筑桑基图数据
+- `public/data/doupan-building-rank.csv` - 斗拱踩数与建筑等级数据
+
+---
+
+## 五、开源资源
+
+### 5.1 3D 模型
 - **格式**：GLB (glTF Binary)
 - **位置**：`public/models/structures/`
 - **数量**：23 个斗拱模型
 - **工具**：FBX 转 GLB（fbx2gltf）
 
-### 4.2 字体资源
+### 5.2 字体资源
 | 字体          | 来源           | 许可证 |
 | ----------- | ------------ | --- |
 | Literata    | Google Fonts | OFL |
 | Nunito Sans | Google Fonts | OFL |
 | 权衡度量体       | 本地           | -   |
 
-### 4.3 视频素材
+### 5.3 视频素材
 - **文件**：`gugong_reverse.mp4`
 - **来源**：AI 生成（Seedance 2.0）
 - **用途**：开场页背景视频
 
 ---
 
-## 五、许可证声明
+## 六、许可证声明
 
 本项目使用的所有开源组件许可证：
 
@@ -196,19 +223,21 @@
 | **Apache-2.0** | TypeScript |
 | **OFL** | Google Fonts |
 | **GreenSock** | GSAP |
+| **Flourish TOS** | 图表模板（数据版权归团队所有） |
 
 ---
 
-## 六、致谢
+## 七、致谢
 
-感谢以下开源社区的贡献：
+感谢以下开源社区和平台的贡献：
 - React 团队
 - Three.js 社区
 - Tailwind CSS 团队
 - Vite 团队
+- Flourish 数据可视化平台
 - 所有开源贡献者
 
 ---
 
-*文档版本：1.0*
-*创建时间：2026年4月*
+*文档版本：1.1*
+*更新时间：2026年4月*
