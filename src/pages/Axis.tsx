@@ -291,7 +291,6 @@ BUILDING_NAMES.forEach((name, index) => {
 
 const TOTAL_NODES = 11;
 const ANIMATION_DURATION = 500;
-const LOADING_SPEED = 2;
 
 // artifact 信息
 const artifactInfo = {
@@ -372,37 +371,86 @@ function Axis() {
   const [bootProgress, setBootProgress] = useState(0);
   const [isBooting, setIsBooting] = useState(true);
   const [showNavLogo, setShowNavLogo] = useState(false);
+  const [initialLLMLoaded, setInitialLLMLoaded] = useState(false);
 
   // 滚动控制
   const isAnimating = useRef(false);
 
-  // 加载进度模拟
+  // 初始加载：预加载第一个建筑的 LLM 内容
+  useEffect(() => {
+    const firstBuilding = BUILDING_NAMES[0];
+    const layoutContent = PANEL_CONTENT.layout[firstBuilding as keyof typeof PANEL_CONTENT.layout];
+    const buildingData = {
+      location: layoutContent?.content?.match(/data-value>([^<]+)</)?.[1],
+      form: layoutContent?.content?.match(/data-value>([^<]+)</g)?.[1]?.match(/data-value>([^<]+)</)?.[1],
+    };
+
+    generateBuildingInfo(firstBuilding, buildingData)
+      .then((info: BuildingInfo) => {
+        const structureInfoData: StructureInfo = {
+          title: info.title,
+          subtitle: info.subtitle,
+          description: info.description,
+          historicalContext: info.historicalContext,
+          components: info.components,
+          technicalParams: info.technicalParams,
+          funFacts: info.funFacts,
+        };
+        setStructureInfo(structureInfoData);
+      })
+      .catch(() => {
+        const fallbackInfo = convertToStructureInfo(firstBuilding);
+        setStructureInfo(fallbackInfo);
+      })
+      .finally(() => {
+        setInitialLLMLoaded(true);
+        // 预加载相邻建筑
+        preloadAdjacentBuildings(firstBuilding, BUILDING_NAMES);
+      });
+  }, []);
+
+  // 加载进度动画：等待 LLM 加载完成
   useEffect(() => {
     if (!isBooting) return;
 
-    const interval = setInterval(() => {
+    // 阶段1：快速加载到 70%
+    const quickInterval = setInterval(() => {
       setBootProgress(prev => {
-        if (prev >= 90) return prev;
-        const increment = Math.random() * LOADING_SPEED + 0.5;
-        return Math.min(prev + increment, 90);
+        if (prev >= 70) {
+          clearInterval(quickInterval);
+          return 70;
+        }
+        const increment = Math.random() * 8 + 3;
+        return Math.min(prev + increment, 70);
       });
     }, 50);
 
-    return () => clearInterval(interval);
+    return () => clearInterval(quickInterval);
   }, [isBooting]);
 
-  // 加载完成
+  // 阶段2：LLM 加载完成后，完成剩余进度
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setBootProgress(100);
-      setTimeout(() => {
-        setIsBooting(false);
-        setShowNavLogo(true);
-      }, 500);
-    }, 1000);
+    if (!isBooting || !initialLLMLoaded) return;
 
-    return () => clearTimeout(timer);
-  }, []);
+    // 从当前进度平滑过渡到 100%
+    const completeInterval = setInterval(() => {
+      setBootProgress(prev => {
+        if (prev >= 100) {
+          clearInterval(completeInterval);
+          // 完成后结束加载状态
+          setTimeout(() => {
+            setIsBooting(false);
+            setShowNavLogo(true);
+          }, 300);
+          return 100;
+        }
+        const increment = Math.random() * 5 + 2;
+        return Math.min(prev + increment, 100);
+      });
+    }, 30);
+
+    return () => clearInterval(completeInterval);
+  }, [isBooting, initialLLMLoaded]);
 
   // 加载动画完成回调
   const handleBootComplete = useCallback(() => {
@@ -478,9 +526,10 @@ function Axis() {
   const currentIndex = parseInt(activeChapter);
   const currentBuilding = BUILDING_NAMES[currentIndex];
 
-  // 使用 LLM 生成建筑信息
+  // 切换建筑时加载 LLM 内容（排除第一个建筑，已在初始化时加载）
   useEffect(() => {
-    if (!isBooting && currentBuilding) {
+    // 跳过初始化阶段和第一个建筑（已在初始化时加载）
+    if (!isBooting && currentBuilding && currentIndex !== 0) {
       setIsLLMLoading(true);
 
       // 获取建筑基础数据作为提示上下文
@@ -516,7 +565,7 @@ function Axis() {
       // 预加载相邻建筑
       preloadAdjacentBuildings(currentBuilding, BUILDING_NAMES);
     }
-  }, [activeChapter, isBooting, currentBuilding]);
+  }, [activeChapter, isBooting, currentBuilding, currentIndex]);
 
   return (
     <div className={`relative min-h-screen ${bgColor} overflow-hidden transition-colors duration-500`}>
