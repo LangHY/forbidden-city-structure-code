@@ -247,10 +247,14 @@ Agentic Engine 执行链:
 | `using-superpowers` | 技能系统使用指南 | Skills 发现与调用规范 |
 | `ai-sdk` | Vercel AI SDK 集成 | AI 应用开发、模型调用、流式响应 |
 | `ai-gateway` | AI 网关配置 | AI 服务管理、流量控制、模型路由 |
+| `chat-sdk` | AI 聊天 SDK | 聊天界面构建、对话管理 |
+| `shadcn` | shadcn/ui 组件库 | UI 组件开发、样式定制 |
 | `Explore` | 代码库探索 | 文件搜索、代码分析、架构理解 |
 | `Plan` | 架构设计规划 | 实现方案设计、任务拆解、文件识别 |
 | `deployment-expert` | 部署专家 | CI/CD 策略、预览 URL、回滚操作 |
 | `performance-optimizer` | 性能优化 | Core Web Vitals、缓存策略、Bundle 优化 |
+| `dev` | 开发辅助 | 代码开发、功能实现、问题解决 |
+| `ui-design` | UI 设计指南 | 界面设计规范、视觉风格、交互设计 |
 
 ---
 
