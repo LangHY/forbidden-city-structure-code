@@ -397,7 +397,7 @@ public/fonts/
 
 ## 七、API 配置
 
-### 7.1 GLM-4-Flash API
+### 7.1 GLM-4.7-Flash API
 
 #### 获取 API Key
 

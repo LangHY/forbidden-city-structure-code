@@ -154,7 +154,7 @@
 
 ## 三、第三方 API 服务
 
-### 3.1 GLM-4-Flash API
+### 3.1 GLM-4.7-Flash API
 - **提供商**：智谱 AI
 - **官网**：https://open.bigmodel.cn/
 - **用途**：AI 文本生成
@@ -204,7 +204,7 @@
 | ----------- | ------------ | --- |
 | Literata    | Google Fonts | OFL |
 | Nunito Sans | Google Fonts | OFL |
-| 权衡度量体       | 本地           | -   |
+| 权衡度量体       | [free-font](https://github.com/jaywcjlove/free-font) | OFL |
 
 ### 5.3 视频素材
 - **文件**：`gugong_reverse.mp4`

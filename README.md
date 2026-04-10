@@ -31,7 +31,7 @@ https://github.com/LangHY/forbidden-city-structure-code
 |------|------|
 | 🎬 **电影级开场动画** | 基于视频帧的滚动驱动动画，支持定格最后一帧 + 高斯模糊过渡 |
 | 🏛️ **3D 斗拱展览** | 使用 Three.js 展示 23 种斗拱结构的 3D 模型 |
-| 🤖 **AI 内容生成** | 集成 GLM-4-Flash 大语言模型，动态生成诗句和结构描述 |
+| 🤖 **AI 内容生成** | 集成 GLM-4.7-Flash 大语言模型，动态生成诗句和结构描述 |
 | 🌓 **主题切换** | 支持亮/暗主题无缝切换 |
 | ⌨️ **滚轮交互** | 滚轮驱动的章节切换，带滑动动画效果 |
 
@@ -43,7 +43,7 @@ React 19 + TypeScript 5.9
 ├── 样式: Tailwind CSS 4.2
 ├── 3D 渲染: Three.js + @react-three/fiber
 ├── 动画: Framer Motion + GSAP
-└── AI: GLM-4-Flash API (智谱 AI)
+└── AI: GLM-4.7-Flash API (智谱 AI)
 ```
 
 ---
@@ -192,7 +192,7 @@ docs/
 
 | 变量名 | 描述 | 获取方式 |
 |--------|------|---------|
-| `VITE_GLM_API_KEY` | GLM-4-Flash API Key | [智谱 AI 开放平台](https://open.bigmodel.cn/) |
+| `VITE_GLM_API_KEY` | GLM-4.7-Flash API Key | [智谱 AI 开放平台](https://open.bigmodel.cn/) |
 
 ---
 
@@ -216,8 +216,8 @@ MIT License
 ## 致谢
 
 - 3D 模型来源：故宫斗拱结构数字档案
-- AI 服务：[智谱 AI GLM-4-Flash](https://open.bigmodel.cn/)
-- 字体：[权衡度量体](https://fonts.google.com/)
+- AI 服务：[智谱 AI GLM-4.7-Flash](https://open.bigmodel.cn/)
+- 字体：[权衡度量体](https://github.com/jaywcjlove/free-font)
 
 ---
 

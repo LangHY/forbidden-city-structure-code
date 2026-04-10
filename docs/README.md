@@ -76,7 +76,7 @@ docs/
 
 ### 3. AI 内容生成
 
-集成 GLM-4-Flash 大语言模型，动态生成故宫主题诗句和结构描述。
+集成 GLM-4.7-Flash 大语言模型，动态生成故宫主题诗句和结构描述。
 
 ### 4. MacBook 风格加载
 
@@ -105,7 +105,7 @@ React 19 + TypeScript 5.9
 │   ├── Framer Motion 12.34
 │   └── GSAP 3.14
 └── AI 集成
-    └── GLM-4-Flash API (智谱 AI)
+    └── GLM-4.7-Flash API (智谱 AI)
 ```
 
 ---
