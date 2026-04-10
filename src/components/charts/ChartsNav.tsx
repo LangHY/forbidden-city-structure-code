@@ -6,7 +6,7 @@
  */
 
 import { memo } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import type { ThemeMode } from '../exhibition/types';
 import ThemeToggle from '../exhibition/ThemeToggle';
 import MenuButton from '../exhibition/MenuButton';
@@ -45,7 +45,7 @@ function ChartsNav({
   const navItems = [
     { label: '数字考古', path: '/charts' },
     { label: '结构蓝图', path: '/exhibition' },
-    { label: '沉浸空间', path: '/router' },
+    { label: '中轴巡礼', path: '/axis' },
   ];
 
   return (
@@ -66,15 +66,15 @@ function ChartsNav({
         {/* 导航链接 */}
         <nav className="hidden md:flex gap-10 items-center">
           {navItems.map((item) => (
-            <a
+            <Link
               key={item.path}
-              href={item.path}
+              to={item.path}
               className={`transition-colors duration-300 text-sm tracking-widest font-serif ${
                 location.pathname === item.path ? activeLinkColor : linkColor
               }`}
             >
               {item.label}
-            </a>
+            </Link>
           ))}
         </nav>
 

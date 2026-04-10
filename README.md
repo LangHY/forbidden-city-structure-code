@@ -100,8 +100,9 @@ npm run preview
 |------|------|------|
 | `/` | 开场页 | 电影风格开场动画，展示故宫意境 |
 | `/router` | 路由页 | 导航门户，进入不同展厅 |
-| `/exhibition` | 展览页 | 3D 斗拱结构展览，23 种类型 |
-| `/charts` | 图表页 | 数据可视化，藏品统计与历史演变 |
+| `/exhibition` | 结构蓝图 | 3D 斗拱结构展览，23 种类型 |
+| `/charts` | 数字考古 | 数据可视化，藏品统计与历史演变 |
+| `/axis` | 中轴巡礼 | 故宫中轴线 11 个建筑展示，3D 透视切换 |
 
 ---
 
@@ -162,19 +163,22 @@ docs/
 │   ├── App.tsx                  # 主应用组件
 │   ├── pages/                   # 页面组件
 │   │   ├── Opening.tsx          # 开场页
-│   │   ├── Exhibition.tsx       # 展览页
+│   │   ├── Exhibition.tsx       # 结构蓝图页
 │   │   ├── Router.tsx           # 路由页
-│   │   └── Charts.tsx           # 图表页
+│   │   ├── Charts.tsx           # 数字考古页
+│   │   └── Axis.tsx             # 中轴巡礼页
 │   ├── components/              # 组件目录
 │   │   ├── opening/             # 开场页组件
-│   │   ├── exhibition/          # 展览页组件
+│   │   ├── exhibition/          # 结构蓝图组件
 │   │   ├── router/              # 路由页组件
-│   │   ├── charts/              # 图表页组件
+│   │   ├── charts/              # 数字考古组件
+│   │   ├── axis/                # 中轴巡礼组件
 │   │   └── ui/                  # 通用 UI 组件
 │   ├── store/                   # 状态管理
 │   └── styles/                  # 样式文件
 ├── public/
 │   ├── models/structures/       # 3D 斗拱模型 (GLB)
+│   ├── axis/                    # 中轴线建筑图片
 │   ├── data/                    # 数据文件 (JSON/CSV)
 │   ├── fonts/                   # 自定义字体
 │   └── *.mp4                    # 视频资源

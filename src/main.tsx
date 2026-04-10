@@ -13,6 +13,9 @@ const Opening = lazy(() => import('./pages/Opening.tsx'))
 // 懒加载 Router 页面
 const Router = lazy(() => import('./pages/Router.tsx'))
 
+// 懒加载 Axis 页面
+const Axis = lazy(() => import('./pages/Axis.tsx'))
+
 // 懒加载 Charts 页面
 const Charts = lazy(() => import('./pages/Charts.tsx'))
 
@@ -60,6 +63,14 @@ createRoot(document.getElementById('root')!).render(
           element={
             <Suspense fallback={<LoadingFallback />}>
               <Charts />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/axis"
+          element={
+            <Suspense fallback={<LoadingFallback />}>
+              <Axis />
             </Suspense>
           }
         />

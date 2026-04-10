@@ -31,12 +31,12 @@ const navZones: NavZone[] = [
     href: '/exhibition',
   },
   {
-    id: 'immersive',
+    id: 'axis',
     sequence: '/ SEQUENCE_03',
-    titleCn: '沉浸空间',
-    titleEn: 'IMMERSIVE SPACE',
-    action: 'ENGAGE_VR',
-    href: '#',
+    titleCn: '中轴巡礼',
+    titleEn: 'AXIS JOURNEY',
+    action: 'EXPLORE_AXIS',
+    href: '/axis',
   },
 ];
 

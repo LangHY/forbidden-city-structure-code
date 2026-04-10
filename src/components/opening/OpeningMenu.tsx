@@ -6,7 +6,7 @@
  */
 
 import { memo } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import type { OpeningTheme } from './types';
 
 interface OpeningMenuProps {
@@ -23,7 +23,7 @@ function OpeningMenu({ isOpen, theme, onClose }: OpeningMenuProps) {
   const menuItems = [
     { label: '数字考古', path: '/charts', desc: 'DIGITAL ARCHAEOLOGY' },
     { label: '结构蓝图', path: '/exhibition', desc: 'STRUCTURE BLUEPRINT' },
-    { label: '沉浸空间', path: '/router', desc: 'IMMERSIVE SPACE' },
+    { label: '中轴巡礼', path: '/axis', desc: 'AXIS JOURNEY' },
   ];
 
   // 颜色
@@ -34,7 +34,7 @@ function OpeningMenu({ isOpen, theme, onClose }: OpeningMenuProps) {
 
   return (
     <div
-      className={`fixed left-12 top-1/2 -translate-y-1/2 z-50 transition-all duration-500 ${
+      className={`fixed left-12 top-1/2 -translate-y-1/2 z-[60] transition-all duration-500 ${
         isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
       }`}
       style={{
@@ -52,9 +52,9 @@ function OpeningMenu({ isOpen, theme, onClose }: OpeningMenuProps) {
           const isActive = location.pathname === item.path;
 
           return (
-            <a
+            <Link
               key={item.path}
-              href={item.path}
+              to={item.path}
               onClick={onClose}
               className={`flex items-center gap-4 cursor-pointer group transition-all duration-300 ${
                 isActive ? activeText : inactiveText
@@ -98,7 +98,7 @@ function OpeningMenu({ isOpen, theme, onClose }: OpeningMenuProps) {
                   {item.desc}
                 </span>
               </div>
-            </a>
+            </Link>
           );
         })}
       </div>

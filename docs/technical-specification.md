@@ -17,6 +17,7 @@
 | **开场动画** | 电影风格的视频滚动动画，展示故宫意境 |
 | **AI 诗句生成** | 集成 GLM-4-Flash API，自动生成故宫主题诗句 |
 | **斗拱 3D 展览** | 使用 Three.js 展示 23 种斗拱结构的 3D 模型 |
+| **中轴巡礼** | 故宫中轴线 11 个建筑的 3D 透视切换展示 |
 | **主题切换** | 支持亮/暗主题无缝切换 |
 | **章节导航** | 滚轮驱动的章节切换，带滑动动画效果 |
 
@@ -66,7 +67,9 @@ replicate-website-effect/
 │   ├── pages/                   # 页面组件
 │   │   ├── Opening.tsx          # 开场页
 │   │   ├── Exhibition.tsx       # 斗拱展览页
-│   │   └── Router.tsx           # 路由导航页
+│   │   ├── Router.tsx           # 路由导航页
+│   │   ├── Charts.tsx           # 数字考古页
+│   │   └── Axis.tsx             # 中轴巡礼页
 │   ├── components/
 │   │   ├── opening/             # 开场页组件
 │   │   │   ├── index.tsx        # 主组件
@@ -104,6 +107,9 @@ replicate-website-effect/
 │   │   │   ├── RouterSideHUD.tsx
 │   │   │   ├── RouterFooter.tsx
 │   │   │   └── RouterDecorations.tsx
+│   │   ├── axis/                # 中轴巡礼组件
+│   │   │   ├── AxisCanvas.tsx   # 3D 透视画布
+│   │   │   └── AxisInfoPanel.tsx # 信息面板（已弃用）
 │   │   ├── ui/                  # 通用 UI 组件
 │   │   │   ├── Grain.tsx        # 噪点效果
 │   │   │   ├── Loader.tsx       # 加载器
@@ -125,6 +131,10 @@ replicate-website-effect/
 │   ├── models/
 │   │   └── structures/          # 斗拱 3D 模型 (GLB 格式)
 │   │       ├── R1L1.glb ~ R5L5.glb
+│   ├── axis/                    # 中轴线建筑图片
+│   │   ├── 午门.webp
+│   │   ├── 太和殿.png
+│   │   └── ...
 │   ├── fonts/
 │   │   └── 权衡度量体.ttf       # 中文装饰字体
 │   ├── gugong_reverse.mp4       # 开场视频

@@ -10,6 +10,7 @@ import type { BottomControlsProps, ThemeMode } from './types';
 interface ExtendedBottomControlsProps extends BottomControlsProps {
   theme?: ThemeMode;
   isBlurred?: boolean;
+  showZoom?: boolean;
 }
 
 /**
@@ -72,6 +73,7 @@ function BottomControls({
   onReset,
   theme = 'light',
   isBlurred = false,
+  showZoom = true,
   className = '',
 }: ExtendedBottomControlsProps) {
   const isDark = theme === 'dark';
@@ -104,13 +106,15 @@ function BottomControls({
 
       {/* 缩放控件 */}
       <div className="flex gap-6 pointer-events-auto">
-        <button
-          onClick={onZoom}
-          className={`w-10 h-10 rounded-full ${glassClass} flex items-center justify-center ${btnColor} transition-all duration-300 hover:scale-110 active:scale-95`}
-          aria-label="放大"
-        >
-          <ZoomInIcon className="w-4 h-4" />
-        </button>
+        {showZoom && (
+          <button
+            onClick={onZoom}
+            className={`w-10 h-10 rounded-full ${glassClass} flex items-center justify-center ${btnColor} transition-all duration-300 hover:scale-110 active:scale-95`}
+            aria-label="放大"
+          >
+            <ZoomInIcon className="w-4 h-4" />
+          </button>
+        )}
         <button
           onClick={onReset}
           className={`w-10 h-10 rounded-full ${glassClass} flex items-center justify-center ${btnColor} transition-all duration-300 hover:scale-110 active:scale-95`}
