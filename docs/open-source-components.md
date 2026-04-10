@@ -174,21 +174,64 @@
 
 ### 3.2 AI 编程工具栈
 
-| 工具 | 类型 | 用途 | 接入模型 |
-|------|------|------|---------|
-| Claude Code CLI | AI 编程智能体 | 代码生成、重构、调试、文档 | GLM-5 |
-| GLM-4.7-Flash API | 大语言模型 | 运行时 AI 文本生成 | 智谱 AI |
+| 工具 | 类型 | 用途 | 接入模型 | 来源 |
+|------|------|------|---------|------|
+| Claude Code CLI | AI 编程智能体 | 代码生成、重构、调试、文档 | GLM-5 | 腾讯云 CodingPlan Lite |
+| GLM-4.7-Flash API | 大语言模型 | 运行时 AI 文本生成 | GLM-4.7-Flash | 智谱 AI |
 
 **模型接入架构**：
 ```
-Claude Code CLI ──┬── GLM-5（主要推理模型）
-                  ├── GLM-4.7-Flash（快速任务）
+Claude Code CLI ──┬── GLM-5（主要推理模型，腾讯云 CodingPlan Lite）
+                  ├── GLM-4.7-Flash（快速任务，智谱 AI）
                   └── 本地工具链（文件操作、命令执行）
 ```
 
 ---
 
-### 3.3 Skills 系统
+### 3.3 Agentic Engine 工程级能力
+
+Agentic Engine 不仅仅是一个 AI 对话工具，而是具备完整工程能力的智能编程系统：
+
+**核心工程能力矩阵**：
+
+| 能力维度 | 功能描述 | 工程价值 |
+|---------|---------|---------|
+| **多轮对话上下文管理** | 自动维护长对话上下文，智能压缩历史信息 | 保持项目连贯性，支持复杂任务拆解 |
+| **项目级代码理解** | 全仓库代码索引，跨文件引用分析 | 精准定位代码位置，理解架构依赖 |
+| **智能重构引擎** | 批量重命名、API 迁移、模式应用 | 降低重构风险，保证一致性 |
+| **自动化测试集成** | 单元测试生成、覆盖率分析、回归检测 | 提高代码质量，减少人为疏漏 |
+| **CI/CD 流水线集成** | 构建验证、部署触发、状态监控 | 打通开发到部署全链路 |
+| **错误诊断与修复** | 编译错误分析、运行时异常定位、自动修复建议 | 加速调试周期，减少重复劳动 |
+| **文档自动生成** | API 文档、README、代码注释 | 保持文档与代码同步 |
+
+**工程级工作流示例**：
+
+```
+用户需求: "重构用户认证模块，改用 JWT"
+
+Agentic Engine 执行链:
+├── 1. 代码分析
+│   └── 扫描 src/auth/ 目录，识别 Session 相关代码
+├── 2. 影响评估
+│   └── 分析依赖关系，生成变更文件列表
+├── 3. 方案设计
+│   └── 设计 JWT 认证流程，规划 API 变更
+├── 4. 代码重构
+│   ├── 修改 auth.service.ts
+│   ├── 更新 middleware/auth.ts
+│   └── 调整类型定义
+├── 5. 测试更新
+│   ├── 重写单元测试
+│   └── 添加 JWT 验证测试用例
+├── 6. 构建验证
+│   └── 运行 npm run build && npm test
+└── 7. 文档同步
+    └── 更新 API 文档和 README
+```
+
+---
+
+### 3.4 Skills 系统
 
 通过 Skills 系统封装领域知识和最佳实践，实现可复用的能力模块。
 
@@ -210,7 +253,7 @@ Claude Code CLI ──┬── GLM-5（主要推理模型）
 
 ---
 
-### 3.4 Rules 约束系统
+### 3.5 Rules 约束系统
 
 通过 Rules 定义项目级别的编码规范和约束条件。
 
@@ -244,7 +287,7 @@ Claude Code CLI ──┬── GLM-5（主要推理模型）
 
 ---
 
-### 3.5 提示词工程
+### 3.6 提示词工程
 
 **Prompt 设计原则**：
 
@@ -280,7 +323,7 @@ Claude Code CLI ──┬── GLM-5（主要推理模型）
 
 ---
 
-### 3.6 工具搭配策略
+### 3.7 工具搭配策略
 
 **组合运用模式**：
 
@@ -324,7 +367,7 @@ Claude Code CLI ──┬── GLM-5（主要推理模型）
 
 ---
 
-### 3.7 AI 工具优化策略
+### 3.8 AI 工具优化策略
 
 | 策略 | 说明 | 效果 |
 |------|------|------|
@@ -336,9 +379,7 @@ Claude Code CLI ──┬── GLM-5（主要推理模型）
 
 ---
 
-### 3.8 运行时 AI 服务
-
-### GLM-4.7-Flash API
+### 3.9 运行时 AI 服务：GLM-4.7-Flash API
 
 - **提供商**：智谱 AI（北京智谱华章科技有限公司）
 - **官网**：https://open.bigmodel.cn/
@@ -351,14 +392,131 @@ Claude Code CLI ──┬── GLM-5（主要推理模型）
 | 开场页 | 诗句生成 | 基于故宫主题生成古风诗句，传递文化意境 |
 | 展览页 | 斗拱描述 | 根据斗拱类型生成专业的建筑学术描述 |
 
-**代码实现要点**：
-- 使用 `fetch` 进行流式请求（SSE）
-- 实现逐字显示动画效果
-- 内置错误处理和降级方案
+#### API 调用详解
+
+**请求端点**：
+```
+POST https://open.bigmodel.cn/api/paas/v4/chat/completions
+```
+
+**请求参数**：
+```typescript
+interface ChatCompletionRequest {
+  model: 'GLM-4.7-Flash';  // 模型标识
+  messages: Array<{
+    role: 'system' | 'user' | 'assistant';
+    content: string;
+  }>;
+  stream?: boolean;        // 是否启用流式输出
+  temperature?: number;    // 温度参数 (0-1)
+  max_tokens?: number;     // 最大生成 token 数
+  top_p?: number;         // 核采样参数
+}
+```
+
+**完整调用示例**：
+
+```typescript
+// 流式调用 GLM-4.7-Flash API
+async function generatePoemStream(prompt: string, onChunk: (text: string) => void) {
+  const response = await fetch(
+    'https://open.bigmodel.cn/api/paas/v4/chat/completions',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.ZHIPU_API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: 'GLM-4.7-Flash',
+        messages: [
+          {
+            role: 'system',
+            content: '你是一位精通中国传统文化的诗人，擅长创作描写故宫的古风诗句。',
+          },
+          { role: 'user', content: prompt },
+        ],
+        stream: true,
+        temperature: 0.8,
+        max_tokens: 256,
+      }),
+    }
+  );
+
+  // 流式读取响应
+  const reader = response.body?.getReader();
+  const decoder = new TextDecoder();
+
+  while (reader) {
+    const { done, value } = await reader.read();
+    if (done) break;
+
+    // 解析 SSE 数据
+    const chunk = decoder.decode(value, { stream: true });
+    const lines = chunk.split('\n').filter(line => line.startsWith('data:'));
+
+    for (const line of lines) {
+      const data = line.slice(5).trim();
+      if (data === '[DONE]') return;
+
+      try {
+        const json = JSON.parse(data);
+        const content = json.choices?.[0]?.delta?.content;
+        if (content) onChunk(content);
+      } catch (e) {
+        // 忽略解析错误
+      }
+    }
+  }
+}
+
+// 使用示例
+generatePoemStream(
+  '请为太和殿创作一句描写其庄严气势的诗句',
+  (text) => {
+    // 逐字显示动画
+    displayText += text;
+    renderPoem(displayText);
+  }
+);
+```
+
+**错误处理机制**：
+
+```typescript
+// 带重试和降级的调用封装
+async function generateWithFallback(prompt: string): Promise<string> {
+  const fallbackTexts = {
+    poem: '金碧辉煌映紫微，龙盘虎踞护皇基。',
+    description: '此斗拱结构精巧，承托有力，展现古代工匠智慧。',
+  };
+
+  try {
+    // 尝试调用 API
+    return await callGLMApi(prompt);
+  } catch (error) {
+    console.error('GLM API 调用失败:', error);
+
+    // 降级到预设文本
+    if (prompt.includes('诗')) {
+      return fallbackTexts.poem;
+    }
+    return fallbackTexts.description;
+  }
+}
+```
+
+**性能优化建议**：
+| 优化项 | 建议值 | 说明 |
+|--------|--------|------|
+| 连接复用 | Keep-Alive | 减少 TCP 握手开销 |
+| 超时设置 | 30s | 避免长时间等待 |
+| 重试策略 | 3 次，指数退避 | 应对临时故障 |
+| 缓存策略 | 相同 Prompt 缓存 | 减少重复请求 |
 
 ---
 
-### 3.9 Seedance 2.0（视频生成）
+### 3.10 Seedance 2.0（视频生成）
 
 - **提供商**：字节跳动
 - **用途**：AI 视频生成
