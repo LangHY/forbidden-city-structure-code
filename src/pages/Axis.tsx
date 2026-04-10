@@ -4,6 +4,7 @@
  * 展示故宫中轴线 11 个主要建筑
  * 支持 3D 透视节点切换、滚轮/键盘导航
  * 使用与 Exhibition 页面相同的组件风格
+ * 集成 GLM-4.7-Flash LLM 服务生成建筑描述
  */
 
 import { useState, useEffect, useCallback, useRef, memo } from 'react';
@@ -14,8 +15,18 @@ import DecorativeChar from '../components/exhibition/DecorativeChar';
 import BootLoader from '../components/exhibition/BootLoader';
 import InfoCard from '../components/exhibition/InfoCard';
 import AxisCanvas from '../components/axis/AxisCanvas';
+import {
+  generateBuildingInfo,
+  preloadAdjacentBuildings,
+  setApiKey,
+  type BuildingInfo
+} from '../components/axis/axisLLMService';
 import type { ThemeMode } from '../components/exhibition/types';
 import type { StructureInfo } from '../components/exhibition/services/llmService';
+
+// 初始化 API Key（优先使用环境变量，其次使用硬编码）
+const API_KEY = import.meta.env.VITE_GLM_API_KEY || '327d5d8bd0d1435a9ded2d58f430e915.N45zV86IIe3TUqr6';
+setApiKey(API_KEY);
 
 // 建筑名称
 const BUILDING_NAMES = [
@@ -355,6 +366,7 @@ function Axis() {
   const [theme, setTheme] = useState<ThemeMode>('light');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [structureInfo, setStructureInfo] = useState<StructureInfo | null>(null);
+  const [isLLMLoading, setIsLLMLoading] = useState(false);
 
   // MacBook 风格加载状态
   const [bootProgress, setBootProgress] = useState(0);
@@ -466,11 +478,43 @@ function Axis() {
   const currentIndex = parseInt(activeChapter);
   const currentBuilding = BUILDING_NAMES[currentIndex];
 
-  // 更新 structureInfo
+  // 使用 LLM 生成建筑信息
   useEffect(() => {
     if (!isBooting && currentBuilding) {
-      const info = convertToStructureInfo(currentBuilding);
-      setStructureInfo(info);
+      setIsLLMLoading(true);
+
+      // 获取建筑基础数据作为提示上下文
+      const layoutContent = PANEL_CONTENT.layout[currentBuilding as keyof typeof PANEL_CONTENT.layout];
+      const buildingData = {
+        location: layoutContent?.content?.match(/data-value>([^<]+)</)?.[1],
+        form: layoutContent?.content?.match(/data-value>([^<]+)</g)?.[1]?.match(/data-value>([^<]+)</)?.[1],
+      };
+
+      generateBuildingInfo(currentBuilding, buildingData)
+        .then((info: BuildingInfo) => {
+          // 转换为 StructureInfo 格式
+          const structureInfoData: StructureInfo = {
+            title: info.title,
+            subtitle: info.subtitle,
+            description: info.description,
+            historicalContext: info.historicalContext,
+            components: info.components,
+            technicalParams: info.technicalParams,
+            funFacts: info.funFacts,
+          };
+          setStructureInfo(structureInfoData);
+        })
+        .catch(() => {
+          // 降级到静态数据
+          const fallbackInfo = convertToStructureInfo(currentBuilding);
+          setStructureInfo(fallbackInfo);
+        })
+        .finally(() => {
+          setIsLLMLoading(false);
+        });
+
+      // 预加载相邻建筑
+      preloadAdjacentBuildings(currentBuilding, BUILDING_NAMES);
     }
   }, [activeChapter, isBooting, currentBuilding]);
 
@@ -542,7 +586,7 @@ function Axis() {
       <InfoCard
         structureInfo={structureInfo}
         theme={theme}
-        isLoading={false}
+        isLoading={isLLMLoading}
         isBlurred={isMenuOpen}
       />
 
