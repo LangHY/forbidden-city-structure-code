@@ -5,6 +5,7 @@
  * 复用 Exhibition 的背景和布局风格
  * 嵌入 Flourish 图表
  * 支持箭头按钮切换
+ * 加载动画与首个图表加载同步
  */
 
 import { useState, useEffect, useCallback, useRef, memo } from 'react';
@@ -57,9 +58,6 @@ const chartSections = [
   },
 ];
 
-// 加载进度增量速度
-const LOADING_SPEED = 2;
-
 // 切换动画配置
 const fadeVariants = {
   enter: { opacity: 0 },
@@ -77,36 +75,69 @@ function Charts() {
   const [bootProgress, setBootProgress] = useState(0);
   const [isBooting, setIsBooting] = useState(true);
   const [showNavLogo, setShowNavLogo] = useState(false);
+  const [initialIframeLoaded, setInitialIframeLoaded] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // 加载进度模拟
+  // 初始加载：预加载第一个 iframe
+  useEffect(() => {
+    // 创建隐藏的 iframe 预加载第一个图表
+    const preloadIframe = document.createElement('iframe');
+    preloadIframe.src = chartSections[0].iframe;
+    preloadIframe.style.display = 'none';
+    preloadIframe.onload = () => {
+      setInitialIframeLoaded(true);
+      setIframeLoaded(true);
+      document.body.removeChild(preloadIframe);
+    };
+    document.body.appendChild(preloadIframe);
+
+    return () => {
+      if (document.body.contains(preloadIframe)) {
+        document.body.removeChild(preloadIframe);
+      }
+    };
+  }, []);
+
+  // 加载进度动画：阶段1 - 快速到 70%
   useEffect(() => {
     if (!isBooting) return;
 
-    const interval = setInterval(() => {
+    const quickInterval = setInterval(() => {
       setBootProgress(prev => {
-        if (prev >= 90) return prev;
-        const increment = Math.random() * LOADING_SPEED + 0.5;
-        return Math.min(prev + increment, 90);
+        if (prev >= 70) {
+          clearInterval(quickInterval);
+          return 70;
+        }
+        const increment = Math.random() * 8 + 3;
+        return Math.min(prev + increment, 70);
       });
     }, 50);
 
-    return () => clearInterval(interval);
+    return () => clearInterval(quickInterval);
   }, [isBooting]);
 
-  // 首次加载完成
+  // 阶段2：iframe 加载完成后，完成剩余进度
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setBootProgress(100);
-      setTimeout(() => {
-        setIsBooting(false);
-        setShowNavLogo(true);
-      }, 500);
-    }, 1000);
+    if (!isBooting || !initialIframeLoaded) return;
 
-    return () => clearTimeout(timer);
-  }, []);
+    const completeInterval = setInterval(() => {
+      setBootProgress(prev => {
+        if (prev >= 100) {
+          clearInterval(completeInterval);
+          setTimeout(() => {
+            setIsBooting(false);
+            setShowNavLogo(true);
+          }, 300);
+          return 100;
+        }
+        const increment = Math.random() * 5 + 2;
+        return Math.min(prev + increment, 100);
+      });
+    }, 30);
+
+    return () => clearInterval(completeInterval);
+  }, [isBooting, initialIframeLoaded]);
 
   // 加载动画完成回调
   const handleBootComplete = useCallback(() => {
@@ -126,7 +157,7 @@ function Charts() {
     ? 'bg-[rgba(250,246,240,0.06)] border-[rgba(255,255,255,0.08)] shadow-[0_8px_32px_rgba(0,0,0,0.3)]'
     : 'bg-[rgba(255,255,255,0.55)] border-[rgba(255,255,255,0.7)] shadow-[0_8px_32px_rgba(74,124,89,0.08)]';
 
-  // iframe 加载完成回调
+  // iframe 加载完成回调（用于切换图表时）
   const handleIframeLoad = useCallback(() => {
     // 延迟显示，确保图表完全渲染
     setTimeout(() => setIframeLoaded(true), 300);
@@ -134,7 +165,9 @@ function Charts() {
 
   // 切换图表时重置加载状态
   useEffect(() => {
-    setIframeLoaded(false);
+    if (activeSection !== 0) {
+      setIframeLoaded(false);
+    }
   }, [activeSection]);
 
   const currentSection = chartSections[activeSection];
