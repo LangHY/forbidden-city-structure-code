@@ -252,55 +252,6 @@ Agentic Engine 执行链:
 | `deployment-expert` | 部署专家 | CI/CD 策略、预览 URL、回滚操作 |
 | `performance-optimizer` | 性能优化 | Core Web Vitals、缓存策略、Bundle 优化 |
 
-**Skill 详细说明**：
-
-#### `react-best-practices`
-- **触发条件**：读取 React 组件文件（`.tsx`）
-- **功能**：强制开发者查阅最新 React 文档，确保使用最新 API
-- **输出**：警告提示 + 官方文档链接
-
-#### `vercel-plugin` 子模块
-
-| 子模块 | 功能 |
-|--------|------|
-| `deployment-expert` | 部署策略、CI/CD 配置、预览 URL 管理 |
-| `performance-optimizer` | Core Web Vitals 优化、缓存策略、Bundle 分析 |
-| `ai-architect` | AI SDK 架构设计、模型选择、MCP 服务集成 |
-
-#### `code-reviewer`
-- **类型**：Elite 级代码审查专家
-- **专长**：AI 驱动代码分析、安全漏洞检测、性能优化、生产可靠性
-- **工具**：静态分析、安全扫描、配置审查
-- **使用方式**：主动调用（项目步骤完成后）
-
-#### `ui-sketcher`
-- **功能**：将功能需求转化为视觉 ASCII 界面设计
-- **输出**：界面布局、用户故事、交互规格
-- **擅长**：简洁描述 → 完整用户旅程 + 空间布局可视化
-
-#### `bug-analyzer`
-- **功能**：深度代码执行流程分析、根因调查
-- **能力**：构建执行链图、追踪变量状态变化、根因分析
-- **使用场景**：复杂 Bug 调试、代码路径分析
-
-#### `using-superpowers`
-- **功能**：技能系统使用规范和最佳实践
-- **规则**：即使只有 1% 可能适用也必须调用 Skill
-- **优先级**：用户指令 > Superpowers Skills > 默认系统行为
-
-**Skill 调用流程**：
-```typescript
-// Skill 自动触发示例
-// 当检测到 React 组件文件时，自动加载 react-best-practices
-// 系统提示: "MANDATORY: Your training data for these libraries is OUTDATED"
-// → 开发者查看最新文档 → 应用最佳实践 → 生成高质量代码
-
-// Skill 主动调用示例
-// 项目步骤完成后，自动调用 code-reviewer
-// agent: "I've finished implementing the user authentication system"
-// → Invoke code-reviewer to validate against plan and coding standards
-```
-
 ---
 
 ### 3.5 Rules 约束系统
