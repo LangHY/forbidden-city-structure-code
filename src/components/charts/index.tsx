@@ -13,6 +13,8 @@ import ChartsNav from './ChartsNav';
 import ChartsMenu from './ChartsMenu';
 import BootLoader from '../exhibition/BootLoader';
 import DecorativeChar from '../exhibition/DecorativeChar';
+import ChartSkeleton from './ChartSkeleton';
+import ChartSource from './ChartSource';
 import type { ThemeMode } from '../exhibition/types';
 
 // 图表配置
@@ -23,6 +25,8 @@ const chartSections = [
     titleEn: 'Function Flow',
     iframe: 'https://flo.uri.sh/visualisation/28435676/embed',
     description: '建筑功能与斗拱规格流向',
+    dataSource: '故宫博物院建筑档案',
+    chartType: 'sankey' as const,
   },
   {
     id: 'collection',
@@ -30,6 +34,8 @@ const chartSections = [
     titleEn: 'Collection Statistics',
     iframe: 'https://flo.uri.sh/visualisation/28417462/embed',
     description: '故宫博物院藏品分类统计',
+    dataSource: '故宫博物院藏品数据库',
+    chartType: 'bar' as const,
   },
   {
     id: 'hierarchy',
@@ -37,6 +43,8 @@ const chartSections = [
     titleEn: 'Dougong Hierarchy',
     iframe: 'https://flo.uri.sh/visualisation/28417423/embed',
     description: '斗拱构件层级结构图',
+    dataSource: '《清式营造则例》',
+    chartType: 'tree' as const,
   },
   {
     id: 'building-rank',
@@ -44,6 +52,8 @@ const chartSections = [
     titleEn: 'Building Rank',
     iframe: 'https://flo.uri.sh/visualisation/28435531/embed',
     description: '斗拱踩数与建筑等级关系',
+    dataSource: '故宫建筑实测数据',
+    chartType: 'scatter' as const,
   },
 ];
 
@@ -61,6 +71,7 @@ function Charts() {
   const [theme, setTheme] = useState<ThemeMode>('light');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState(0);
+  const [iframeLoaded, setIframeLoaded] = useState(false);
 
   // MacBook 风格加载状态
   const [bootProgress, setBootProgress] = useState(0);
@@ -110,9 +121,21 @@ function Charts() {
 
   const bgColor = theme === 'dark' ? 'bg-black' : 'bg-[#f7f3ed]';
   const textColor = theme === 'dark' ? 'text-white' : 'text-[#2a2520]';
+  // 增强卡片玻璃态效果
   const cardBg = theme === 'dark'
-    ? 'bg-[rgba(250,246,240,0.08)] border-[rgba(255,255,255,0.05)]'
-    : 'bg-[rgba(255,255,255,0.45)] border-[rgba(255,255,255,0.6)]';
+    ? 'bg-[rgba(250,246,240,0.06)] border-[rgba(255,255,255,0.08)] shadow-[0_8px_32px_rgba(0,0,0,0.3)]'
+    : 'bg-[rgba(255,255,255,0.55)] border-[rgba(255,255,255,0.7)] shadow-[0_8px_32px_rgba(74,124,89,0.08)]';
+
+  // iframe 加载完成回调
+  const handleIframeLoad = useCallback(() => {
+    // 延迟显示，确保图表完全渲染
+    setTimeout(() => setIframeLoaded(true), 300);
+  }, []);
+
+  // 切换图表时重置加载状态
+  useEffect(() => {
+    setIframeLoaded(false);
+  }, [activeSection]);
 
   const currentSection = chartSections[activeSection];
 
@@ -228,18 +251,34 @@ function Charts() {
 
               {/* 图表容器 */}
               <div
-                className={`${cardBg} backdrop-blur-2xl border rounded-xl overflow-hidden shadow-2xl`}
+                className={`${cardBg} backdrop-blur-2xl border rounded-xl overflow-hidden shadow-2xl relative`}
               >
+                {/* 骨架屏 - 加载中显示 */}
+                {!iframeLoaded && (
+                  <div className="absolute inset-0 z-10">
+                    <ChartSkeleton theme={theme} type={currentSection.chartType} />
+                  </div>
+                )}
+
+                {/* Flourish iframe */}
                 <iframe
                   src={currentSection.iframe}
                   title={currentSection.title}
                   className="w-full"
-                  style={{ height: '380px' }}
+                  style={{
+                    height: '380px',
+                    opacity: iframeLoaded ? 1 : 0,
+                    transition: 'opacity 0.3s ease-in-out'
+                  }}
                   frameBorder="0"
                   scrolling="no"
                   sandbox="allow-same-origin allow-forms allow-scripts allow-downloads allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation"
+                  onLoad={handleIframeLoad}
                 />
               </div>
+
+              {/* 数据来源标注 */}
+              <ChartSource theme={theme} dataSource={currentSection.dataSource} />
 
               {/* 图表描述 */}
               <p className={`mt-2 text-center text-xs ${theme === 'dark' ? 'text-stone-400' : 'text-stone-500'}`}>
