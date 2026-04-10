@@ -239,20 +239,11 @@ Agentic Engine 执行链:
 
 | Skill 名称 | 功能 | 应用场景 |
 |-----------|------|---------|
-| `react-best-practices` | React 开发最佳实践 | 组件开发、Hooks 使用、性能优化 |
-| `vercel-plugin` | Vercel 部署集成 | 项目部署、环境配置、日志查看 |
-| `code-reviewer` | 代码审查 | PR 审查、代码质量检查、安全漏洞扫描 |
-| `ui-sketcher` | UI 蓝图设计 | 界面布局设计、用户旅程规划 |
-| `bug-analyzer` | 错误分析 | 调试代码执行流程、根因分析 |
-| `using-superpowers` | 技能系统使用指南 | Skills 发现与调用规范 |
-| `ai-sdk` | Vercel AI SDK 集成 | AI 应用开发、模型调用、流式响应 |
-| `ai-gateway` | AI 网关配置 | AI 服务管理、流量控制、模型路由 |
-| `Explore` | 代码库探索 | 文件搜索、代码分析、架构理解 |
-| `Plan` | 架构设计规划 | 实现方案设计、任务拆解、文件识别 |
-| `deployment-expert` | 部署专家 | CI/CD 策略、预览 URL、回滚操作 |
-| `performance-optimizer` | 性能优化 | Core Web Vitals、缓存策略、Bundle 优化 |
-| `dev` | 开发辅助 | 代码开发、功能实现、问题解决 |
-| `ui-design` | UI 设计指南 | 界面设计规范、视觉风格、交互设计 |
+| `clean-code-mentor` | 代码质量指导 | 代码规范、重构建议、最佳实践 |
+| `frontend-design` | 前端设计 | UI/UX 设计、组件设计、交互设计 |
+| `modern-dev` | 现代开发实践 | 开发工具链、工程化、CI/CD |
+| `modern-ui-builder` | 现代 UI 构建 | 组件库、设计系统、响应式布局 |
+| `web-access` | Web 可访问性 | 无障碍设计、ARIA、键盘导航 |
 
 ---
 
