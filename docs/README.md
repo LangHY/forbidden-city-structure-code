@@ -12,9 +12,12 @@
 
 | 文档名称 | 文件名 | 目标读者 | 内容概要 |
 |---------|--------|---------|---------|
+| **设计思路文档** | [design-concept.md](./design-concept.md) | 所有读者 | 设计理念、架构设计、技术实现思路 |
+| **设计重点难点** | [design-challenges.md](./design-challenges.md) | 开发者、评委 | 技术挑战、解决方案、性能优化 |
 | **技术规格文档** | [technical-specification.md](./technical-specification.md) | 开发者、架构师 | 技术栈、架构设计、核心模块实现 |
 | **使用说明** | [user-guide.md](./user-guide.md) | 用户、评委 | 功能介绍、操作指南、常见问题 |
 | **运行手册** | [operation-manual.md](./operation-manual.md) | 开发者、运维 | 开发流程、构建部署、故障排查 |
+| **AI 技术应用** | [ai-application.md](./ai-application.md) | 所有读者 | AI 技术在项目中的应用说明 |
 
 ---
 
@@ -22,9 +25,10 @@
 
 ### 我是用户/评委
 
-👉 请阅读 [使用说明](./user-guide.md)
+👉 请阅读 [设计思路文档](./design-concept.md) + [使用说明](./user-guide.md)
 
 你将了解：
+- 设计理念和架构思路
 - 如何访问和运行项目
 - 各页面功能介绍
 - 操作方式说明
@@ -32,9 +36,10 @@
 
 ### 我是开发者
 
-👉 请阅读 [技术规格文档](./technical-specification.md) + [运行手册](./operation-manual.md)
+👉 请阅读 [设计思路文档](./design-concept.md) + [技术规格文档](./technical-specification.md) + [运行手册](./operation-manual.md)
 
 你将了解：
+- 设计理念和架构思路
 - 项目技术架构
 - 核心模块实现细节
 - 开发环境配置
@@ -57,9 +62,12 @@
 ```
 docs/
 ├── README.md                    # 本文件（文档索引）
+├── design-concept.md            # 设计思路文档
+├── design-challenges.md         # 设计重点难点文档
 ├── technical-specification.md   # 技术规格文档
 ├── user-guide.md               # 使用说明
-└── operation-manual.md         # 运行手册
+├── operation-manual.md         # 运行手册
+└── ai-application.md           # AI 技术应用说明
 ```
 
 ---
@@ -117,11 +125,6 @@ React 19 + TypeScript 5.9
 - **3D 资源：** 斗拱结构 GLB 模型
 
 ---
-
-## 联系方式
-
-- **问题反馈：** [[GitHub Issues]](https://github.com/LangHY/forbidden-city-structure-code/issues)
-- **项目地址：** [[GitHub Repository]](https://github.com/LangHY/forbidden-city-structure-code)
 
 ---
 

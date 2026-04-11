@@ -12,12 +12,7 @@
 - **开源时间**：2026年4月
 - **开发团队**：郎浩宇 付德民 赵永睿 赵梓翔 王科硕
 
-本项目采用 MIT 许可证开源，欢迎学习交流。如需引用或二次开发，请注明出处：
-
-```
-故宫斗拱结构沉浸式交互网站
-https://github.com/LangHY/forbidden-city-structure-code
-```
+本项目采用 MIT 许可证开源，欢迎学习交流。如需引用或二次开发，请注明出处。
 
 ---
 
@@ -59,9 +54,8 @@ React 19 + TypeScript 5.9
 ### 安装运行
 
 ```bash
-# 克隆仓库
-git clone https://github.com/LangHY/forbidden-city-structure-code.git
-cd forbidden-city-structure-code
+# 进入项目目录
+cd replicate-website-effect
 
 # 安装依赖
 npm install
@@ -217,7 +211,7 @@ MIT License
 
 - 3D 模型来源：故宫斗拱结构数字档案
 - AI 服务：[智谱 AI GLM-4.7-Flash](https://open.bigmodel.cn/)
-- 字体：[权衡度量体](https://github.com/jaywcjlove/free-font)
+- 字体：权衡度量体
 
 ---
 

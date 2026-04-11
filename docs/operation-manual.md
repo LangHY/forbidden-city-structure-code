@@ -72,40 +72,17 @@ npm -v
 
 ---
 
-## 二、项目初始化
-
-### 2.1 克隆项目
+## 二、安装依赖
 
 ```bash
-# 使用 Git 克隆
-git clone <项目地址>
+# 进入项目目录
 cd replicate-website-effect
 
-# 或直接解压项目压缩包
-```
-
-### 2.2 安装依赖
-
-```bash
 # 安装所有依赖
 npm install
 
 # 输出示例：
 # added 1245 packages in 45s
-```
-
-### 2.3 项目结构检查
-
-```bash
-# 查看项目结构
-ls -la
-
-# 应包含以下目录：
-# - src/          源代码
-# - public/       静态资源
-# - node_modules/ 依赖包
-# - package.json  项目配置
-# - vite.config.ts 构建配置
 ```
 
 ---
@@ -268,7 +245,7 @@ vercel --prod
 
 #### 方案三：Netlify
 
-1. 连接 GitHub 仓库
+1. 上传项目文件或连接代码仓库
 2. 构建命令：`npm run build`
 3. 输出目录：`dist`
 4. 发布
@@ -650,85 +627,9 @@ fetch(url, options)
 
 ---
 
-## 十、CI/CD 配置
+## 十、备份与恢复
 
-### 10.1 GitHub Actions
-
-```yaml
-# .github/workflows/deploy.yml
-name: Build and Deploy
-
-on:
-  push:
-    branches: [main]
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build
-        run: npm run build
-        env:
-          VITE_GLM_API_KEY: ${{ secrets.GLM_API_KEY }}
-
-      - name: Deploy to Vercel
-        uses: amondnet/vercel-action@v25
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-```
-
-### 10.2 自动化测试
-
-```yaml
-# .github/workflows/test.yml
-name: Test
-
-on: [push, pull_request]
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Lint
-        run: npm run lint
-
-      - name: Type check
-        run: npx tsc --noEmit
-
-      - name: Build
-        run: npm run build
-```
-
----
-
-## 十一、备份与恢复
-
-### 11.1 数据备份
+### 10.1 数据备份
 
 ```bash
 # 备份整个项目
@@ -742,7 +643,7 @@ cp package.json package.json.bak
 cp vite.config.ts vite.config.ts.bak
 ```
 
-### 11.2 版本控制
+### 10.2 版本控制
 
 ```bash
 # 查看当前状态
@@ -754,16 +655,13 @@ git checkout -b backup-$(date +%Y%m%d)
 # 提交更改
 git add .
 git commit -m "backup: $(date +%Y%m%d)"
-
-# 推送到远程
-git push origin backup-$(date +%Y%m%d)
 ```
 
 ---
 
-## 十二、监控与日志
+## 十一、监控与日志
 
-### 12.1 错误监控
+### 11.1 错误监控
 
 ```typescript
 // src/components/ui/ErrorBoundary.tsx
@@ -778,7 +676,7 @@ class ErrorBoundary extends React.Component {
 }
 ```
 
-### 12.2 性能监控
+### 11.2 性能监控
 
 ```typescript
 // 使用 Web Vitals
@@ -793,7 +691,7 @@ getTTFB(console.log);
 
 ---
 
-## 十三、安全检查清单
+## 十二、安全检查清单
 
 - [ ] API Key 不硬编码在代码中（使用环境变量）
 - [ ] 依赖包无已知漏洞（`npm audit`）
@@ -804,9 +702,9 @@ getTTFB(console.log);
 
 ---
 
-## 十四、更新与维护
+## 十三、更新与维护
 
-### 14.1 依赖更新
+### 13.1 依赖更新
 
 ```bash
 # 检查过时的依赖
@@ -819,7 +717,7 @@ npm update
 npm install package@latest
 ```
 
-### 14.2 Node.js 更新
+### 13.2 Node.js 更新
 
 ```bash
 # 使用 nvm 更新 Node.js
@@ -827,7 +725,7 @@ nvm install --lts
 nvm use --lts
 ```
 
-### 14.3 定期维护任务
+### 13.3 定期维护任务
 
 | 任务 | 频率 | 命令 |
 |------|------|------|
