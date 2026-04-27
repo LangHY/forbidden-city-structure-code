@@ -25,9 +25,13 @@ import BuildingTimeline from '../components/axis/BuildingTimeline';
 import type { ThemeMode } from '../components/exhibition/types';
 import type { StructureInfo } from '../components/exhibition/services/llmService';
 
-// 初始化 API Key
-const API_KEY = import.meta.env.VITE_GLM_API_KEY || '327d5d8bd0d1435a9ded2d58f430e915.N45zV86IIe3TUqr6';
-setApiKey(API_KEY);
+// 初始化 API Key（仅从环境变量获取）
+const API_KEY = import.meta.env.VITE_GLM_API_KEY;
+if (API_KEY) {
+  setApiKey(API_KEY);
+} else {
+  console.warn('VITE_GLM_API_KEY 未配置，将使用默认数据');
+}
 
 // 章节配置（与 Exhibition 页面格式一致）
 const chapters: Chapter[] = buildings.map((b) => ({
