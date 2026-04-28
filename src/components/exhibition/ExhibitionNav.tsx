@@ -56,14 +56,23 @@ function ExhibitionNav({
         className={`text-2xl font-quanHeng ${textColor} tracking-[0.3em] font-bold transition-opacity duration-500 cursor-pointer hover:opacity-80 ${
           showLogo ? 'opacity-100' : 'opacity-0'
         }`}
+        role="button"
+        tabIndex={0}
         onClick={handleLogoClick}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+            handleLogoClick()
+          }
+        }}
+        aria-label="返回首页"
       >
         紫禁匠心
       </div>
 
       <div className="flex gap-12">
         {/* 导航链接 */}
-        <nav className="hidden md:flex gap-10 items-center">
+        <nav className="hidden md:flex gap-10 items-center" aria-label="主导航">
           {navItems.map((item) => (
             <Link
               key={item.path}

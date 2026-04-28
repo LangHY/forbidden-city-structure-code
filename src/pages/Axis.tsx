@@ -203,12 +203,14 @@ function Axis() {
       <BootLoader progress={bootProgress} isLoading={isBooting} onComplete={handleBootComplete} />
 
       {/* 3D场景 */}
+      <div aria-label="故宫中轴建筑三维场景" role="img">
       <AxisScene
         selectedBuilding={selectedBuilding}
         onSelectBuilding={handleSelectBuilding}
         theme={theme}
         isBlurred={isMenuOpen}
       />
+      </div>
 
       {/* 失焦遮罩 */}
       {isMenuOpen && (

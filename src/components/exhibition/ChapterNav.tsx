@@ -132,6 +132,8 @@ function ChapterNav({
 
   return (
     <aside
+      role="navigation"
+      aria-label="章节导航"
       className={`fixed left-0 top-0 h-full pointer-events-none ${
         isHighlighted ? 'z-50 overflow-visible' : 'z-40 overflow-hidden'
       } ${className}`}
@@ -158,7 +160,10 @@ function ChapterNav({
           return (
             <div
               key={chapter.id}
+              role="button"
+              tabIndex={0}
               className="flex items-center gap-4 cursor-pointer origin-center relative"
+              aria-label={`查看${chapter.label}`}
               style={{
                 transform: `translateX(${translateX}px) translateY(${translateY}px) rotateZ(${rotateZ}deg) rotateX(${rotateX}deg) scale(${scale})`,
                 opacity,
@@ -167,6 +172,12 @@ function ChapterNav({
                 transition: 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.35s ease, filter 0.35s ease',
               }}
               onClick={() => onChange?.(chapter.id)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault()
+                  onChange?.(chapter.id)
+                }
+              }}
             >
               {/* 聚焦光晕 - 切换时播放 */}
               {showFocusPulse && (

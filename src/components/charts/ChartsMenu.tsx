@@ -35,6 +35,8 @@ function ChartsMenu({ isOpen, theme, charts, activeIndex, onSelect, onClose }: C
 
   return (
     <div
+      role="navigation"
+      aria-label="图表菜单导航"
       className={`fixed left-12 top-1/2 -translate-y-1/2 z-40 transition-all duration-500 ${
         isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
       }`}

@@ -396,6 +396,7 @@ function ExhibitionCanvas({
 
   return (
     <main
+      aria-label="故宫斗拱三维展览画布"
       className="fixed inset-0 z-0"
       style={{
         filter: isBlurred ? 'blur(12px)' : undefined,
