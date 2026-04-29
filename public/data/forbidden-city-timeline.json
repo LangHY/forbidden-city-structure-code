@@ -1,0 +1,442 @@
+[
+  {
+    "year": 1406,
+    "era": "明",
+    "eraGroup": "明代",
+    "event": "明成祖下诏建宫",
+    "title": "迁都北京 · 始建紫禁城",
+    "description": "明成祖朱棣下诏迁都北京，命建北京宫殿，征调全国能工巧匠。征调工匠23万人，民夫上百万，历时14年建成。",
+    "importance": 5,
+    "category": "建造",
+    "location": "北京",
+    "emperor": "永乐帝 朱棣",
+    "details": {
+      "workers": "23万工匠",
+      "labors": "上百万民夫",
+      "duration": "14年"
+    }
+  },
+  {
+    "year": 1407,
+    "era": "明",
+    "eraGroup": "明代",
+    "event": "全国征调工匠",
+    "title": "天下能工巧匠汇聚北京",
+    "description": "从全国各地征调最优秀的木工、石工、瓦工、油漆工、彩画工等，汇聚北京参与宫殿建设。",
+    "importance": 4,
+    "category": "建造",
+    "location": "全国"
+  },
+  {
+    "year": 1417,
+    "era": "明",
+    "eraGroup": "明代",
+    "event": "三大殿奠基",
+    "title": "太和殿等主殿开始建造",
+    "description": "紫禁城核心建筑——奉天殿（后改名太和殿）、华盖殿、谨身殿开始建造，采用最高等级的建筑形制。",
+    "importance": 4,
+    "category": "建造",
+    "location": "紫禁城中轴线"
+  },
+  {
+    "year": 1420,
+    "era": "明",
+    "eraGroup": "明代",
+    "event": "紫禁城建成",
+    "title": "紫禁城落成 · 明朝迁都",
+    "description": "历时14年，紫禁城终于建成。占地面积72万平方米，建筑面积15万平方米，房屋9999间半。明朝正式迁都北京。",
+    "importance": 5,
+    "category": "建成",
+    "location": "北京紫禁城",
+    "emperor": "永乐帝 朱棣",
+    "details": {
+      "area": "72万平方米",
+      "buildings": "15万平方米",
+      "rooms": "9999间半"
+    }
+  },
+  {
+    "year": 1421,
+    "era": "明",
+    "eraGroup": "明代",
+    "event": "奉天殿火灾",
+    "title": "三大殿焚毁",
+    "description": "建成仅一年，奉天殿、华盖殿、谨身殿遭雷击焚毁。此后数十年间多次重建又多次焚毁。",
+    "importance": 4,
+    "category": "灾害",
+    "location": "紫禁城"
+  },
+  {
+    "year": 1557,
+    "era": "明",
+    "eraGroup": "明代",
+    "event": "三大殿再次火灾",
+    "title": "嘉靖年间大修",
+    "description": "嘉靖三十六年，三大殿再次因雷击焚毁，此后开始大规模重建工程。",
+    "importance": 4,
+    "category": "灾害",
+    "location": "紫禁城",
+    "emperor": "嘉靖帝 朱厚熜"
+  },
+  {
+    "year": 1597,
+    "era": "明",
+    "eraGroup": "明代",
+    "event": "坤宁宫火灾",
+    "title": "后三宫受灾",
+    "description": "坤宁宫等后宫建筑遭受火灾，万历年间开始修复工程。",
+    "importance": 3,
+    "category": "灾害",
+    "location": "紫禁城后宫"
+  },
+  {
+    "year": 1644,
+    "era": "清",
+    "eraGroup": "清代",
+    "event": "清军入关",
+    "title": "明朝灭亡 · 清朝接管",
+    "description": "李自成攻入北京，明朝灭亡。随后清军入关，紫禁城易主。清朝沿袭明代宫殿，开始新的历史篇章。",
+    "importance": 5,
+    "category": "政权更迭",
+    "location": "北京",
+    "emperor": "顺治帝 福临"
+  },
+  {
+    "year": 1645,
+    "era": "清",
+    "eraGroup": "清代",
+    "event": "清朝开始修缮宫殿",
+    "title": "清代首次大规模修缮",
+    "description": "清朝接管紫禁城后，开始对宫殿进行修缮和改造，以适应满族习俗。",
+    "importance": 3,
+    "category": "修缮",
+    "location": "紫禁城"
+  },
+  {
+    "year": 1669,
+    "era": "清",
+    "eraGroup": "清代",
+    "event": "康熙重修太和殿",
+    "title": "康熙年间最大规模修缮",
+    "description": "康熙帝下令重修太和殿，历时两年完成。此次修缮奠定了今日太和殿的基本面貌。",
+    "importance": 5,
+    "category": "修缮",
+    "location": "太和殿",
+    "emperor": "康熙帝 玄烨",
+    "details": {
+      "duration": "2年",
+      "scale": "清代最大规模"
+    }
+  },
+  {
+    "year": 1695,
+    "era": "清",
+    "eraGroup": "清代",
+    "event": "太和殿重建完成",
+    "title": "今日所见太和殿落成",
+    "description": "今日我们所见的太和殿，基本是康熙年间重建的面貌。面阔11间，进深5间，高35.05米，是中国现存最大的木结构宫殿。",
+    "importance": 5,
+    "category": "建成",
+    "location": "太和殿",
+    "details": {
+      "width": "11间",
+      "depth": "5间",
+      "height": "35.05米",
+      "area": "2377平方米"
+    }
+  },
+  {
+    "year": 1735,
+    "era": "清",
+    "eraGroup": "清代",
+    "event": "雍正迁居养心殿",
+    "title": "皇帝寝宫变迁",
+    "description": "雍正帝将皇帝寝宫从乾清宫迁至养心殿，此后清朝皇帝多居住于养心殿。",
+    "importance": 4,
+    "category": "改建",
+    "location": "养心殿",
+    "emperor": "雍正帝 胤禛"
+  },
+  {
+    "year": 1796,
+    "era": "清",
+    "eraGroup": "清代",
+    "event": "乾隆传位嘉庆",
+    "title": "太上皇时代",
+    "description": "乾隆帝禅位于嘉庆帝，自己成为太上皇，但仍居住在紫禁城，实际掌控朝政。",
+    "importance": 4,
+    "category": "政权更迭",
+    "location": "紫禁城",
+    "emperor": "乾隆帝 弘历 / 嘉庆帝 颙琰"
+  },
+  {
+    "year": 1860,
+    "era": "清",
+    "eraGroup": "清代",
+    "event": "英法联军入侵北京",
+    "title": "第二次鸦片战争",
+    "description": "英法联军攻入北京，圆明园被焚毁，紫禁城幸免于难，但遭受掠夺。",
+    "importance": 5,
+    "category": "战争",
+    "location": "北京"
+  },
+  {
+    "year": 1888,
+    "era": "清",
+    "eraGroup": "清代",
+    "event": "太和殿再次火灾",
+    "title": "光绪年间修缮",
+    "description": "太和殿因火灾受损，光绪年间进行修缮。",
+    "importance": 3,
+    "category": "灾害",
+    "location": "太和殿",
+    "emperor": "光绪帝 载湉"
+  },
+  {
+    "year": 1900,
+    "era": "清",
+    "eraGroup": "清代",
+    "event": "八国联军入侵",
+    "title": "庚子国变",
+    "description": "八国联军攻入北京，紫禁城被占领，大量珍贵文物被掠夺。",
+    "importance": 5,
+    "category": "战争",
+    "location": "紫禁城"
+  },
+  {
+    "year": 1912,
+    "era": "民国",
+    "eraGroup": "近现代",
+    "event": "溥仪退位",
+    "title": "清朝灭亡 · 民国建立",
+    "description": "末代皇帝溥仪退位，清朝灭亡。根据优待条件，溥仪仍居住在紫禁城内廷，外廷归民国政府管理。",
+    "importance": 5,
+    "category": "政权更迭",
+    "location": "紫禁城"
+  },
+  {
+    "year": 1914,
+    "era": "民国",
+    "eraGroup": "近现代",
+    "event": "古物陈列所成立",
+    "title": "外廷对外开放",
+    "description": "在外廷成立古物陈列所，紫禁城外廷首次对公众开放参观。",
+    "importance": 4,
+    "category": "开放",
+    "location": "紫禁城外廷"
+  },
+  {
+    "year": 1923,
+    "era": "民国",
+    "eraGroup": "近现代",
+    "event": "建福宫大火",
+    "title": "珍贵文物焚毁",
+    "description": "建福宫花园发生大火，大量珍贵文物和建筑被焚毁。",
+    "importance": 4,
+    "category": "灾害",
+    "location": "建福宫"
+  },
+  {
+    "year": 1924,
+    "era": "民国",
+    "eraGroup": "近现代",
+    "event": "溥仪被驱逐出宫",
+    "title": "清室优待条件废除",
+    "description": "冯玉祥发动北京政变，修改清室优待条件，溥仪被驱逐出紫禁城。",
+    "importance": 5,
+    "category": "政权更迭",
+    "location": "紫禁城"
+  },
+  {
+    "year": 1925,
+    "era": "民国",
+    "eraGroup": "近现代",
+    "event": "故宫博物院成立",
+    "title": "故宫博物院正式开院",
+    "description": "10月10日，故宫博物院正式成立并对公众开放。这一天成为故宫博物院的院庆日。",
+    "importance": 5,
+    "category": "开放",
+    "location": "紫禁城",
+    "details": {
+      "date": "10月10日",
+      "significance": "故宫博物院院庆日"
+    }
+  },
+  {
+    "year": 1933,
+    "era": "民国",
+    "eraGroup": "近现代",
+    "event": "文物南迁",
+    "title": "国宝大迁徙",
+    "description": "为躲避日本侵略，故宫文物开始南迁，共13427箱文物分五批运离北京，历经艰险，无一件遗失。",
+    "importance": 5,
+    "category": "保护",
+    "location": "全国多地",
+    "details": {
+      "boxes": "13427箱",
+      "batches": "5批",
+      "result": "无一件遗失"
+    }
+  },
+  {
+    "year": 1948,
+    "era": "民国",
+    "eraGroup": "近现代",
+    "event": "部分文物运往台湾",
+    "title": "文物分离",
+    "description": "国民党政府将部分故宫文物运往台湾，现藏于台北故宫博物院。",
+    "importance": 4,
+    "category": "分离",
+    "location": "台湾"
+  },
+  {
+    "year": 1949,
+    "era": "新中国",
+    "eraGroup": "近现代",
+    "event": "新中国接管故宫",
+    "title": "故宫新生",
+    "description": "中华人民共和国成立，故宫博物院由人民政府接管，开始全面修缮和保护工作。",
+    "importance": 5,
+    "category": "接管",
+    "location": "北京"
+  },
+  {
+    "year": 1961,
+    "era": "新中国",
+    "eraGroup": "近现代",
+    "event": "列入重点文物保护单位",
+    "title": "首批全国重点文物保护单位",
+    "description": "故宫被列入第一批全国重点文物保护单位，受到国家法律保护。",
+    "importance": 5,
+    "category": "保护",
+    "location": "北京"
+  },
+  {
+    "year": 1966,
+    "era": "新中国",
+    "eraGroup": "近现代",
+    "event": "文革期间保护",
+    "title": "周恩来下令保护故宫",
+    "description": "文化大革命期间，周恩来总理下令关闭故宫，派军队保护，使故宫免遭破坏。",
+    "importance": 4,
+    "category": "保护",
+    "location": "北京"
+  },
+  {
+    "year": 1971,
+    "era": "新中国",
+    "eraGroup": "近现代",
+    "event": "故宫重新开放",
+    "title": "文革后首次开放",
+    "description": "故宫博物院重新对外开放，开始新的发展阶段。",
+    "importance": 4,
+    "category": "开放",
+    "location": "北京"
+  },
+  {
+    "year": 1987,
+    "era": "新中国",
+    "eraGroup": "近现代",
+    "event": "列入世界遗产",
+    "title": "联合国教科文组织认证",
+    "description": "故宫被联合国教科文组织列入世界文化遗产名录，成为全人类共同的文化财富。",
+    "importance": 5,
+    "category": "荣誉",
+    "location": "北京",
+    "details": {
+      "organization": "UNESCO",
+      "title": "世界文化遗产"
+    }
+  },
+  {
+    "year": 2002,
+    "era": "新中国",
+    "eraGroup": "近现代",
+    "event": "大修工程启动",
+    "title": "百年大修计划",
+    "description": "故宫启动为期18年的大规模修缮工程，对建筑进行全面保护和修复。",
+    "importance": 4,
+    "category": "修缮",
+    "location": "紫禁城",
+    "details": {
+      "duration": "18年",
+      "scope": "全面修缮"
+    }
+  },
+  {
+    "year": 2012,
+    "era": "新中国",
+    "eraGroup": "近现代",
+    "event": "单霁翔任院长",
+    "title": "故宫新篇章",
+    "description": "单霁翔就任故宫博物院院长，推动故宫的现代化管理和文化传播，故宫成为'网红'。",
+    "importance": 4,
+    "category": "管理",
+    "location": "北京"
+  },
+  {
+    "year": 2015,
+    "era": "新中国",
+    "eraGroup": "近现代",
+    "event": "故宫文创走红",
+    "title": "文创产品年营收15亿",
+    "description": "故宫文化创意产品走红网络，年营收超过15亿元，开创博物馆文创先河。",
+    "importance": 4,
+    "category": "文创",
+    "location": "北京",
+    "details": {
+      "revenue": "15亿元/年"
+    }
+  },
+  {
+    "year": 2018,
+    "era": "新中国",
+    "eraGroup": "近现代",
+    "event": "故宫日历等文化产品",
+    "title": "故宫文化传播",
+    "description": "《故宫日历》《我在故宫修文物》等文化产品广泛传播，故宫文化深入人心。",
+    "importance": 3,
+    "category": "文创",
+    "location": "全国"
+  },
+  {
+    "year": 2020,
+    "era": "新中国",
+    "eraGroup": "近现代",
+    "event": "建成600周年",
+    "title": "紫禁城六百年",
+    "description": "紫禁城建成600周年，举办大型庆祝活动和展览。'丹宸永固'大展回顾紫禁城600年历史。",
+    "importance": 5,
+    "category": "纪念",
+    "location": "北京",
+    "details": {
+      "exhibition": "丹宸永固",
+      "years": "600年"
+    }
+  },
+  {
+    "year": 2021,
+    "era": "新中国",
+    "eraGroup": "近现代",
+    "event": "故宫开放面积扩大",
+    "title": "开放面积达80%",
+    "description": "故宫开放面积从30%扩大到80%，更多区域向公众开放。",
+    "importance": 4,
+    "category": "开放",
+    "location": "北京",
+    "details": {
+      "openArea": "80%"
+    }
+  },
+  {
+    "year": 2025,
+    "era": "新中国",
+    "eraGroup": "近现代",
+    "event": "故宫博物院建院100周年",
+    "title": "百年故宫 · 薪火相传",
+    "description": "故宫博物院建院100周年，将举办系列庆祝活动，展望下一个百年。",
+    "importance": 5,
+    "category": "纪念",
+    "location": "北京"
+  }
+]

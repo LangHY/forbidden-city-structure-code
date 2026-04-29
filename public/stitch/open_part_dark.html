@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@1,6..72,200;1,6..72,400&amp;family=Inter:wght@300;400&amp;family=Space+Grotesk:wght@300;400&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "on-primary": "#f9f7f2",
+                "tertiary-fixed": "#272b2a",
+                "surface-container-high": "#e1e3e1",
+                "inverse-on-surface": "#f9f7f2",
+                "secondary-fixed": "#2e3130",
+                "secondary-container": "#c5c7c5",
+                "on-surface": "#1d201f",
+                "surface-container-highest": "#cdc6b9",
+                "on-tertiary-fixed-variant": "#f2e1bc",
+                "on-primary-fixed-variant": "#f2e1bc",
+                "on-primary-fixed": "#f9f7f2",
+                "tertiary-container": "#323534",
+                "secondary-fixed-dim": "#444746",
+                "on-primary-container": "#1d201f",
+                "primary-fixed-dim": "#323534",
+                "surface-bright": "#ffffff",
+                "primary-fixed": "#272b2a",
+                "on-error": "#ffffff",
+                "tertiary": "#000000",
+                "error": "#ba1a1a",
+                "on-tertiary": "#f9f7f2",
+                "on-secondary-fixed": "#ffffff",
+                "inverse-surface": "#2e3130",
+                "on-surface-variant": "#4b463c",
+                "on-secondary": "#f9f7f2",
+                "primary-container": "#e1e3e1",
+                "background": "#F9F7F2",
+                "primary": "#1d201f",
+                "on-tertiary-container": "#f2e1bc",
+                "on-secondary-fixed-variant": "#cdc6b9",
+                "secondary": "#444746",
+                "surface-container": "#f1f1f1",
+                "error-container": "#ffdad6",
+                "surface-tint": "#272b2a",
+                "inverse-primary": "#d5c5a1",
+                "outline": "#7a776e",
+                "surface-dim": "#e1e3e1",
+                "surface-container-low": "#f7f9f8",
+                "on-tertiary-fixed": "#f9f7f2",
+                "outline-variant": "#cdc6b9",
+                "surface": "#F9F7F2",
+                "on-secondary-container": "#191c1b",
+                "on-error-container": "#410002",
+                "tertiary-fixed-dim": "#323534",
+                "surface-container-lowest": "#ffffff",
+                "on-background": "#1d201f",
+                "surface-variant": "#e1e3e1"
+              },
+              fontFamily: {
+                "headline": ["Newsreader", "serif"],
+                "body": ["Inter", "sans-serif"],
+                "label": ["Space Grotesk", "monospace"]
+              },
+              borderRadius: {"DEFAULT": "0px", "lg": "0px", "xl": "0px", "full": "9999px"},
+            },
+          },
+        }
+    </script>
+<style>
+        .perspective-grid {
+            perspective: 1000px;
+            background-image: 
+                linear-gradient(to right, rgba(0,0,0,0.06) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0,0,0,0.06) 1px, transparent 1px);
+            background-size: 60px 60px;
+            transform: rotateX(60deg) translateY(-200px);
+            width: 200%;
+            height: 200%;
+            position: absolute;
+            top: 0;
+            left: -50%;
+            z-index: 0;
+            mask-image: radial-gradient(circle at center, black 20%, transparent 80%);
+        }
+
+        .text-outline {
+            -webkit-text-stroke: 1px rgba(0, 0, 0, 0.15);
+            color: transparent;
+        }
+
+        .vignette {
+            background: radial-gradient(circle, transparent 40%, rgba(249,247,242,0.4) 100%);
+        }
+
+        .crosshair {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body selection:bg-secondary-container selection:text-on-secondary-container overflow-hidden">
+<!-- 3D Perspective Grid Background -->
+<div class="fixed inset-0 pointer-events-none overflow-hidden">
+<div class="perspective-grid"></div>
+<div class="vignette absolute inset-0"></div>
+</div>
+<!-- UI: TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-12 py-8 bg-transparent backdrop-blur-sm">
+<div class="text-2xl font-serif italic tracking-tighter text-stone-900">
+            THE EXTRAORDINARY LAB
+        </div>
+<nav class="hidden md:flex items-center gap-12">
+<a class="font-mono text-[10px] tracking-widest uppercase font-bold border-b border-stone-900 pb-1 text-stone-900 transition-transform active:scale-95" href="#">GALLERY</a>
+<a class="font-mono text-[10px] tracking-widest uppercase font-normal text-stone-500 hover:text-stone-800 transition-colors" href="#">TECHNICAL</a>
+<a class="font-mono text-[10px] tracking-widest uppercase font-normal text-stone-500 hover:text-stone-800 transition-colors" href="#">ABOUT</a>
+</nav>
+<div class="flex items-center gap-4 text-stone-900">
+<span class="material-symbols-outlined hover:opacity-70 transition-opacity cursor-pointer" data-icon="menu">menu</span>
+</div>
+</header>
+<!-- Main Cinematic Canvas -->
+<main class="relative h-screen w-full flex flex-col items-center justify-center z-10">
+<!-- Central Hero Text (Background Layer) -->
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none px-4">
+<h1 class="font-headline italic text-7xl md:text-[12rem] text-outline leading-none text-center select-none opacity-20">
+                THE EXTRAORDINARY LAB
+            </h1>
+</div>
+<!-- Content Area (Central Focus) -->
+<div class="relative w-full max-w-4xl aspect-video flex items-center justify-center">
+<!-- Crosshairs -->
+<div class="crosshair top-0 left-0 border-r-0 border-b-0"></div>
+<div class="crosshair top-0 right-0 border-l-0 border-b-0"></div>
+<div class="crosshair bottom-0 left-0 border-r-0 border-t-0"></div>
+<div class="crosshair bottom-0 right-0 border-l-0 border-t-0"></div>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1px] h-8 bg-black/10"></div>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[1px] w-8 bg-black/10"></div>
+<!-- Subject Image -->
+<div class="relative w-4/5 h-4/5 group">
+<img alt="Chinese Dougong Structure" class="w-full h-full object-contain grayscale mix-blend-multiply contrast-125 transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPFX0xNQqiGOuBqJN6O4GTuX2_oQl1YAAcE9lsps40GuG3ur29TCQg1AOUDDjThMr58tpjJB_4slelBZKux806xShjQbqgPo90GWHsO3tiLudKQ2iC3AVC62DOkDrnpruXsmeCZiA_R6XUAA3LyoBzRHmsaqlR421Nxf8datWrTChMDwL5_iar81kBiD5t7Zh9Q4vZStmK4TcRawA9kd4hzaaUXaUopP-jV4xTIsZF9eDIBc7ETdaljm7BCpXXndJkxZ-EzHEabkQ"/>
+<!-- HUD Metadata Overlays -->
+<div class="absolute -top-12 -left-4 font-label text-[10px] text-stone-900/40 tracking-[0.2em]">
+<p>[ SYSTEM.STATUS: ACTIVE ]</p>
+<p>GEOMETRY_ID: DG-4492-X</p>
+</div>
+<div class="absolute -bottom-12 -right-4 text-right font-label text-[10px] text-stone-900/40 tracking-[0.2em]">
+<p>VERTS: 42,912</p>
+<p>RENDER_ENGINE: ACES_CG</p>
+</div>
+</div>
+</div>
+<!-- Narrative Anchor (Asymmetric) -->
+<div class="absolute bottom-32 left-12 max-w-sm">
+<h2 class="font-headline italic text-3xl mb-4 text-stone-900">The Art of Tension</h2>
+<p class="font-body text-sm leading-relaxed text-stone-600">
+                Exploring the mathematical precision of ancient Chinese architecture through a high-fidelity digital lens. Every bracket, every interlocking joint, rendered as a sequence of architectural sequences.
+            </p>
+</div>
+</main>
+<!-- UI: Bottom HUD -->
+<footer class="fixed bottom-0 left-0 w-full z-50 flex justify-between items-end px-12 pb-12 bg-transparent">
+<div class="flex items-center gap-16">
+<!-- REC Indicator -->
+<div class="flex flex-col items-center text-stone-900 bg-stone-900/5 p-2 font-mono text-[10px] tracking-widest">
+<span class="material-symbols-outlined text-red-600 mb-1" data-icon="videocam" style="font-variation-settings: 'FILL' 1;">videocam</span>
+<span>REC</span>
+</div>
+<!-- ISO 400 -->
+<div class="flex flex-col items-center text-stone-500 p-2 font-mono text-[10px] tracking-widest hover:text-stone-900 transition-colors">
+<span class="material-symbols-outlined mb-1" data-icon="settings_input_component">settings_input_component</span>
+<span>ISO 400</span>
+</div>
+</div>
+<!-- Center Metadata -->
+<div class="hidden lg:block font-label text-[9px] text-stone-900/30 tracking-[0.5em] pb-2">
+            SCANNING_SPATIAL_AR_VOLUMETRICS
+        </div>
+<div class="flex items-center gap-16">
+<!-- 24FPS -->
+<div class="flex flex-col items-center text-stone-500 p-2 font-mono text-[10px] tracking-widest hover:text-stone-900 transition-colors">
+<span class="material-symbols-outlined mb-1" data-icon="speed">speed</span>
+<span>24FPS</span>
+</div>
+<!-- SHUTTER -->
+<div class="flex flex-col items-center text-stone-500 p-2 font-mono text-[10px] tracking-widest hover:text-stone-900 transition-colors">
+<span class="material-symbols-outlined mb-1" data-icon="camera_roll">camera_roll</span>
+<span>SHUTTER</span>
+</div>
+</div>
+</footer>
+<!-- Edge Embellishments -->
+<div class="fixed top-1/2 left-4 -translate-y-1/2 h-32 w-[1px] bg-black/10 hidden md:block"></div>
+<div class="fixed top-1/2 right-4 -translate-y-1/2 h-32 w-[1px] bg-black/10 hidden md:block"></div>
+</body></html>

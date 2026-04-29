@@ -1,0 +1,181 @@
+{
+  "title": "故宫博物院藏品统计",
+  "total": 1863404,
+  "totalFormatted": "1,863,404",
+  "description": "故宫博物院是世界上收藏中国文物最多的博物馆",
+  "lastUpdated": "2024年",
+  "categories": [
+    {
+      "rank": 1,
+      "name": "古籍文献",
+      "count": 800000,
+      "percentage": 42.9,
+      "description": "包括善本古籍、档案、文献等，是研究明清历史的重要资料",
+      "highlights": [
+        "《四库全书》部分",
+        "明清档案1000余万件",
+        "善本古籍20余万册"
+      ],
+      "icon": "📚"
+    },
+    {
+      "rank": 2,
+      "name": "陶瓷",
+      "count": 350000,
+      "percentage": 18.8,
+      "description": "包括历代瓷器，尤以明清官窑瓷器最为丰富",
+      "highlights": [
+        "明清官窑瓷器32万余件",
+        "宋代五大名窑精品",
+        "历代民窑精品"
+      ],
+      "icon": "🏺"
+    },
+    {
+      "rank": 3,
+      "name": "织绣",
+      "count": 180000,
+      "percentage": 9.7,
+      "description": "包括服饰、织锦、刺绣等，以明清宫廷服饰为主",
+      "highlights": [
+        "清代帝后服饰",
+        "明清织锦刺绣",
+        "缂丝精品"
+      ],
+      "icon": "🧵"
+    },
+    {
+      "rank": 4,
+      "name": "书画",
+      "count": 140000,
+      "percentage": 7.5,
+      "description": "包括绘画、书法、碑帖等，涵盖晋唐至清代",
+      "highlights": [
+        "《清明上河图》",
+        "《千里江山图》",
+        "晋唐宋元书画精品"
+      ],
+      "icon": "🖼️"
+    },
+    {
+      "rank": 5,
+      "name": "其他文物",
+      "count": 150000,
+      "percentage": 8.0,
+      "description": "包括家具、陈设、武备等各类文物",
+      "highlights": [
+        "明清家具",
+        "宫廷陈设",
+        "武备仪仗"
+      ],
+      "icon": "🏺"
+    },
+    {
+      "rank": 6,
+      "name": "宗教文物",
+      "count": 42000,
+      "percentage": 2.3,
+      "description": "包括佛教、道教造像、法器等",
+      "highlights": [
+        "藏传佛教造像",
+        "道教神像",
+        "宫廷法器"
+      ],
+      "icon": "☸️"
+    },
+    {
+      "rank": 7,
+      "name": "玉器",
+      "count": 30000,
+      "percentage": 1.6,
+      "description": "包括新石器时代至清代玉器",
+      "highlights": [
+        "红山文化玉器",
+        "良渚文化玉器",
+        "清代宫廷玉器"
+      ],
+      "icon": "💎"
+    },
+    {
+      "rank": 8,
+      "name": "金银器",
+      "count": 22000,
+      "percentage": 1.2,
+      "description": "以清代宫廷金银器为主",
+      "highlights": [
+        "金编钟",
+        "金银器皿",
+        "首饰饰品"
+      ],
+      "icon": "🏆"
+    },
+    {
+      "rank": 9,
+      "name": "青铜器",
+      "count": 16000,
+      "percentage": 0.9,
+      "description": "包括商周至汉代青铜器",
+      "highlights": [
+        "商代青铜器",
+        "西周青铜器",
+        "春秋战国青铜器"
+      ],
+      "icon": "🔔"
+    },
+    {
+      "rank": 10,
+      "name": "珐琅器",
+      "count": 6600,
+      "percentage": 0.4,
+      "description": "以明清珐琅器为主",
+      "highlights": [
+        "掐丝珐琅",
+        "画珐琅",
+        "景泰蓝"
+      ],
+      "icon": "🎨"
+    },
+    {
+      "rank": 11,
+      "name": "钟表仪器",
+      "count": 2200,
+      "percentage": 0.1,
+      "description": "包括中西各式钟表",
+      "highlights": [
+        "清代宫廷钟表",
+        "西洋钟表",
+        "天文仪器"
+      ],
+      "icon": "⏰"
+    }
+  ],
+  "statistics": {
+    "totalCategories": 11,
+    "totalItems": 1863404,
+    "worldRank": "全球第一（中国文物收藏）",
+    "worldHeritage": "世界文化遗产（1987年）"
+  },
+  "timeline": [
+    { "year": 1925, "event": "故宫博物院成立", "count": 1170000 },
+    { "year": 1949, "event": "新中国成立", "count": 1340000 },
+    { "year": 1980, "event": "改革开放后", "count": 1500000 },
+    { "year": 2000, "event": "新千年", "count": 1700000 },
+    { "year": 2024, "event": "当前", "count": 1863404 }
+  ],
+  "comparison": {
+    "title": "世界著名博物馆藏品对比",
+    "data": [
+      { "name": "故宫博物院（北京）", "count": 1863404, "country": "中国" },
+      { "name": "台北故宫博物院", "count": 696344, "country": "中国台湾" },
+      { "name": "卢浮宫", "count": 380000, "country": "法国" },
+      { "name": "大英博物馆", "count": 8000000, "country": "英国" },
+      { "name": "大都会艺术博物馆", "count": 2000000, "country": "美国" }
+    ]
+  },
+  "notes": [
+    "数据来源：故宫博物院官网",
+    "藏品数量为已登记造册数量",
+    "实际藏品数量可能更多",
+    "部分藏品来自清代宫廷旧藏"
+  ]
+}

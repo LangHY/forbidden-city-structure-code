@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>紫禁匠心 — 故宫斗拱结构沉浸式交互网站</title>
+    <meta name="description" content="探索故宫斗拱结构的沉浸式交互网站，包含3D展览、数据可视化、中轴巡礼等体验。" />
+    <!-- 预加载关键资源 -->
+    <link rel="preload" href="/gugong_reverse_poster.jpg" as="image" />
+    <link rel="preload" href="/gugong_reverse.mp4" as="video" type="video/mp4" />
+  </head>
+  <body>
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-white focus:text-black focus:rounded focus:outline-none focus:ring-2 focus:ring-offset-2">跳到主要内容</a>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

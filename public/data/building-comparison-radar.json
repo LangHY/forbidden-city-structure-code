@@ -1,0 +1,308 @@
+{
+  "title": "故宫主要宫殿建筑特征对比",
+  "description": "从面积、高度、开间数、装饰等级、历史价值、建筑完整度六个维度对比故宫主要宫殿",
+  "dimensions": [
+    {
+      "name": "面积",
+      "description": "建筑面积（平方米）",
+      "maxValue": 100,
+      "unit": "㎡"
+    },
+    {
+      "name": "高度",
+      "description": "建筑高度（米）",
+      "maxValue": 100,
+      "unit": "m"
+    },
+    {
+      "name": "开间数",
+      "description": "面阔开间数量",
+      "maxValue": 100,
+      "unit": "间"
+    },
+    {
+      "name": "装饰等级",
+      "description": "彩画和装饰的等级",
+      "maxValue": 100,
+      "unit": "级"
+    },
+    {
+      "name": "历史价值",
+      "description": "历史文化价值",
+      "maxValue": 100,
+      "unit": "级"
+    },
+    {
+      "name": "建筑完整度",
+      "description": "保持原貌程度",
+      "maxValue": 100,
+      "unit": "%"
+    }
+  ],
+  "buildings": [
+    {
+      "id": "taihedian",
+      "name": "太和殿",
+      "alias": "金銮殿",
+      "color": "#B91C1C",
+      "era": "清康熙年间（1695年重建）",
+      "function": "举行重大典礼",
+      "metrics": {
+        "面积": 100,
+        "高度": 100,
+        "开间数": 100,
+        "装饰等级": 100,
+        "历史价值": 100,
+        "建筑完整度": 85
+      },
+      "rawData": {
+        "area": 2377,
+        "height": 35.05,
+        "bays": 11,
+        "decorationLevel": "最高（和玺彩画+金龙）",
+        "historicalValue": "明清两朝大典举行地",
+        "integrity": "多次重建，现貌为康熙年间"
+      },
+      "description": "紫禁城内最大的宫殿，中国现存最大的木结构宫殿。明清两朝皇帝举行登基、大婚等重大典礼的地方。",
+      "highlights": [
+        "面阔11间，进深5间",
+        "高35.05米",
+        "殿内金柱72根",
+        "屋脊走兽10只（全国唯一）"
+      ]
+    },
+    {
+      "id": "zhonghedian",
+      "name": "中和殿",
+      "alias": "",
+      "color": "#D97706",
+      "era": "明万历年间",
+      "function": "皇帝休息、接受跪拜",
+      "metrics": {
+        "面积": 40,
+        "高度": 45,
+        "开间数": 50,
+        "装饰等级": 85,
+        "历史价值": 80,
+        "建筑完整度": 90
+      },
+      "rawData": {
+        "area": 580,
+        "height": 27,
+        "bays": 5,
+        "decorationLevel": "高等级",
+        "historicalValue": "大典前皇帝休息处",
+        "integrity": "保存较好"
+      },
+      "description": "太和殿前的方形殿堂，皇帝在此休息，接受官员跪拜，演习礼仪。",
+      "highlights": [
+        "方形平面",
+        "单檐四角攒尖顶",
+        "内有皇帝宝座"
+      ]
+    },
+    {
+      "id": "baohedian",
+      "name": "保和殿",
+      "alias": "",
+      "color": "#059669",
+      "era": "明万历年间",
+      "function": "宴会、殿试",
+      "metrics": {
+        "面积": 75,
+        "高度": 70,
+        "开间数": 80,
+        "装饰等级": 85,
+        "历史价值": 85,
+        "建筑完整度": 88
+      },
+      "rawData": {
+        "area": 1240,
+        "height": 29,
+        "bays": 9,
+        "decorationLevel": "高等级",
+        "historicalValue": "清代殿试举行地",
+        "integrity": "保存较好"
+      },
+      "description": "三大殿之一，清代在此举行殿试，也是皇帝赐宴的地方。",
+      "highlights": [
+        "面阔9间",
+        "重檐歇山顶",
+        "清代殿试考场"
+      ]
+    },
+    {
+      "id": "qianqinggong",
+      "name": "乾清宫",
+      "alias": "",
+      "color": "#1E40AF",
+      "era": "清嘉庆年间",
+      "function": "明代皇帝寝宫",
+      "metrics": {
+        "面积": 80,
+        "高度": 65,
+        "开间数": 80,
+        "装饰等级": 90,
+        "历史价值": 95,
+        "建筑完整度": 82
+      },
+      "rawData": {
+        "area": 1400,
+        "height": 20,
+        "bays": 9,
+        "decorationLevel": "高等级",
+        "historicalValue": "明代皇帝寝宫，清代皇帝处理政务",
+        "integrity": "多次修缮"
+      },
+      "description": "后三宫之首，明代皇帝的寝宫。清代改为皇帝处理日常政务之处。",
+      "highlights": [
+        "面阔9间",
+        "殿内悬'正大光明'匾",
+        "清代秘密立储之处"
+      ]
+    },
+    {
+      "id": "kunminggong",
+      "name": "坤宁宫",
+      "alias": "",
+      "color": "#7C3AED",
+      "era": "清顺治年间改建",
+      "function": "皇后寝宫、萨满祭祀",
+      "metrics": {
+        "面积": 65,
+        "高度": 55,
+        "开间数": 70,
+        "装饰等级": 75,
+        "历史价值": 80,
+        "建筑完整度": 78
+      },
+      "rawData": {
+        "area": 1200,
+        "height": 18,
+        "bays": 9,
+        "decorationLevel": "中高等级",
+        "historicalValue": "皇后寝宫，清代改为萨满祭祀场所",
+        "integrity": "清代改建较大"
+      },
+      "description": "后三宫之一，明代为皇后寝宫。清代改建为萨满祭祀场所和皇帝大婚洞房。",
+      "highlights": [
+        "清代萨满祭祀场所",
+        "皇帝大婚洞房",
+        "保留满族习俗"
+      ]
+    },
+    {
+      "id": "yangxindian",
+      "name": "养心殿",
+      "alias": "",
+      "color": "#0891B2",
+      "era": "清雍正年间",
+      "function": "清代皇帝寝宫、理政",
+      "metrics": {
+        "面积": 50,
+        "高度": 50,
+        "开间数": 60,
+        "装饰等级": 70,
+        "历史价值": 90,
+        "建筑完整度": 88
+      },
+      "rawData": {
+        "area": 600,
+        "height": 15,
+        "bays": 7,
+        "decorationLevel": "中等",
+        "historicalValue": "清代皇帝实际居住和处理政务之处",
+        "integrity": "保存较好"
+      },
+      "description": "雍正帝迁居于此，此后清朝皇帝多在此居住理政。'垂帘听政'即在此发生。",
+      "highlights": [
+        "清代皇帝实际寝宫",
+        "东暖阁'垂帘听政'处",
+        "皇帝日常理政场所"
+      ]
+    },
+    {
+      "id": "jiaotaidian",
+      "name": "交泰殿",
+      "alias": "",
+      "color": "#BE185D",
+      "era": "明嘉靖年间",
+      "function": "皇后受贺、存放宝玺",
+      "metrics": {
+        "面积": 35,
+        "高度": 40,
+        "开间数": 40,
+        "装饰等级": 75,
+        "历史价值": 70,
+        "建筑完整度": 85
+      },
+      "rawData": {
+        "area": 400,
+        "height": 12,
+        "bays": 3,
+        "decorationLevel": "中高等级",
+        "historicalValue": "存放清代二十五宝玺",
+        "integrity": "保存较好"
+      },
+      "description": "位于乾清宫与坤宁宫之间，存放清代二十五方宝玺，皇后千秋节受贺之处。",
+      "highlights": [
+        "存放二十五方宝玺",
+        "皇后受贺处",
+        "殿内悬乾隆御笔'无为'匾"
+      ]
+    },
+    {
+      "id": "ningshougong",
+      "name": "宁寿宫",
+      "alias": "乾隆花园",
+      "color": "#854D0E",
+      "era": "清乾隆年间",
+      "function": "乾隆帝归政后居所",
+      "metrics": {
+        "面积": 90,
+        "高度": 60,
+        "开间数": 85,
+        "装饰等级": 95,
+        "历史价值": 85,
+        "建筑完整度": 92
+      },
+      "rawData": {
+        "area": 5000,
+        "height": "多建筑",
+        "bays": "多建筑",
+        "decorationLevel": "极高等级",
+        "historicalValue": "乾隆帝为归政准备的太上皇宫",
+        "integrity": "保存完好"
+      },
+      "description": "乾隆帝为自己归政后准备的太上皇宫殿，建筑精美，装饰奢华。",
+      "highlights": [
+        "乾隆花园",
+        "畅音阁大戏楼",
+        "皇极殿"
+      ]
+    }
+  ],
+  "comparisonGroups": [
+    {
+      "name": "三大殿对比",
+      "buildings": ["太和殿", "中和殿", "保和殿"],
+      "description": "外朝三大殿，举行重大典礼之处"
+    },
+    {
+      "name": "后三宫对比",
+      "buildings": ["乾清宫", "交泰殿", "坤宁宫"],
+      "description": "内廷后三宫，皇帝皇后的居所"
+    },
+    {
+      "name": "寝宫对比",
+      "buildings": ["乾清宫", "养心殿"],
+      "description": "明代与清代皇帝寝宫对比"
+    }
+  ],
+  "notes": [
+    "评分基于专业评估，满分100分",
+    "建筑完整度考虑原貌保持程度和修缮情况",
+    "历史价值考虑建筑的历史地位和文化意义",
+    "装饰等级考虑彩画、雕刻、陈设等"
+  ]
+}

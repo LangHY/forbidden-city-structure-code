@@ -1,0 +1,17 @@
+{
+  "totalChunks": 372,
+  "embeddingDimension": 2048,
+  "sources": [
+    "dougong-types.json",
+    "dougong-hierarchy.json",
+    "forbidden-city-timeline.json",
+    "museum-collections.json",
+    "palace-collection-radar.json"
+  ],
+  "pdfSupport": true,
+  "chunkConfig": {
+    "chunkSize": 500,
+    "chunkOverlap": 100
+  },
+  "buildTime": "2026-04-28T04:16:32.593Z"
+}

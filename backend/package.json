@@ -1,0 +1,18 @@
+{
+  "name": "forbidden-city-rag-backend",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "RAG knowledge base backend for Forbidden City Dougong project",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "axios": "^1.15.2"
+  }
+}
