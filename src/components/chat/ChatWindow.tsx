@@ -24,7 +24,7 @@ export default function ChatWindow({ theme, onClose }: ChatWindowProps) {
   const { addToHistory } = useChatHistory();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [showSources, setShowSources] = useState(false);
-  const [currentSources, setCurrentSources] = useState<typeof messages[0]['sources']>([]);
+  const [currentSources, setCurrentSources] = useState<NonNullable<typeof messages[0]['sources']>>([]);
 
   // 自动滚动到底部
   useEffect(() => {

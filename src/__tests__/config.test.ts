@@ -60,7 +60,7 @@ describe('模型映射 (chapterModelMap)', () => {
   it('所有模型 ID 应遵循 RxLy 格式', () => {
     const modelPattern = /^R\d+L\d+$/
 
-    Object.entries(chapterModelMap).forEach(([chapterId, modelId]) => {
+    Object.entries(chapterModelMap).forEach(([_chapterId, modelId]) => {
       expect(modelId).toMatch(modelPattern)
     })
   })

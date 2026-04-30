@@ -205,7 +205,7 @@ describe('FUNCTION_CATEGORIES', () => {
   })
 
   it('不应有空的映射值', () => {
-    Object.entries(FUNCTION_CATEGORIES).forEach(([key, value]) => {
+    Object.entries(FUNCTION_CATEGORIES).forEach(([_key, value]) => {
       expect(value).toBeTruthy()
     })
   })
