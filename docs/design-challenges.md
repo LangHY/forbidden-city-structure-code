@@ -1,6 +1,6 @@
 # 设计重点难点文档
 
-> 故宫主题沉浸式交互网站 - 技术挑战与解决方案
+> 紫禁匠心 -- 故宫斗拱结构沉浸式交互网站 - 技术挑战与解决方案
 
 ---
 
@@ -756,7 +756,116 @@ const handleThemeChange = useCallback((newTheme: ThemeMode) => {
 
 ---
 
-## 八、经验总结
+## 八、中轴巡礼 Three.js 场景
+
+### 8.1 难点：3D 场景的俯视视角与建筑布局
+
+#### 问题描述
+
+中轴巡礼页面需要以 3D 俯视视角展示故宫中轴线 11 座建筑的空间关系，同时保持 Blender 风格的简洁美学。
+
+#### 技术挑战
+
+| 挑战 | 说明 |
+|------|------|
+| **空间布局** | 11 座建筑需按实际中轴线位置排列 |
+| **相机控制** | 俯视视角 + 推拉缩放 + 禁止旋转 |
+| **性能优化** | 需要流畅渲染 11 个 3D 建筑节点 |
+
+#### 解决方案
+
+使用 Three.js + @react-three/fiber 构建 3D 场景，OrbitControls 限制只允许缩放：
+
+```typescript
+<Canvas camera={{ position: [0, 15, 0], fov: 60 }}>
+  <OrbitControls
+    enableRotate={false}      // 禁止旋转，保持俯视视角
+    enablePan={true}
+    enableZoom={true}
+    maxPolarAngle={Math.PI / 3}
+  />
+  {/* 建筑节点按实际坐标排列 */}
+  {buildings.map(b => (
+    <BuildingNode position={[b.x, 0, b.z]} data={b} />
+  ))}
+</Canvas>
+```
+
+---
+
+## 九、RAG 知识库问答系统
+
+### 9.1 难点：本地向量检索与流式响应
+
+#### 问题描述
+
+需要在本地实现基于 FAISS 的向量检索，并通过 SSE 流式返回 AI 生成的答案，同时附带引用来源。
+
+#### 技术挑战
+
+| 挑战 | 说明 |
+|------|------|
+| **向量检索** | 本地 FAISS 索引构建与查询 |
+| **流式响应** | SSE 实现逐字返回答案 |
+| **引用追溯** | 答案需标注信息来源 |
+
+#### 解决方案
+
+**后端架构 (Express + FAISS)：**
+
+```typescript
+// backend/routes/chat.js
+router.post('/api/chat', async (req, res) => {
+  const { query, conversationHistory } = req.body;
+
+  // 1. 向量化用户问题
+  const queryEmbedding = await getEmbedding(query);
+
+  // 2. FAISS 检索相关文档
+  const relevantDocs = await faissService.search(queryEmbedding, 5);
+
+  // 3. 构建 Prompt（含参考资料）
+  const prompt = buildPrompt(query, relevantDocs, conversationHistory);
+
+  // 4. SSE 流式返回
+  res.setHeader('Content-Type', 'text/event-stream');
+  const stream = await llmService.streamChat(prompt);
+  stream.pipe(res);
+});
+```
+
+---
+
+## 十、ECharts 数据可视化
+
+### 10.1 难点：多图表类型的主题适配
+
+#### 问题描述
+
+数字考古页面需支持 7 种图表类型，且要跟随全局亮/暗主题动态切换配色。
+
+#### 技术挑战
+
+| 挑战 | 说明 |
+|------|------|
+| **图表多样性** | 雷达图、旭日图、桑基图等多种类型 |
+| **主题同步** | 图表配色需跟随全局主题 |
+| **数据加载** | JSON 数据较大，需骨架屏过渡 |
+
+#### 解决方案
+
+```typescript
+// 跟随主题切换图表配色
+const chartOption = useMemo(() => ({
+  ...baseOption,
+  backgroundColor: theme === 'dark' ? '#1a1a1a' : '#faf9f7',
+  textStyle: { color: theme === 'dark' ? '#e1e3e1' : '#2a2520' },
+}), [theme]);
+```
+
+---
+
+## 十一、经验总结
 
 ### 8.1 架构设计原则
 
@@ -781,5 +890,5 @@ const handleThemeChange = useCallback((newTheme: ThemeMode) => {
 
 ---
 
-*文档版本：1.0*
-*创建时间：2026年4月*
+*文档版本：2.0*
+*更新日期：2026年4月*

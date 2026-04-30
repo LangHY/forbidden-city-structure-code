@@ -12,6 +12,7 @@ export interface AxisBuilding {
   position: [number, number, number]; // x, y, z (y为高度偏移)
   scale: [number, number, number]; // width, height, depth
   image: string; // 图片路径
+  modelPath: string; // 3D模型路径 (.glb)
   description: string; // 简介
   era: string; // 建造年代
   importance: number; // 重要程度 1-5，影响视觉效果
@@ -33,6 +34,7 @@ export const buildings: AxisBuilding[] = [
     position: [0, 0, -20],
     scale: [5, 4, 2.5],
     image: '/axis/午门.webp',
+    modelPath: '/models/axis/午门.glb',
     description: '紫禁城正门，皇权象征',
     era: '明永乐十八年（1420年）',
     importance: 5,
@@ -44,6 +46,7 @@ export const buildings: AxisBuilding[] = [
     position: [0, 0, -14],
     scale: [4, 3.5, 2],
     image: '/axis/太和门webp.webp',
+    modelPath: '/models/axis/太和门.glb',
     description: '外朝正门，御门听政',
     era: '明永乐十八年（1420年）',
     importance: 4,
@@ -55,6 +58,7 @@ export const buildings: AxisBuilding[] = [
     position: [0, 0, -8],
     scale: [6, 5, 3],
     image: '/axis/太和殿.png',
+    modelPath: '/models/axis/太和殿.glb',
     description: '金銮殿，至高无上',
     era: '清康熙三十四年（1695年）重建',
     importance: 5,
@@ -66,6 +70,7 @@ export const buildings: AxisBuilding[] = [
     position: [0, 0, -2],
     scale: [3, 3, 2],
     image: '/axis/中和殿.webp',
+    modelPath: '/models/axis/中和殿.glb',
     description: '皇帝休憩，典礼前奏',
     era: '明永乐十八年（1420年）',
     importance: 3,
@@ -77,6 +82,7 @@ export const buildings: AxisBuilding[] = [
     position: [0, 0, 4],
     scale: [5, 4, 2.5],
     image: '/axis/保和殿.jpg',
+    modelPath: '/models/axis/保和殿.glb',
     description: '殿试考场，科举圣殿',
     era: '明永乐十八年（1420年）',
     importance: 4,
@@ -88,6 +94,7 @@ export const buildings: AxisBuilding[] = [
     position: [0, 0, 10],
     scale: [3.5, 3, 2],
     image: '/axis/乾清门.webp',
+    modelPath: '/models/axis/乾清门.glb',
     description: '内廷正门，政务中枢',
     era: '明永乐十八年（1420年）',
     importance: 3,
@@ -99,6 +106,7 @@ export const buildings: AxisBuilding[] = [
     position: [0, 0, 16],
     scale: [5, 4.5, 2.5],
     image: '/axis/乾清宫.jpg',
+    modelPath: '/models/axis/乾清宫.glb',
     description: '皇帝寝宫，正大光明',
     era: '明永乐十八年（1420年）',
     importance: 5,
@@ -110,6 +118,7 @@ export const buildings: AxisBuilding[] = [
     position: [0, 0, 22],
     scale: [3, 3, 2],
     image: '/axis/交泰殿.jpg',
+    modelPath: '/models/axis/交泰殿.glb',
     description: '玉玺珍藏，天地交泰',
     era: '明永乐十八年（1420年）',
     importance: 3,
@@ -121,6 +130,7 @@ export const buildings: AxisBuilding[] = [
     position: [0, 0, 28],
     scale: [5, 4, 2.5],
     image: '/axis/坤宁宫.jpg',
+    modelPath: '/models/axis/坤宁宫.glb',
     description: '皇后寝宫，萨满祭所',
     era: '明永乐十八年（1420年）',
     importance: 4,
@@ -132,6 +142,7 @@ export const buildings: AxisBuilding[] = [
     position: [0, 0, 34],
     scale: [6, 2.5, 4],
     image: '/axis/御花园.webp',
+    modelPath: '/models/axis/御花园.glb',
     description: '皇室园林，天人合一',
     era: '明永乐十八年（1420年）',
     importance: 4,
@@ -143,6 +154,7 @@ export const buildings: AxisBuilding[] = [
     position: [0, 0, 40],
     scale: [4.5, 4, 2.5],
     image: '/axis/神武门.webp',
+    modelPath: '/models/axis/神武门.glb',
     description: '紫禁城北门，钟鼓报时',
     era: '明永乐十八年（1420年）',
     importance: 4,

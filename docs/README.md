@@ -1,6 +1,6 @@
 # 项目文档中心
 
-> 故宫主题沉浸式交互网站 - 技术文档导航
+> 紫禁匠心 -- 故宫斗拱结构沉浸式交互网站 - 技术文档导航
 
 ---
 
@@ -18,6 +18,7 @@
 | **使用说明** | [user-guide.md](./user-guide.md) | 用户、评委 | 功能介绍、操作指南、常见问题 |
 | **运行手册** | [operation-manual.md](./operation-manual.md) | 开发者、运维 | 开发流程、构建部署、故障排查 |
 | **AI 技术应用** | [ai-application.md](./ai-application.md) | 所有读者 | AI 技术在项目中的应用说明 |
+| **开源组件说明** | [open-source-components.md](./open-source-components.md) | 开发者 | 开源依赖、许可证与 AI 工具 |
 
 ---
 
@@ -55,7 +56,7 @@
 - **项目名称：** 故宫主题沉浸式交互网站
 - **项目类型：** 26年计算机设计大赛参赛作品
 - **技术栈：** React + TypeScript + Three.js + Vite
-- **核心功能：** 开场动画、3D 展览、AI 内容生成
+- **核心功能：** 开场动画、3D 展览、数字考古、中轴巡礼、AI 内容生成、知识库问答
 
 ### 目录结构
 
@@ -67,7 +68,8 @@ docs/
 ├── technical-specification.md   # 技术规格文档
 ├── user-guide.md               # 使用说明
 ├── operation-manual.md         # 运行手册
-└── ai-application.md           # AI 技术应用说明
+├── ai-application.md           # AI 技术应用说明
+└── open-source-components.md   # 开源组件说明
 ```
 
 ---
@@ -90,9 +92,17 @@ docs/
 
 仿 Apple 开机动画的加载进度条，提升等待体验。
 
-### 5. 智能预加载
+### 5. 数字考古
 
-预加载相邻章节的模型和数据，实现流畅切换。
+通过 ECharts 6 展示 7 种交互式数据图表，多维度解读故宫文化数据。
+
+### 6. 中轴巡礼
+
+Three.js 3D 场景展示故宫中轴线 11 座建筑，俯视视角呈现空间序列。
+
+### 7. AI 知识库问答
+
+基于 RAG + FAISS 向量检索的全局 AI 问答系统，支持引用来源追溯。
 
 ---
 
@@ -109,11 +119,16 @@ React 19 + TypeScript 5.9
 ├── 3D 渲染
 │   ├── Three.js 0.183
 │   └── @react-three/fiber + drei
+├── 数据可视化
+│   └── ECharts 6 + echarts-for-react
 ├── 动画库
 │   ├── Framer Motion 12.34
 │   └── GSAP 3.14
-└── AI 集成
-    └── GLM-4.7-Flash API (智谱 AI)
+├── AI 集成
+│   ├── GLM-4.7-Flash API (智谱 AI)
+│   └── RAG 后端 (Express + FAISS)
+└── 状态管理
+    └── Context API + useReducer
 ```
 
 ---
@@ -128,5 +143,5 @@ React 19 + TypeScript 5.9
 
 ---
 
-*文档版本：1.0*
+*文档版本：2.0*
 *创建时间：2026年4月*

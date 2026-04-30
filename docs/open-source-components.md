@@ -197,6 +197,36 @@
 - **用途**：PDF 文档解析
 - **本项目使用**：知识库构建脚本（`scripts/build-knowledge.js`），解析故宫学术 PDF 论文
 
+---
+
+### 2.5 后端 RAG 服务依赖
+
+#### Express.js 4.x
+- **官网**：https://expressjs.com/
+- **许可证**：MIT License
+- **用途**：RAG 后端 HTTP 服务框架
+- **本项目使用**：提供 `/api/chat` SSE 流式问答接口
+
+#### FAISS
+- **官网**：https://github.com/facebookresearch/faiss
+- **许可证**：MIT License
+- **用途**：本地向量相似度检索
+- **本项目使用**：faiss-node 绑定，检索知识库文档片段，延迟 < 100ms
+
+#### dotenv
+- **官网**：https://github.com/motdotla/dotenv
+- **许可证**：BSD-2-Clause
+- **用途**：加载 `.env` 环境变量
+- **本项目使用**：管理后端 GLM API Key
+
+#### cors
+- **官网**：https://github.com/expressjs/cors
+- **许可证**：MIT License
+- **用途**：Express CORS 中间件
+- **本项目使用**：允许前端跨域访问 RAG 后端
+
+---
+
 ## 三、AI 辅助开发与 Agentic Coding
 
 本项目采用 **Agentic Coding（智能体编程）** 范式进行开发，通过 AI 工具的组合运用、Skills 系统、Rules 约束和提示词工程，实现高效的人机协作开发模式。
@@ -221,13 +251,13 @@
 
 | 工具 | 类型 | 用途 | 接入模型 | 来源 |
 |------|------|------|---------|------|
-| Claude Code CLI | AI 编程智能体 | 代码生成、重构、调试、文档 | GLM-5 | 腾讯云 CodingPlan Lite |
+| AI 编程智能体 | AI 编程工具 | 代码生成、重构、调试、文档 | GLM-5 | 智谱 AI |
 | GLM-4.7-Flash API | 大语言模型 | 运行时 AI 文本生成 | GLM-4.7-Flash | 智谱 AI |
 
 **模型接入架构**：
 ```
-Claude Code CLI ──┬── GLM-5（主要推理模型，腾讯云 CodingPlan Lite）
-                  ├── GLM-4.7-Flash（快速任务，智谱 AI）
+AI 编程智能体 ──┬── GLM-5（主要推理模型，智谱 AI）
+                  ├── GLM-4.7-Flash（运行时内容生成，智谱 AI）
                   └── 本地工具链（文件操作、命令执行）
 ```
 
@@ -298,7 +328,7 @@ Agentic Engine 执行链:
 
 **项目 Rules 配置**：
 ```markdown
-# CLAUDE.md 规则示例
+# 项目 Rules 规则示例
 
 ## 角色定义
 你是一位耐心、博学且善于启发的编程导师。
@@ -321,7 +351,7 @@ Agentic Engine 执行链:
 
 **Rules 生效机制**：
 ```
-项目 CLAUDE.md → 加载到上下文 → 约束 AI 行为 → 输出符合规范
+项目 Rules 文件 → 加载到上下文 → 约束 AI 行为 → 输出符合规范
 ```
 
 ---
@@ -635,7 +665,7 @@ async function generateWithFallback(prompt: string): Promise<string> {
 | **OFL** | Google Fonts |
 | **GreenSock** | GSAP |
 | **智谱 AI TOS** | GLM-4.7-Flash API |
-| **服务条款** | Claude Code CLI、Seedance |
+| **服务条款** | Seedance |
 
 ---
 
@@ -653,7 +683,7 @@ async function generateWithFallback(prompt: string): Promise<string> {
 
 **AI 工具与平台**：
 - 智谱 AI（GLM 系列模型）
-- Claude Code CLI（Agentic Coding 平台）
+- GLM-5 大模型（AI 辅助编码）
 - 字节跳动 Seedance（视频生成）
 
 ---

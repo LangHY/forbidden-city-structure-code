@@ -1,6 +1,6 @@
 # 运行手册
 
-> 故宫主题沉浸式交互网站 - 开发者运维指南
+> 紫禁匠心 -- 故宫斗拱结构沉浸式交互网站 - 开发者运维指南
 
 ---
 
@@ -54,7 +54,7 @@ npm -v
 - ESLint (dbaeumer.vscode-eslint)
 - Prettier (esbenp.prettier-vscode)
 - Tailwind CSS IntelliSense (bradlc.vscode-tailwindcss)
-- TypeScript Vue Plugin (Vue.volar)
+- Pretty TypeScript Errors (yoavbls.pretty-ts-errors)
 ```
 
 #### settings.json 配置
@@ -76,7 +76,7 @@ npm -v
 
 ```bash
 # 进入项目目录
-cd replicate-website-effect
+cd forbidden-city-structure-code
 
 # 安装所有依赖
 npm install
@@ -384,22 +384,15 @@ public/fonts/
 
 #### 配置 API Key
 
-**开发环境：**
-
-```typescript
-// src/components/exhibition/services/llmService.ts
-let apiKey = 'your_api_key_here';
-```
-
-**生产环境（推荐）：**
+**统一使用环境变量：**
 
 ```env
-# .env.production
-VITE_GLM_API_KEY=your_production_api_key
+# .env
+VITE_GLM_API_KEY=your_api_key_here
 ```
 
 ```typescript
-// 代码中读取环境变量
+// 代码中读取
 const apiKey = import.meta.env.VITE_GLM_API_KEY;
 ```
 
@@ -413,7 +406,7 @@ const response = await fetch(GLM_API_URL, {
     'Authorization': `Bearer ${apiKey}`,
   },
   body: JSON.stringify({
-    model: 'glm-4-flash',
+    model: 'GLM-4.7-Flash',
     messages: [{ role: 'user', content: prompt }],
     temperature: 0.5,      // 创造性 (0-1)
     max_tokens: 400,       // 最大输出长度
@@ -421,7 +414,40 @@ const response = await fetch(GLM_API_URL, {
 });
 ```
 
-### 7.3 API 错误处理
+### 7.3 RAG 后端 API
+
+#### 启动后端服务
+
+```bash
+# 进入后端目录
+cd backend
+
+# 安装依赖
+npm install
+
+# 配置环境变量
+cp .env.example .env
+# 编辑 .env, 填入 GLM_API_KEY
+
+# 启动后端 (默认端口 3001)
+node server.js
+```
+
+#### 知识库构建
+
+```bash
+# 构建知识库向量索引
+GLM_API_KEY=your_key node scripts/build-knowledge.js
+```
+
+#### API 端点
+
+| 方法 | 端点 | 说明 |
+|------|------|------|
+| POST | `/api/chat` | SSE 流式问答接口 |
+| GET | `/api/health` | 健康检查 |
+
+### 7.4 API 错误处理
 
 ```typescript
 try {
@@ -636,7 +662,7 @@ fetch(url, options)
 tar -czf project-backup-$(date +%Y%m%d).tar.gz \
   --exclude=node_modules \
   --exclude=dist \
-  replicate-website-effect/
+  forbidden-city-structure-code/
 
 # 备份关键配置
 cp package.json package.json.bak

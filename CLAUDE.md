@@ -79,8 +79,10 @@
 - Three.js + @react-three/fiber（3D渲染）
 - Framer Motion + GSAP（动画）
 - Tailwind CSS + shadcn/ui（样式）
-- Zustand（状态管理）
+- Context + useReducer（状态管理）
+- ECharts 6（数据可视化）
 - GLM-4.7-Flash（AI内容生成）
+- 后端: Node.js Express RAG 服务（FAISS 向量检索 + PDF 知识库）
 
 编码时请遵循现有代码风格和架构模式。
 

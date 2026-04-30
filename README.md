@@ -29,6 +29,8 @@
 | 🤖 **AI 内容生成** | 集成 GLM-4.7-Flash 大语言模型，动态生成诗句和结构描述 |
 | 🌓 **主题切换** | 支持亮/暗主题无缝切换 |
 | ⌨️ **滚轮交互** | 滚轮驱动的章节切换，带滑动动画效果 |
+| 📊 **数据可视化** | ECharts 6 驱动 7 种交互式图表，多维解读故宫文化 |
+| 💬 **AI 知识库问答** | 基于 RAG + FAISS 向量检索的全局 AI 问答系统 |
 
 ### 技术栈
 
@@ -38,7 +40,9 @@ React 19 + TypeScript 5.9
 ├── 样式: Tailwind CSS 4.2
 ├── 3D 渲染: Three.js + @react-three/fiber
 ├── 动画: Framer Motion + GSAP
-└── AI: GLM-4.7-Flash API (智谱 AI)
+├── 图表: ECharts 6 + echarts-for-react
+├── AI: GLM-4.7-Flash API (智谱 AI)
+└── 后端: Node.js Express RAG 服务 (FAISS 向量检索)
 ```
 
 ---
@@ -55,7 +59,7 @@ React 19 + TypeScript 5.9
 
 ```bash
 # 进入项目目录
-cd replicate-website-effect
+cd forbidden-city-structure-code
 
 # 安装依赖
 npm install
@@ -130,6 +134,8 @@ npm run preview
 
 ### 技术文档
 
+- [设计思路文档](./docs/design-concept.md) - 设计理念、架构设计
+- [设计重点难点](./docs/design-challenges.md) - 技术挑战与解决方案
 - [技术规格文档](./docs/technical-specification.md) - 技术架构、核心模块实现
 - [运行手册](./docs/operation-manual.md) - 开发环境配置、构建部署
 - [AI 技术应用说明](./docs/ai-application.md) - AI 技术在项目中的应用
@@ -140,6 +146,8 @@ npm run preview
 ```
 docs/
 ├── README.md                    # 文档索引
+├── design-concept.md            # 设计思路文档
+├── design-challenges.md         # 设计重点难点
 ├── technical-specification.md   # 技术规格文档
 ├── user-guide.md               # 使用说明
 ├── operation-manual.md         # 运行手册
@@ -177,6 +185,8 @@ docs/
 │   ├── fonts/                   # 自定义字体
 │   └── *.mp4                    # 视频资源
 ├── docs/                        # 技术文档
+├── docs/                        # 技术文档
+├── backend/                      # RAG 后端服务
 └── package.json
 ```
 

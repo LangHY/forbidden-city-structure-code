@@ -16,7 +16,7 @@
 |------|----------|
 | **沉浸感** | 电影级开场动画、3D 展示、无缝过渡效果 |
 | **交互性** | 滚轮驱动导航、3D 模型旋转、主题切换 |
-| **智能化** | AI 生成诗句和结构描述 |
+| **智能化** | AI 生成诗句和结构描述、RAG 知识库问答 |
 | **文化性** | 故宫主题色彩、传统字体、中式装饰元素 |
 
 ---
@@ -43,6 +43,8 @@
 │  动画库    │  Framer Motion 12.34 + GSAP 3.14              │
 ├─────────────────────────────────────────────────────────────┤
 │  AI 集成   │  GLM-4.7-Flash API (智谱 AI)                   │
+│  数据可视化 │  ECharts 6 + echarts-for-react                    │
+│  后端服务   │  Node.js Express RAG (FAISS 向量检索)            │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -71,7 +73,7 @@
 ### 2.3 项目目录结构
 
 ```
-replicate-website-effect/
+forbidden-city-structure-code/
 ├── src/
 │   ├── main.tsx                 # 应用入口，路由配置
 │   ├── pages/                   # 页面组件
@@ -86,6 +88,7 @@ replicate-website-effect/
 │   │   ├── router/              # 路由页组件
 │   │   ├── axis/                # 中轴巡礼组件
 │   │   ├── charts/              # 数字考古组件
+│   │   ├── chat/                # AI 问答组件
 │   │   ├── ui/                  # 通用 UI 组件
 │   │   └── layout/              # 布局组件
 │   ├── styles/                  # 全局样式
@@ -95,7 +98,8 @@ replicate-website-effect/
 │   ├── axis/                    # 中轴线建筑图片
 │   ├── fonts/                   # 自定义字体
 │   └── *.mp4                    # 视频资源
-└── docs/                        # 技术文档
+├── backend/                      # RAG 后端服务
+├── docs/                        # 技术文档
 ```
 
 ---
@@ -257,54 +261,108 @@ useEffect(() => {
 
 #### 设计思路
 
-采用**3D 透视节点**形式展示故宫中轴线 11 个主要建筑，通过滚轮/键盘切换。
+采用 **Three.js 3D 场景**展示故宫中轴线 11 座主要建筑，以俯视视角呈现建筑群的空间关系，配合 Blender 风格网格地面营造"平面图"观感。
 
-#### CSS 3D 透视系统
-
-```css
-.axis-scene {
-  perspective: 1000px;  /* 创建 3D 空间 */
-}
-
-.axis-nodes-container {
-  transform-style: preserve-3d;  /* 保持 3D 效果 */
-}
-
-.axis-node {
-  /* 透视位置配置 */
-  transform: translate(-50%, -50%)
-             translateX(var(--x))
-             translateZ(var(--z))
-             scale(var(--scale));
-}
-```
-
-#### 位置配置
+#### Three.js 场景构建
 
 ```typescript
-const POSITIONS = [
-  { x: -120, z: 150, scale: 0.9, hoverScale: 1.2 },   // 当前节点（最大）
-  { x: -40,  z: 50,  scale: 0.65, hoverScale: 0.87 }, // 第二个
-  { x: 40,   z: -50, scale: 0.5, hoverScale: 0.67 },  // 第三个
-  { x: 130,  z: -150, scale: 0.35, hoverScale: 0.47 } // 第四个（最小）
+// AxisScene.tsx — 核心 3D 场景
+<Canvas camera={{ position: [0, 15, 0], fov: 60 }}>
+  {/* Blender 风格网格地面 */}
+  <gridHelper args={[20, 20, '#444', '#222']} />
+
+  {/* 定向光 */}
+  <directionalLight position={[5, 10, 5]} intensity={1} />
+
+  {/* 11 座建筑节点 */}
+  {buildings.map((b, i) => (
+    <BuildingNode
+      key={b.id}
+      position={[b.x, 0, b.z]}
+      data={b}
+      isActive={i === activeIndex}
+      onClick={() => setActiveIndex(i)}
+    />
+  ))}
+
+  {/* 轨道控制 */}
+  <OrbitControls enableRotate={false} enableZoom={true} />
+</Canvas>
+```
+
+#### 建筑数据
+
+```typescript
+// buildingData.ts — 11 座建筑的位置与信息
+export const buildings = [
+  { id: 'wu-men', name: '午门', x: -10, z: 0, ... },
+  { id: 'tai-he-men', name: '太和门', x: -8, z: 1, ... },
+  { id: 'tai-he-dian', name: '太和殿', x: -6, z: 2, ... },
+  // ... 共 11 座
+  { id: 'shen-wu-men', name: '神武门', x: 10, z: 0, ... },
 ];
 ```
 
-#### 为什么用 CSS 而非 Three.js？
+#### 为什么用 Three.js？
 
-**考量**：
-- 中轴巡礼只需展示图片节点，不需要复杂 3D 渲染
-- CSS 3D 变换足够实现透视效果
-- 避免加载额外的 3D 模型，提升性能
+- 俯视 3D 视角能直观展示中轴线建筑的空间序列感
+- 支持平滑的相机推拉（zoom in/out），提升沉浸感
+- 建筑节点可做 hover 高亮、选中动画等 3D 交互
+- 与项目整体的 Three.js 技术栈保持一致，复用已有能力
 
-**优势**：
-- 更轻量（无需 Three.js）
-- 更流畅（GPU 加速的 CSS 动画）
-- 更易维护（纯 CSS + 少量 JS）
+#### 用户交互
+
+| 操作 | 效果 |
+|------|------|
+| 键盘 ↑↓ 或 ←→ | 切换建筑节点 |
+| 鼠标滚轮 | 相机推拉 |
+| 点击建筑节点 | 展开建筑信息面板 |
+| 时间轴滑块 | 按历史年代筛选建筑 |
 
 ---
 
-### 3.4 AI 内容生成
+### 3.4 数字考古页 (Charts)
+
+#### 设计思路
+
+采用 **ECharts 6** 数据可视化方案，将故宫建筑、文物、历史数据转化为 7 种交互式图表。通过丰富的图表类型（雷达图、旭日图、桑基图、柱状图等）从多维度解读故宫文化。
+
+#### 图表类型与数据
+
+| 图表 | 组件 | 数据源 | 说明 |
+|------|------|--------|------|
+| 藏品统计 | `CollectionChart` | `museum-collections.json` | 故宫馆藏品类分布 |
+| 斗拱层级 | `DougongHierarchy` | `dougong-hierarchy.json` | 斗拱结构的层级关系 |
+| 建筑排名 | `BuildingRankChart` | `forbidden-city-timeline.json` | 按年代/规模排列建筑 |
+| 宫殿雷达 | `PalaceRadarChart` | `palace-collection-radar.json` | 多维度宫殿对比 |
+| 桑基图 | `SankeyChart` | `dougong-types.json` | 斗拱类型流向关系 |
+
+#### ECharts 集成方式
+
+```typescript
+// 使用 echarts-for-react 封装
+import ReactECharts from 'echarts-for-react';
+
+<ReactECharts
+  option={chartOption}
+  style={{ height: '100%', width: '100%' }}
+  opts={{ renderer: 'canvas' }}
+  onChartReady={(echarts) => {
+    // 注册暗色/亮色主题
+  }}
+/>
+```
+
+#### 设计考量
+
+- **Canvas 渲染**：大量数据点场景下优于 SVG
+- **主题适配**：跟随全局亮/暗主题动态切换图表配色
+- **响应式**：图表尺寸随窗口 resize 自适应
+- **骨架屏**：加载中显示 `ChartSkeleton`，优化等待体验
+
+---
+
+### 3.5 AI 内容生成
 
 #### 设计思路
 
@@ -336,7 +394,7 @@ export async function generateStructureInfo(
       'Authorization': `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
-      model: 'glm-4-flash',
+      model: 'GLM-4.7-Flash',
       messages: [{ role: 'user', content: prompt }],
       temperature: 0.5,
       max_tokens: 400,
@@ -634,14 +692,14 @@ style={{ willChange: 'filter, opacity, transform' }}
 
 ### 8.2 未来展望
 
-| 方向 | 计划 |
-|------|------|
-| VR 支持 | 添加 WebXR 支持，实现 VR 浏览 |
-| 移动端优化 | 手势交互、触摸优化 |
-| 更多 AI 功能 | 语音导览、智能问答 |
-| 社交功能 | 分享、收藏、评论 |
+| 方向       | 计划                   |
+| -------- | -------------------- |
+| VR 支持    | 添加 WebXR 支持，实现 VR 浏览 |
+| 移动端优化    | 手势交互、触摸优化            |
+| 更多 AI 功能 | 语音导览、多语言翻译           |
+| 社交功能     | 分享、收藏、评论             |
 
 ---
 
-*文档版本：1.0*
-*创建时间：2026年4月*
+*文档版本：2.0*
+*更新日期：2026年4月*

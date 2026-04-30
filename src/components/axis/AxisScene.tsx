@@ -5,9 +5,9 @@
  * 建筑用简化几何体表示，不依赖图片纹理
  */
 
-import { useRef, useEffect, useMemo } from 'react';
+import { useRef, useEffect, useMemo, Suspense } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { OrbitControls, PerspectiveCamera, Grid } from '@react-three/drei';
+import { OrbitControls, PerspectiveCamera, Grid, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 import type { ThemeMode } from '../exhibition/types';
 import { buildings } from './buildingData';
@@ -74,11 +74,21 @@ interface BuildingMarkerProps {
   theme: ThemeMode;
 }
 
+// 预加载所有建筑模型（避免瀑布式加载）
+buildings.forEach((b) => {
+  useGLTF.preload(b.modelPath);
+});
+
 function BuildingMarker({ building, isSelected, hasSelection, onClick, theme }: BuildingMarkerProps) {
   const groupRef = useRef<THREE.Group>(null);
-  const meshRef = useRef<THREE.Mesh>(null);
   const glowRef = useRef<THREE.Mesh>(null);
   const isDark = theme === 'dark';
+
+  // 加载 GLTF 模型（useGLTF 内部已做缓存，不会重复加载）
+  const { scene: modelScene } = useGLTF(building.modelPath);
+
+  // 克隆模型场景（避免多个 marker 共享同一场景引用）
+  const clonedScene = useMemo(() => modelScene.clone(), [modelScene]);
 
   // 动画状态
   const targetY = useRef(building.position[1]);
@@ -86,16 +96,6 @@ function BuildingMarker({ building, isSelected, hasSelection, onClick, theme }: 
   const pulsePhase = useRef(0);
   const prevSelected = useRef(false);
   const currentOpacity = useRef(1);
-
-  // 颜色配置
-  const colors = useMemo(() => {
-    if (building.importance >= 5) {
-      return isDark ? '#b8860b' : '#8b4513';
-    } else if (building.importance >= 4) {
-      return isDark ? '#cd853f' : '#a0522d';
-    }
-    return isDark ? '#8b7355' : '#b8860b';
-  }, [isDark, building.importance]);
 
   // 目标透明度：选中=1，其他建筑在有选中时=0.35
   const targetOpacity = isSelected ? 1 : (hasSelection ? 0.35 : 1);
@@ -112,7 +112,7 @@ function BuildingMarker({ building, isSelected, hasSelection, onClick, theme }: 
 
   // 动画循环
   useFrame((_, delta) => {
-    if (!groupRef.current || !meshRef.current) return;
+    if (!groupRef.current) return;
 
     // 平滑过渡 Y 位置
     groupRef.current.position.y += (targetY.current - groupRef.current.position.y) * 0.1;
@@ -127,15 +127,19 @@ function BuildingMarker({ building, isSelected, hasSelection, onClick, theme }: 
     }
 
     // 平滑过渡缩放
-    const currentScale = meshRef.current.scale.x;
+    const currentScale = groupRef.current.scale.x;
     const newScale = currentScale + (scaleTarget - currentScale) * 0.1;
-    meshRef.current.scale.setScalar(newScale);
+    groupRef.current.scale.setScalar(newScale);
 
-    // 平滑过渡透明度
+    // 平滑过渡透明度（应用到所有子 mesh）
     currentOpacity.current += (targetOpacity - currentOpacity.current) * 0.08;
-    const mat = meshRef.current.material as THREE.MeshStandardMaterial;
-    mat.opacity = currentOpacity.current;
-    mat.transparent = true;
+    groupRef.current.traverse((child) => {
+      if (child instanceof THREE.Mesh && child.material) {
+        const mat = child.material as THREE.MeshStandardMaterial;
+        mat.opacity = currentOpacity.current;
+        mat.transparent = true;
+      }
+    });
 
     // 选中时高亮环旋转+呼吸
     if (glowRef.current) {
@@ -147,9 +151,8 @@ function BuildingMarker({ building, isSelected, hasSelection, onClick, theme }: 
 
   return (
     <group ref={groupRef} position={[building.position[0], building.position[1], building.position[2]]}>
-      {/* 建筑主体 - 立方体 */}
-      <mesh
-        ref={meshRef}
+      {/* 建筑 GLTF 模型 — 尺寸已匹配 building.scale，无需额外缩放 */}
+      <group
         onClick={(e) => {
           e.stopPropagation();
           onClick();
@@ -161,20 +164,9 @@ function BuildingMarker({ building, isSelected, hasSelection, onClick, theme }: 
         onPointerOut={() => {
           document.body.style.cursor = 'default';
         }}
-        castShadow
-        receiveShadow
       >
-        <boxGeometry args={building.scale} />
-        <meshStandardMaterial
-          color={colors}
-          roughness={0.7}
-          metalness={0.1}
-          emissive={isSelected ? (isDark ? '#ffd700' : '#4a7c59') : '#000000'}
-          emissiveIntensity={isSelected ? 0.4 : 0}
-          transparent
-          opacity={1}
-        />
-      </mesh>
+        <primitive object={clonedScene} />
+      </group>
 
       {/* 选中时的高亮环 - 旋转+呼吸 */}
       {isSelected && (
@@ -359,9 +351,14 @@ function AxisScene({
   const isDark = theme === 'dark';
   const bgColor = isDark ? '#0a0a0a' : '#f7f3ed';
 
+  // 预加载所有建筑 GLB 模型（避免瀑布式加载）
+  useEffect(() => {
+    buildings.forEach((b) => {
+      useGLTF.preload(b.modelPath);
+    });
+  }, []);
+
   // 处理点击空白处取消选中
-  // 使用 onPointerMissed（R3F 专用）而非 Canvas onClick
-  // Canvas onClick 会在点击建筑时也触发（DOM 事件），导致选中后立即被清空
   const handleMissedClick = () => {
     if (selectedBuilding) {
       onSelectBuilding('');
@@ -420,16 +417,18 @@ function AxisScene({
         <BlenderGrid theme={theme} />
 
         {/* 建筑标记 */}
-        {buildings.map((building) => (
-          <BuildingMarker
-            key={building.id}
-            building={building}
-            isSelected={selectedBuilding === building.id}
-            hasSelection={selectedBuilding !== null}
-            onClick={() => onSelectBuilding(building.id)}
-            theme={theme}
-          />
-        ))}
+        <Suspense fallback={null}>
+          {buildings.map((building) => (
+            <BuildingMarker
+              key={building.id}
+              building={building}
+              isSelected={selectedBuilding === building.id}
+              hasSelection={selectedBuilding !== null}
+              onClick={() => onSelectBuilding(building.id)}
+              theme={theme}
+            />
+          ))}
+        </Suspense>
 
         {/* 相机控制器 */}
         <CameraController

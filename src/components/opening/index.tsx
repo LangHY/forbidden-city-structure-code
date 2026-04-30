@@ -106,7 +106,6 @@ function Opening({ initialTheme = 'dark' }: OpeningProps) {
           className="fixed inset-0 z-10"
           style={{
             filter: `blur(${videoBlurAmount}px)`,
-            transition: 'filter 0.3s ease-out',
             willChange: 'filter',
             pointerEvents: 'none',
           }}
@@ -134,8 +133,7 @@ function Opening({ initialTheme = 'dark' }: OpeningProps) {
             opacity: routerOpacity,
             filter: `blur(${routerBlurAmount}px)`,
             pointerEvents: scrollProgress > 0.9 ? 'auto' : 'none',
-            transition: 'filter 0.3s ease-out',
-            transform: `translateY(-${parallaxY}px)`,
+            transform: `translate3d(0, -${parallaxY}px, 0)`,
             willChange: 'opacity, filter, transform',
           }}
         >

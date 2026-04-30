@@ -1,6 +1,6 @@
-# 技术规格文档
+# 故宫斗拱结构沉浸式交互网站 - 技术规格文档
 
-> 故宫主题沉浸式交互网站 - 26年计算机设计大赛参赛作品
+> 紫禁匠心 - 26年计算机设计大赛参赛作品
 
 ---
 
@@ -17,7 +17,9 @@
 | **开场动画** | 电影风格的视频滚动动画，展示故宫意境 |
 | **AI 诗句生成** | 集成 GLM-4.7-Flash API，自动生成故宫主题诗句 |
 | **斗拱 3D 展览** | 使用 Three.js 展示 23 种斗拱结构的 3D 模型 |
-| **中轴巡礼** | 故宫中轴线 11 个建筑的 3D 透视切换展示 |
+| **数字考古** | ECharts 6 数据可视化，藏品统计、斗拱层级、建筑排名等 7 种图表 |
+| **中轴巡礼** | 故宫中轴线 11 个建筑的三维场景展示 |
+| **AI 知识库问答** | 基于 RAG 的全局 AI 问答小部件，支持 FAISS 向量检索 |
 | **主题切换** | 支持亮/暗主题无缝切换 |
 | **章节导航** | 滚轮驱动的章节切换，带滑动动画效果 |
 
@@ -54,13 +56,15 @@
 │  动画库    │  Framer Motion 12.34 + GSAP 3.14              │
 ├─────────────────────────────────────────────────────────────┤
 │  AI 集成   │  GLM-4.7-Flash API (智谱 AI)                   │
+│  数据可视化 │  ECharts 6 + echarts-for-react                    │
+│  后端服务   │  Node.js Express RAG (FAISS 向量检索)            │
 └─────────────────────────────────────────────────────────────┘
 ```
 
 ### 2.2 项目目录结构
 
 ```
-replicate-website-effect/
+forbidden-city-structure-code/
 ├── src/
 │   ├── main.tsx                 # 应用入口，路由配置
 │   ├── App.tsx                  # 主应用组件
@@ -108,8 +112,16 @@ replicate-website-effect/
 │   │   │   ├── RouterFooter.tsx
 │   │   │   └── RouterDecorations.tsx
 │   │   ├── axis/                # 中轴巡礼组件
-│   │   │   ├── AxisCanvas.tsx   # 3D 透视画布
-│   │   │   └── AxisInfoPanel.tsx # 信息面板（已弃用）
+│   │   │   ├── AxisScene.tsx    # 3D 场景
+│   │   │   ├── BuildingTimeline.tsx # 建筑时间轴
+│   │   │   ├── buildingData.ts  # 建筑数据
+│   │   │   └── axisLLMService.ts # AI 建筑描述
+│   │   ├── chat/                # AI 问答组件
+│   │   │   ├── AIChatWidget.tsx  # 主入口
+│   │   │   ├── ChatWindow.tsx    # 聊天窗口
+│   │   │   ├── ChatBubble.tsx    # 聊天气泡
+│   │   │   ├── ChatInput.tsx     # 输入框
+│   │   │   └── SourceReference.tsx # 引用来源
 │   │   ├── ui/                  # 通用 UI 组件
 │   │   │   ├── Grain.tsx        # 噪点效果
 │   │   │   ├── Loader.tsx       # 加载器
@@ -139,6 +151,7 @@ replicate-website-effect/
 │   │   └── 权衡度量体.ttf       # 中文装饰字体
 │   ├── gugong_reverse.mp4       # 开场视频
 │   └── *.jpg                    # 图片资源
+├── backend/                      # RAG 后端服务
 ├── docs/                        # 技术文档
 ├── vite.config.ts               # Vite 配置
 ├── tailwind.config.ts           # Tailwind 配置
@@ -158,7 +171,8 @@ replicate-website-effect/
 │  │  │       ├── /          → Opening                        │  │
 │  │  │       ├── /router    → Router                         │  │
 │  │  │       ├── /exhibition → Exhibition                    │  │
-│  │  │       └── /charts    → Charts                         │  │
+│  │  │       ├── /charts    → Charts                         │  │
+│  │  │       └── /axis      → Axis                           │  │
 │  └──────────────────────────────────────────────────────────┘  │
 └────────────────────────────────────────────────────────────────┘
                                 │
@@ -177,10 +191,16 @@ replicate-website-effect/
 │                     服务层 (Services)                           │
 │  ┌──────────────────────────────────────────────────────────┐  │
 │  │  LLM Service (opening)                                   │  │
-│  │  └── generatePoem() → GLM-4-Flash API                    │  │
+│  │  └── generatePoem() → GLM-4.7-Flash API                  │  │
 │  │                                                          │  │
 │  │  LLM Service (exhibition)                                │  │
-│  │  └── generateStructureInfo() → GLM-4-Flash API           │  │
+│  │  └── generateStructureInfo() → GLM-4.7-Flash API         │  │
+│  │                                                          │  │
+│  │  LLM Service (axis)                                      │  │
+│  │  └── generateBuildingInfo() → GLM-4.7-Flash API          │  │
+│  │                                                          │  │
+│  │  RAG Service (backend)                                   │  │
+│  │  └── POST /api/chat → FAISS → GLM-4.7-Flash (SSE)       │  │
 │  └──────────────────────────────────────────────────────────┘  │
 └────────────────────────────────────────────────────────────────┘
                                 │
@@ -274,7 +294,7 @@ export async function generatePoem(forceNew = false): Promise<PoemData> {
       'Authorization': `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
-      model: 'glm-4-flash',
+      model: 'GLM-4.7-Flash',
       messages: [{ role: 'user', content: prompt }],
       temperature: 0.8,
     }),
@@ -600,7 +620,7 @@ const response = await fetch(GLM_API_URL, {
     'Authorization': `Bearer ${apiKey}`,
   },
   body: JSON.stringify({
-    model: 'glm-4-flash',
+    model: 'GLM-4.7-Flash',
     messages: [{ role: 'user', content: prompt }],
     temperature: 0.5,
     max_tokens: 400,
@@ -622,13 +642,41 @@ const response = await fetch(GLM_API_URL, {
 }
 ```
 
+### 7.2 RAG 问答 API
+
+**后端地址：** `http://localhost:3001/api/chat`
+
+**请求格式（SSE 流式）：**
+
+```json
+POST /api/chat
+{
+  "query": "故宫太和殿的斗拱有什么特点？",
+  "conversationHistory": []
+}
+```
+
+**SSE 响应格式：**
+
+```
+data: {"type":"sources","content":["《故宫建筑研究》P23",...]}
+data: {"type":"answer","content":"太和殿的斗拱..."}
+data: [DONE]
+```
+
+**技术栈：**
+- Express.js 后端
+- GLM Embedding API 向量化
+- FAISS 本地向量检索（延迟 < 100ms）
+- GLM-4.7-Flash 答案生成
+
 ---
 
 ## 八、环境变量
 
 | 变量名 | 描述 | 默认值 |
 |--------|------|--------|
-| `VITE_GLM_API_KEY` | GLM-4.7-Flash API Key | (内置) |
+| `VITE_GLM_API_KEY` | GLM-4.7-Flash API Key | 需自行获取 |
 
 ---
 
@@ -653,11 +701,14 @@ const response = await fetch(GLM_API_URL, {
 
 ### 10.1 API Key 保护
 
+项目通过环境变量管理 API Key，不硬编码在源码中：
+
 ```typescript
-// API Key 硬编码在代码中（仅用于演示）
-// 生产环境应使用环境变量：
+// 从环境变量读取
 const apiKey = import.meta.env.VITE_GLM_API_KEY;
 ```
+
+`.env` 文件已加入 `.gitignore`，不会提交到版本控制。
 
 ### 10.2 XSS 防护
 
@@ -671,5 +722,5 @@ const apiKey = import.meta.env.VITE_GLM_API_KEY;
 
 ---
 
-*文档版本：1.0*
+*文档版本：2.0*
 *最后更新：2026年4月*
