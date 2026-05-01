@@ -122,6 +122,7 @@ function BottomControls({
             onClick={onExplodeToggle}
             className={`w-10 h-10 rounded-full ${glassClass} flex items-center justify-center ${btnColor} transition-all duration-300 hover:scale-110 active:scale-95`}
             aria-label={isExploded ? '合并' : '爆炸图'}
+            aria-pressed={isExploded}
             title={isExploded ? '合并' : '爆炸图'}
           >
             <span className="material-symbols-outlined text-base">
