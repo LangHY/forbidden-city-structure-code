@@ -60,6 +60,7 @@ function Exhibition() {
 
   const [theme, setTheme] = useState<ThemeMode>('light');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isExploded, setIsExploded] = useState(false);
 
   // 相机控制
   const cameraActions = useCameraControl();
@@ -90,6 +91,15 @@ function Exhibition() {
     cameraActions.trigger('resetView');
   }, [cameraActions]);
 
+  const handleExplodeToggle = useCallback(() => {
+    setIsExploded(prev => !prev);
+  }, []);
+
+  const handleChapterChangeWithReset = useCallback((chapterId: string) => {
+    setIsExploded(false);
+    handleChapterChange(chapterId);
+  }, [handleChapterChange]);
+
   // ========================================
   // 渲染
   // ========================================
@@ -114,6 +124,7 @@ function Exhibition() {
         chapterId={activeChapter}
         cameraActions={cameraActions}
         slideDirection={slideDirection}
+        isExploded={isExploded}
       />
 
       {/* 失焦遮罩层 */}
@@ -137,7 +148,7 @@ function Exhibition() {
       <ChapterNav
         chapters={chapters}
         activeId={activeChapter}
-        onChange={handleChapterChange}
+        onChange={handleChapterChangeWithReset}
         theme={theme}
         isHighlighted={isMenuOpen}
       />
@@ -156,6 +167,8 @@ function Exhibition() {
         artifactOriginEn={artifactInfo.nameEn}
         onZoom={handleZoom}
         onReset={handleReset}
+        onExplodeToggle={handleExplodeToggle}
+        isExploded={isExploded}
         theme={theme}
         isBlurred={isMenuOpen}
       />
