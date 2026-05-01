@@ -12,7 +12,7 @@ import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
-import type { ThemeMode, ComponentExplosion } from './types';
+import type { ThemeMode } from './types';
 import { chapterModelMap, chapters, explodedViewConfigs } from './config';
 
 // 是否使用压缩模型（优先尝试加载压缩版本）
