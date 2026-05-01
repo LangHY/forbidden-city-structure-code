@@ -2,7 +2,7 @@
  * Exhibition 配置数据
  */
 
-import type { Chapter, DougongComponent } from './types';
+import type { Chapter, DougongComponent, ComponentExplosion, DougongExplosionConfig } from './types';
 
 /**
  * 章节数据 - 斗拱类型
@@ -131,4 +131,27 @@ export const exhibitionContent = {
   title: '斗拱结构解析',
   description:
     '斗拱是中国建筑特有的一种结构，位于柱子顶端，由斗、拱、翘、昂组成。它承载着梁架传递下来的荷载，并将其均匀地分散到柱头上。',
+};
+
+/**
+ * 爆炸图元数据配置
+ * index 对应 GLB 加载后 scene.children 数组的顺序
+ * direction 是归一化向量，从模型中心指向外
+ * distance 是爆炸偏移量（模型坐标系单位）
+ */
+export const explodedViewConfigs: Record<string, DougongExplosionConfig> = {
+  // R1L3（重栱素方）— 7 个构件
+  'zhong-gong-su-fang': {
+    chapterId: 'zhong-gong-su-fang',
+    modelId: 'R1L3',
+    components: [
+      { index: 0, direction: [0, -1, 0],   distance: 1.5 },
+      { index: 1, direction: [-1, 0, 0],   distance: 1.2 },
+      { index: 2, direction: [1, 0, 0],    distance: 1.2 },
+      { index: 3, direction: [0, 0, 1],    distance: 1.0 },
+      { index: 4, direction: [0, -1, 0.5], distance: 0.8 },
+      { index: 5, direction: [0.5, 0, -1], distance: 0.8 },
+      { index: 6, direction: [0, 1, 0],    distance: 1.5 },
+    ],
+  },
 };

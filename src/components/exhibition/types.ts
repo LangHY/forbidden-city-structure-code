@@ -89,3 +89,27 @@ export interface DecorativeCharProps {
   char: string;
   className?: string;
 }
+
+/**
+ * 爆炸图 — 单个构件的爆炸参数
+ */
+export interface ComponentExplosion {
+  /** 构件在 GLB scene.children 中的索引 */
+  index: number;
+  /** 爆炸方向向量（归一化），从中心指向外 */
+  direction: [number, number, number];
+  /** 爆炸距离（模型坐标系单位） */
+  distance: number;
+}
+
+/**
+ * 爆炸图 — 单种斗拱的完整配置
+ */
+export interface DougongExplosionConfig {
+  /** 斗拱类型 ID（对应 chapter id） */
+  chapterId: string;
+  /** 模型 ID（对应 GLB 文件名） */
+  modelId: string;
+  /** 各构件的爆炸配置 */
+  components: ComponentExplosion[];
+}
