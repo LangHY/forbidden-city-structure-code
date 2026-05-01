@@ -2,7 +2,7 @@
  * Exhibition 配置数据
  */
 
-import type { Chapter, DougongComponent, ComponentExplosion, DougongExplosionConfig } from './types';
+import type { Chapter, DougongComponent, DougongExplosionConfig } from './types';
 
 /**
  * 章节数据 - 斗拱类型
