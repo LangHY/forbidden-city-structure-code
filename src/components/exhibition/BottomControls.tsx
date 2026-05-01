@@ -71,6 +71,8 @@ function BottomControls({
   artifactOriginEn,
   onZoom,
   onReset,
+  onExplodeToggle,
+  isExploded = false,
   theme = 'light',
   isBlurred = false,
   showZoom = true,
@@ -113,6 +115,18 @@ function BottomControls({
             aria-label="放大"
           >
             <ZoomInIcon className="w-4 h-4" />
+          </button>
+        )}
+        {onExplodeToggle && (
+          <button
+            onClick={onExplodeToggle}
+            className={`w-10 h-10 rounded-full ${glassClass} flex items-center justify-center ${btnColor} transition-all duration-300 hover:scale-110 active:scale-95`}
+            aria-label={isExploded ? '合并' : '爆炸图'}
+            title={isExploded ? '合并' : '爆炸图'}
+          >
+            <span className="material-symbols-outlined text-base">
+              {isExploded ? 'compress' : 'burst_mode'}
+            </span>
           </button>
         )}
         <button

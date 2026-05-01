@@ -70,6 +70,8 @@ export interface BottomControlsProps {
   artifactOriginEn: string;
   onZoom?: () => void;
   onReset?: () => void;
+  onExplodeToggle?: () => void;
+  isExploded?: boolean;
   className?: string;
 }
 
