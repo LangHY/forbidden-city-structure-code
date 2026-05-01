@@ -211,7 +211,6 @@ function GLBModel({
     originalPosition: THREE.Vector3;
     targetPosition: THREE.Vector3;
   }>>([]);
-  const isExplodedRef = useRef(false);
 
   // 模型切换时触发滑动动画
   useEffect(() => {
@@ -303,17 +302,13 @@ function GLBModel({
 
     explosionPartsRef.current = parts;
     explosionProgressRef.current = 0;
-    isExplodedRef.current = false;
   }, [model, chapterId]);
 
   // 动画循环 - 优化版本
   useFrame((state, delta) => {
     if (!groupRef.current || !model) return;
 
-    // 同步爆炸状态 ref
-    isExplodedRef.current = isExploded ?? false;
-
-    // 爆炸图动画
+    // 爆炸图动画（指数衰减，与 slide-in 动画一致的缓动方式）
     const parts = explosionPartsRef.current;
     if (parts.length > 0) {
       const targetProgress = isExploded ? 1 : 0;
@@ -321,12 +316,8 @@ function GLBModel({
 
       if (Math.abs(currentProgress - targetProgress) > 0.001) {
         const speed = 2.5;
-        const newProgress = currentProgress + (targetProgress - currentProgress) * Math.min(1, delta * speed);
-        explosionProgressRef.current = newProgress;
-
-        const t = newProgress < 0.5
-          ? 4 * newProgress * newProgress * newProgress
-          : 1 - Math.pow(-2 * newProgress + 2, 3) / 2;
+        const t = currentProgress + (targetProgress - currentProgress) * Math.min(1, delta * speed);
+        explosionProgressRef.current = t;
 
         parts.forEach(({ mesh, originalPosition, targetPosition }) => {
           mesh.position.lerpVectors(originalPosition, targetPosition, t);
