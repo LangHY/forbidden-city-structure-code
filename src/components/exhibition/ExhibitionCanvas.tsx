@@ -12,8 +12,8 @@ import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
-import type { ThemeMode } from './types';
-import { chapterModelMap, chapters } from './config';
+import type { ThemeMode, ComponentExplosion } from './types';
+import { chapterModelMap, chapters, explodedViewConfigs } from './config';
 
 // 是否使用压缩模型（优先尝试加载压缩版本）
 const USE_COMPRESSED_MODELS = true;
@@ -180,9 +180,13 @@ function SceneBackgroundUpdater({ theme }: { theme: ThemeMode }) {
 function GLBModel({
   modelId,
   slideDirection,
+  isExploded,
+  chapterId,
 }: {
   modelId: string;
-  slideDirection: 'up' | 'down' | null;
+  slideDirection?: 'up' | 'down' | null;
+  isExploded?: boolean;
+  chapterId?: string;
 }) {
   const groupRef = useRef<THREE.Group>(null);
   const [model, setModel] = useState<THREE.Group | null>(null);
@@ -199,6 +203,15 @@ function GLBModel({
 
   // 🚀 性能优化：缓存 mesh 引用，避免每帧遍历
   const meshesRef = useRef<THREE.Mesh[]>([]);
+
+  // 爆炸图动画 refs
+  const explosionProgressRef = useRef(0);
+  const explosionPartsRef = useRef<Array<{
+    mesh: THREE.Object3D;
+    originalPosition: THREE.Vector3;
+    targetPosition: THREE.Vector3;
+  }>>([]);
+  const isExplodedRef = useRef(false);
 
   // 模型切换时触发滑动动画
   useEffect(() => {
@@ -260,9 +273,66 @@ function GLBModel({
       });
   }, [modelId]);
 
+  // 初始化爆炸配置
+  useEffect(() => {
+    if (!model || !chapterId) return;
+
+    const config = explodedViewConfigs[chapterId];
+    if (!config) {
+      explosionPartsRef.current = [];
+      return;
+    }
+
+    const children = model.children;
+    const parts: typeof explosionPartsRef.current = [];
+
+    config.components.forEach(({ index, direction, distance }) => {
+      const child = children[index];
+      if (!child) return;
+
+      const dir = new THREE.Vector3(...direction).normalize();
+      const originalPos = child.position.clone();
+      const targetPos = originalPos.clone().add(dir.multiplyScalar(distance));
+
+      parts.push({
+        mesh: child,
+        originalPosition: originalPos,
+        targetPosition: targetPos,
+      });
+    });
+
+    explosionPartsRef.current = parts;
+    explosionProgressRef.current = 0;
+    isExplodedRef.current = false;
+  }, [model, chapterId]);
+
   // 动画循环 - 优化版本
-  useFrame((state) => {
+  useFrame((state, delta) => {
     if (!groupRef.current || !model) return;
+
+    // 同步爆炸状态 ref
+    isExplodedRef.current = isExploded ?? false;
+
+    // 爆炸图动画
+    const parts = explosionPartsRef.current;
+    if (parts.length > 0) {
+      const targetProgress = isExploded ? 1 : 0;
+      const currentProgress = explosionProgressRef.current;
+
+      if (Math.abs(currentProgress - targetProgress) > 0.001) {
+        const speed = 2.5;
+        const newProgress = currentProgress + (targetProgress - currentProgress) * Math.min(1, delta * speed);
+        explosionProgressRef.current = newProgress;
+
+        const t = newProgress < 0.5
+          ? 4 * newProgress * newProgress * newProgress
+          : 1 - Math.pow(-2 * newProgress + 2, 3) / 2;
+
+        parts.forEach(({ mesh, originalPosition, targetPosition }) => {
+          mesh.position.lerpVectors(originalPosition, targetPosition, t);
+        });
+      }
+    }
 
     const anim = animationRef.current;
     const ease = 0.1;
@@ -378,6 +448,7 @@ function CameraController({
 interface ExhibitionCanvasWithControlsProps extends ExtendedExhibitionCanvasProps {
   cameraActions: ReturnType<typeof useCameraControl>;
   slideDirection?: 'up' | 'down' | null;
+  isExploded?: boolean;
 }
 
 function ExhibitionCanvas({
@@ -386,6 +457,7 @@ function ExhibitionCanvas({
   chapterId,
   cameraActions,
   slideDirection = null,
+  isExploded = false,
 }: ExhibitionCanvasWithControlsProps) {
   // 暗色模式使用纯黑背景
   const bgColor = theme === 'dark' ? '#000000' : '#f7f3ed';
@@ -442,7 +514,12 @@ function ExhibitionCanvas({
 
         {/* 模型 */}
         {modelId ? (
-          <GLBModel modelId={modelId} slideDirection={slideDirection} />
+          <GLBModel
+            modelId={modelId}
+            slideDirection={slideDirection}
+            isExploded={isExploded}
+            chapterId={chapterId}
+          />
         ) : (
           <LoadingPlaceholder />
         )}
