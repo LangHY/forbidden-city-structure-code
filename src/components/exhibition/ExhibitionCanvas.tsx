@@ -187,6 +187,7 @@ function GLBModel({
   onPiecePlaced,
   onDragStart,
   onDragEnd,
+  draggedPieceIndex,
 }: {
   modelId: string;
   slideDirection?: 'up' | 'down' | null;
@@ -194,8 +195,9 @@ function GLBModel({
   chapterId?: string;
   gameMode?: GameMode;
   onPiecePlaced?: (index: number) => void;
-  onDragStart?: () => void;
+  onDragStart?: (index: number) => void;
   onDragEnd?: () => void;
+  draggedPieceIndex?: number | null;
 }) {
   const groupRef = useRef<THREE.Group>(null);
   const [model, setModel] = useState<THREE.Group | null>(null);
@@ -303,7 +305,12 @@ function GLBModel({
         const t = currentProgress + (targetProgress - currentProgress) * Math.min(1, delta * speed);
         explosionProgressRef.current = t;
 
-        parts.forEach(({ mesh, originalPosition, targetPosition }) => {
+        parts.forEach(({ mesh, originalPosition, targetPosition }, i) => {
+          // 跳过正在被拖拽的构件，避免拖拽位置被爆炸动画覆盖
+          const config = explodedViewConfigs[chapterId ?? ''];
+          const partIndex = config?.components[i]?.index;
+          if (partIndex === draggedPieceIndex) return;
+
           mesh.position.lerpVectors(originalPosition, targetPosition, t);
         });
       }
@@ -348,9 +355,10 @@ function GLBModel({
           explosionComponents={explodedViewConfigs[chapterId]?.components ?? []}
           placedPieces={new Set()}
           onPiecePlaced={(index) => onPiecePlaced?.(index)}
-          onDragStart={() => onDragStart?.()}
+          onDragStart={(index) => onDragStart?.(index)}
           onDragEnd={() => onDragEnd?.()}
           active={true}
+          draggedPieceIndex={draggedPieceIndex}
         />
       )}
     </group>
@@ -444,6 +452,7 @@ function ExhibitionCanvas({
   onPiecePlaced,
 }: ExhibitionCanvasWithControlsProps) {
   const [isDragging, setIsDragging] = useState(false);
+  const [draggedPieceIndex, setDraggedPieceIndex] = useState<number | null>(null);
 
   // 暗色模式使用纯黑背景
   const bgColor = theme === 'dark' ? '#000000' : '#f7f3ed';
@@ -507,8 +516,9 @@ function ExhibitionCanvas({
             chapterId={chapterId}
             gameMode={gameMode}
             onPiecePlaced={onPiecePlaced}
-            onDragStart={() => setIsDragging(true)}
-            onDragEnd={() => setIsDragging(false)}
+            onDragStart={(index) => { setIsDragging(true); setDraggedPieceIndex(index); }}
+            onDragEnd={() => { setIsDragging(false); setDraggedPieceIndex(null); }}
+            draggedPieceIndex={draggedPieceIndex}
           />
         ) : (
           <LoadingPlaceholder />

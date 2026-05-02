@@ -3,7 +3,7 @@
  *
  * Canvas 内子组件，处理：
  * 1. 射线拾取：鼠标按下时检测命中哪个构件
- * 2. 平面拖拽：在相机平面上拖动构件
+ * 2. 平面拖拽：在相机平面上拖动构件（屏幕空间平面）
  * 3. 吸附归位：松手时判断距离，够近则吸附
  * 4. 视觉反馈：拖拽高亮、目标轮廓、归位动画
  */
@@ -28,10 +28,12 @@ interface DragControllerProps {
   onDragEnd: () => void;
   /** 是否激活（游戏模式） */
   active: boolean;
+  /** 当前被拖拽的构件 index（由外部传入，用于冻结爆炸动画） */
+  draggedPieceIndex?: number | null;
 }
 
-// 吸附阈值
-const SNAP_THRESHOLD = 1.5;
+// 吸附阈值（模型缩放后约 4 单位大小，2.5 约 62%，手感宽松）
+const SNAP_THRESHOLD = 2.5;
 
 export default function DragController({
   children,
@@ -41,6 +43,7 @@ export default function DragController({
   onDragStart,
   onDragEnd,
   active,
+  draggedPieceIndex = null,
 }: DragControllerProps) {
   const { camera, gl } = useThree();
   const raycaster = useRef(new THREE.Raycaster());
@@ -52,32 +55,12 @@ export default function DragController({
   const dragOffset = useRef(new THREE.Vector3());
   const preDragPosition = useRef(new THREE.Vector3());
 
-  // 目标位置映射（index → 原始位置，即归位目标）
-  const targetPositions = useRef(new Map<number, THREE.Vector3>());
-
   // 归位动画状态（index → { from, to, progress }）
   const snapAnimations = useRef(new Map<number, {
     from: THREE.Vector3;
     to: THREE.Vector3;
     progress: number;
   }>());
-
-  // 初始化目标位置
-  useEffect(() => {
-    targetPositions.current.clear();
-    snapAnimations.current.clear();
-
-    explosionComponents.forEach(({ index, direction, distance }) => {
-      const child = children[index];
-      if (!child) return;
-
-      // 原始位置 = 当前位置 - 爆炸偏移 = 归位目标
-      const dir = new THREE.Vector3(...direction).normalize();
-      const currentPos = child.position.clone();
-      const originalPos = currentPos.clone().sub(dir.multiplyScalar(distance));
-      targetPositions.current.set(index, originalPos);
-    });
-  }, [children, explosionComponents]);
 
   // 鼠标坐标转换
   const updateMouse = useCallback((event: MouseEvent) => {
@@ -127,15 +110,23 @@ export default function DragController({
     draggedMesh.current = hit.mesh;
     preDragPosition.current = hit.mesh.position.clone();
 
-    // 创建拖拽平面：过构件中心，垂直于相机方向
+    // 屏幕空间拖拽平面：用相机的 right 和 up 构建，确保自由 2D 移动
     const cameraDir = new THREE.Vector3();
     camera.getWorldDirection(cameraDir);
+    const cameraRight = new THREE.Vector3();
+    camera.getWorldDirection(cameraRight);
+    cameraRight.cross(camera.up).normalize();
+    const cameraUp = new THREE.Vector3();
+    cameraUp.crossVectors(cameraRight, cameraDir).normalize();
+    // 平面法线 = 相机方向（平面朝向相机）
     dragPlane.current.setFromNormalAndCoplanarPoint(cameraDir, hit.mesh.position.clone());
 
     // 计算偏移（鼠标点击点到构件中心的向量）
     const intersectPoint = new THREE.Vector3();
     raycaster.current.ray.intersectPlane(dragPlane.current, intersectPoint);
-    dragOffset.current.copy(hit.mesh.position.clone().sub(intersectPoint));
+    if (intersectPoint) {
+      dragOffset.current.copy(hit.mesh.position.clone().sub(intersectPoint));
+    }
 
     onDragStart(hit.index);
 
@@ -162,7 +153,16 @@ export default function DragController({
 
     const index = draggedIndex.current;
     const mesh = draggedMesh.current;
-    const target = targetPositions.current.get(index);
+
+    // 计算吸附目标：当前位置 - 爆炸偏移 = 原始位置
+    const config = explosionComponents.find(c => c.index === index);
+    let target: THREE.Vector3 | null = null;
+
+    if (config) {
+      const dir = new THREE.Vector3(...config.direction);
+      const explosionOffset = dir.clone().multiplyScalar(config.distance);
+      target = mesh.position.clone().sub(explosionOffset);
+    }
 
     if (target) {
       const distance = mesh.position.distanceTo(target);
@@ -176,7 +176,7 @@ export default function DragController({
         });
         onPiecePlaced(index);
       } else {
-        // 弹回原位
+        // 弹回拖拽前位置
         snapAnimations.current.set(index, {
           from: mesh.position.clone(),
           to: preDragPosition.current.clone(),
@@ -189,7 +189,7 @@ export default function DragController({
     draggedIndex.current = null;
     draggedMesh.current = null;
     onDragEnd();
-  }, [onPiecePlaced, onDragEnd]);
+  }, [explosionComponents, onPiecePlaced, onDragEnd]);
 
   // 注册/注销事件监听
   useEffect(() => {
@@ -207,9 +207,12 @@ export default function DragController({
     };
   }, [active, gl, handlePointerDown, handlePointerMove, handlePointerUp]);
 
-  // 动画循环：处理归位/弹回动画
+  // 动画循环：处理归位/弹回动画（跳过正在被拖拽的构件）
   useFrame((_, delta) => {
     snapAnimations.current.forEach((anim, index) => {
+      // 跳过正在被拖拽的构件
+      if (index === draggedPieceIndex) return;
+
       const mesh = children[index];
       if (!mesh) return;
 
