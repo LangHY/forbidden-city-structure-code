@@ -188,6 +188,7 @@ function GLBModel({
   onDragStart,
   onDragEnd,
   draggedPieceIndex,
+  originalPositionsRef,
 }: {
   modelId: string;
   slideDirection?: 'up' | 'down' | null;
@@ -198,6 +199,7 @@ function GLBModel({
   onDragStart?: (index: number) => void;
   onDragEnd?: () => void;
   draggedPieceIndex?: number | null;
+  originalPositionsRef?: React.RefObject<Map<number, THREE.Vector3>>;
 }) {
   const groupRef = useRef<THREE.Group>(null);
   const [model, setModel] = useState<THREE.Group | null>(null);
@@ -211,6 +213,7 @@ function GLBModel({
 
   // 爆炸图动画 refs
   const explosionProgressRef = useRef(0);
+  const originalPositionsRef = useRef<Map<number, THREE.Vector3>>(new Map());
   const explosionPartsRef = useRef<Array<{
     mesh: THREE.Object3D;
     originalPosition: THREE.Vector3;
@@ -265,11 +268,13 @@ function GLBModel({
     const config = explodedViewConfigs[chapterId];
     if (!config) {
       explosionPartsRef.current = [];
+      originalPositionsRef.current = new Map();
       return;
     }
 
     const children = model.children;
     const parts: typeof explosionPartsRef.current = [];
+    const positions = new Map<number, THREE.Vector3>();
 
     config.components.forEach(({ index, direction, distance }) => {
       const child = children[index];
@@ -284,10 +289,14 @@ function GLBModel({
         originalPosition: originalPos,
         targetPosition: targetPos,
       });
+
+      // 存储原始位置，供 DragController 吸附使用
+      positions.set(index, originalPos.clone());
     });
 
     explosionPartsRef.current = parts;
     explosionProgressRef.current = 0;
+    originalPositionsRef.current = positions;
   }, [model, chapterId]);
 
   // 动画循环 - 优化版本
@@ -359,6 +368,7 @@ function GLBModel({
           onDragEnd={() => onDragEnd?.()}
           active={true}
           draggedPieceIndex={draggedPieceIndex}
+          originalPositions={originalPositionsRef?.current ?? new Map()}
         />
       )}
     </group>

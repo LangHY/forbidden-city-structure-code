@@ -30,6 +30,8 @@ interface DragControllerProps {
   active: boolean;
   /** 当前被拖拽的构件 index（由外部传入，用于冻结爆炸动画） */
   draggedPieceIndex?: number | null;
+  /** 构件原始位置映射（index → 爆炸前位置，用于吸附目标） */
+  originalPositions?: Map<number, THREE.Vector3>;
 }
 
 // 吸附阈值（模型缩放后约 4 单位大小，2.5 约 62%，手感宽松）
@@ -44,6 +46,7 @@ export default function DragController({
   onDragEnd,
   active,
   draggedPieceIndex = null,
+  originalPositions,
 }: DragControllerProps) {
   const { camera, gl } = useThree();
   const raycaster = useRef(new THREE.Raycaster());
@@ -154,15 +157,8 @@ export default function DragController({
     const index = draggedIndex.current;
     const mesh = draggedMesh.current;
 
-    // 计算吸附目标：当前位置 - 爆炸偏移 = 原始位置
-    const config = explosionComponents.find(c => c.index === index);
-    let target: THREE.Vector3 | null = null;
-
-    if (config) {
-      const dir = new THREE.Vector3(...config.direction);
-      const explosionOffset = dir.clone().multiplyScalar(config.distance);
-      target = mesh.position.clone().sub(explosionOffset);
-    }
+    // 吸附目标 = 构件的原始位置（爆炸前）
+    const target = originalPositions?.get(index) ?? null;
 
     if (target) {
       const distance = mesh.position.distanceTo(target);
@@ -189,7 +185,7 @@ export default function DragController({
     draggedIndex.current = null;
     draggedMesh.current = null;
     onDragEnd();
-  }, [explosionComponents, onPiecePlaced, onDragEnd]);
+  }, [originalPositions, onPiecePlaced, onDragEnd]);
 
   // 注册/注销事件监听
   useEffect(() => {
