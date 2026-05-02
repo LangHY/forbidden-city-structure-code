@@ -188,6 +188,7 @@ function GLBModel({
   onDragStart,
   onDragEnd,
   draggedPieceIndex,
+  placedPieces = new Set(),
 }: {
   modelId: string;
   slideDirection?: 'up' | 'down' | null;
@@ -198,6 +199,7 @@ function GLBModel({
   onDragStart?: (index: number) => void;
   onDragEnd?: () => void;
   draggedPieceIndex?: number | null;
+  placedPieces?: Set<number>;
 }) {
   const groupRef = useRef<THREE.Group>(null);
   const [model, setModel] = useState<THREE.Group | null>(null);
@@ -212,6 +214,7 @@ function GLBModel({
   // 爆炸图动画 refs
   const explosionProgressRef = useRef(0);
   const originalPositionsRef = useRef<Map<number, THREE.Vector3>>(new Map());
+  const explosionDistancesRef = useRef<Map<number, number>>(new Map());
   const explosionPartsRef = useRef<Array<{
     mesh: THREE.Object3D;
     originalPosition: THREE.Vector3;
@@ -251,6 +254,7 @@ function GLBModel({
     preloadModel(modelId)
       .then(loadedModel => {
         const clonedModel = loadedModel.clone();
+        console.log('[Model] loaded:', modelId, 'children:', clonedModel.children.length);
         setModel(clonedModel);
       })
       .catch((err) => {
@@ -267,12 +271,14 @@ function GLBModel({
     if (!config) {
       explosionPartsRef.current = [];
       originalPositionsRef.current = new Map();
+      explosionDistancesRef.current = new Map();
       return;
     }
 
     const children = model.children;
     const parts: typeof explosionPartsRef.current = [];
     const positions = new Map<number, THREE.Vector3>();
+    const distances = new Map<number, number>();
 
     config.components.forEach(({ index, direction, distance }) => {
       const child = children[index];
@@ -290,11 +296,15 @@ function GLBModel({
 
       // 存储原始位置，供 DragController 吸附使用
       positions.set(index, originalPos.clone());
+      // 存储爆炸距离，供 DragController 动态吸附阈值使用
+      distances.set(index, distance);
     });
 
     explosionPartsRef.current = parts;
     explosionProgressRef.current = 0;
     originalPositionsRef.current = positions;
+    explosionDistancesRef.current = distances;
+    console.log('[Model] explosion config initialized, parts:', parts.length, 'originalPositions:', [...positions.entries()].map(([k, v]) => `idx${k}@(${v.toArray().map(n => +n.toFixed(1))})`));
   }, [model, chapterId]);
 
   // 动画循环 - 优化版本
@@ -313,13 +323,17 @@ function GLBModel({
         explosionProgressRef.current = t;
 
         parts.forEach(({ mesh, originalPosition, targetPosition }, i) => {
-          // 跳过正在被拖拽的构件，避免拖拽位置被爆炸动画覆盖
           const config = explodedViewConfigs[chapterId ?? ''];
           const partIndex = config?.components[i]?.index;
+          // 跳过正在被拖拽的构件 OR 已归位的构件
           if (partIndex === draggedPieceIndex) return;
+          if (partIndex !== undefined && placedPieces.has(partIndex)) return;
 
           mesh.position.lerpVectors(originalPosition, targetPosition, t);
         });
+        if (placedPieces.size > 0) {
+          console.log('[Explosion] placedPieces:', [...placedPieces], 'progress:', t.toFixed(3));
+        }
       }
     }
 
@@ -360,13 +374,14 @@ function GLBModel({
         <DragController
           children={model.children}
           explosionComponents={explodedViewConfigs[chapterId]?.components ?? []}
-          placedPieces={new Set()}
+          placedPieces={placedPieces}
           onPiecePlaced={(index) => onPiecePlaced?.(index)}
           onDragStart={(index) => onDragStart?.(index)}
           onDragEnd={() => onDragEnd?.()}
           active={true}
           draggedPieceIndex={draggedPieceIndex}
           originalPositions={originalPositionsRef?.current ?? new Map()}
+          explosionDistances={explosionDistancesRef?.current ?? new Map()}
         />
       )}
     </group>
@@ -447,6 +462,7 @@ interface ExhibitionCanvasWithControlsProps extends ExtendedExhibitionCanvasProp
   isExploded?: boolean;
   gameMode?: GameMode;
   onPiecePlaced?: (index: number) => void;
+  placedPieces?: Set<number>;
 }
 
 function ExhibitionCanvas({
@@ -458,6 +474,7 @@ function ExhibitionCanvas({
   isExploded = false,
   gameMode = 'exhibit',
   onPiecePlaced,
+  placedPieces = new Set(),
 }: ExhibitionCanvasWithControlsProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [draggedPieceIndex, setDraggedPieceIndex] = useState<number | null>(null);
@@ -527,6 +544,7 @@ function ExhibitionCanvas({
             onDragStart={(index) => { setIsDragging(true); setDraggedPieceIndex(index); }}
             onDragEnd={() => { setIsDragging(false); setDraggedPieceIndex(null); }}
             draggedPieceIndex={draggedPieceIndex}
+            placedPieces={placedPieces}
           />
         ) : (
           <LoadingPlaceholder />

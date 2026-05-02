@@ -14,6 +14,36 @@ interface ExtendedBottomControlsProps extends BottomControlsProps {
 }
 
 /**
+ * 拼装图标 SVG
+ * 斗拱榫卯结构抽象
+ */
+function AssemblyIcon({ className = '' }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      {/* 上层横栱 */}
+      <rect x="6" y="2" width="12" height="4" rx="1" />
+      {/* 中层十字交叉 */}
+      <rect x="2" y="9" width="20" height="4" rx="1" />
+      {/* 下层横栱 */}
+      <rect x="6" y="16" width="12" height="4" rx="1" />
+      {/* 立柱连接 */}
+      <line x1="12" y1="6" x2="12" y2="9" />
+      <line x1="12" y1="13" x2="12" y2="16" />
+    </svg>
+  );
+}
+
+/**
  * 放大图标 SVG
  * 放大镜 + 加号
  */
@@ -112,9 +142,11 @@ function BottomControls({
         {onStartGame && (
           <button
             onClick={onStartGame}
-            className={`px-5 py-2 rounded-full ${glassClass} ${btnColor} font-serif tracking-widest text-sm transition-all duration-300 hover:scale-105 active:scale-95`}
+            className={`w-10 h-10 rounded-full ${glassClass} flex items-center justify-center ${btnColor} transition-all duration-300 hover:scale-110 active:scale-95`}
+            aria-label="开始拼装"
+            title="开始拼装"
           >
-            开始拼装
+            <AssemblyIcon className="w-4 h-4" />
           </button>
         )}
         {showZoom && (

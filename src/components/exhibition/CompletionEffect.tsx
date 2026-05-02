@@ -52,28 +52,10 @@ function CompletionEffect({ visible, theme, onComplete }: CompletionEffectProps)
           animation: 'pulse 1.5s ease-in-out infinite',
         }}
       />
-      {/* 文字 */}
-      <div className="relative text-center">
-        <p
-          className={`text-3xl font-serif tracking-[0.5em] ${
-            isDark ? 'text-emerald-400' : 'text-[#4a7c59]'
-          }`}
-          style={{
-            animation: 'scaleIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)',
-          }}
-        >
-          拼装完成！
-        </p>
-      </div>
-
       <style>{`
         @keyframes pulse {
           0%, 100% { transform: scale(1); opacity: 0.6; }
           50% { transform: scale(1.2); opacity: 1; }
-        }
-        @keyframes scaleIn {
-          from { transform: scale(0.5); opacity: 0; }
-          to { transform: scale(1); opacity: 1; }
         }
       `}</style>
     </div>

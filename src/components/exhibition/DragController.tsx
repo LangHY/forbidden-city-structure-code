@@ -32,14 +32,18 @@ interface DragControllerProps {
   draggedPieceIndex?: number | null;
   /** 构件原始位置映射（index → 爆炸前位置，用于吸附目标） */
   originalPositions?: Map<number, THREE.Vector3>;
+  /** 每个构件的爆炸距离映射（index → distance），用于动态吸附阈值 */
+  explosionDistances?: Map<number, number>;
 }
 
-// 吸附阈值（模型缩放后约 4 单位大小，2.5 约 62%，手感宽松）
-const SNAP_THRESHOLD = 2.5;
+// 默认吸附阈值（回退值）
+const DEFAULT_SNAP_THRESHOLD = 3.0;
+// 吸附阈值 = 爆炸距离的 40%（爆炸越远，吸附区域越大）
+const SNAP_RATIO = 0.4;
 
 export default function DragController({
   children,
-  explosionComponents,
+  explosionComponents: _explosionComponents,
   placedPieces,
   onPiecePlaced,
   onDragStart,
@@ -47,7 +51,9 @@ export default function DragController({
   active,
   draggedPieceIndex = null,
   originalPositions,
+  explosionDistances,
 }: DragControllerProps) {
+  console.log('[DragController] mounted, active:', active, 'children:', children.length, 'placedPieces:', placedPieces.size, 'originalPositions:', originalPositions?.size);
   const { camera, gl } = useThree();
   const raycaster = useRef(new THREE.Raycaster());
   const mouse = useRef(new THREE.Vector2());
@@ -57,6 +63,14 @@ export default function DragController({
   const draggedMesh = useRef<THREE.Object3D | null>(null);
   const dragOffset = useRef(new THREE.Vector3());
   const preDragPosition = useRef(new THREE.Vector3());
+  const modelGroup = useRef<THREE.Object3D | null>(null);
+
+  // 获取模型组引用（children 的父级）
+  useEffect(() => {
+    if (children.length > 0 && children[0].parent) {
+      modelGroup.current = children[0].parent;
+    }
+  }, [children]);
 
   // 归位动画状态（index → { from, to, progress }）
   const snapAnimations = useRef(new Map<number, {
@@ -81,7 +95,12 @@ export default function DragController({
     const targets = children.filter((_, i) => !placedPieces.has(i));
     const intersects = raycaster.current.intersectObjects(targets, true);
 
-    if (intersects.length === 0) return null;
+    if (intersects.length === 0) {
+      console.log('[Drag] hitTest: no intersection, targets:', targets.length, 'placed:', [...placedPieces]);
+      return null;
+    }
+
+    console.log('[Drag] hitTest: found', intersects.length, 'intersections, first object:', intersects[0].object.type, intersects[0].object.name);
 
     // 找到命中构件在 children 中的 index
     const hitObject = intersects[0].object;
@@ -106,29 +125,29 @@ export default function DragController({
     if (event.button !== 0) return;
 
     const hit = hitTest(event);
-    if (!hit) return;
+    if (!hit) {
+      console.log('[Drag] hitTest returned null — no piece under cursor');
+      return;
+    }
 
+    console.log('[Drag] hit piece', hit.index, 'at', hit.point.toArray().map(v => +v.toFixed(2)));
     isDragging.current = true;
     draggedIndex.current = hit.index;
     draggedMesh.current = hit.mesh;
     preDragPosition.current = hit.mesh.position.clone();
 
-    // 屏幕空间拖拽平面：用相机的 right 和 up 构建，确保自由 2D 移动
+    // 拖拽平面：法线 = 相机方向，过构件世界位置
     const cameraDir = new THREE.Vector3();
     camera.getWorldDirection(cameraDir);
-    const cameraRight = new THREE.Vector3();
-    camera.getWorldDirection(cameraRight);
-    cameraRight.cross(camera.up).normalize();
-    const cameraUp = new THREE.Vector3();
-    cameraUp.crossVectors(cameraRight, cameraDir).normalize();
-    // 平面法线 = 相机方向（平面朝向相机）
-    dragPlane.current.setFromNormalAndCoplanarPoint(cameraDir, hit.mesh.position.clone());
+    const meshWorldPos = new THREE.Vector3();
+    hit.mesh.getWorldPosition(meshWorldPos);
+    dragPlane.current.setFromNormalAndCoplanarPoint(cameraDir, meshWorldPos);
 
-    // 计算偏移（鼠标点击点到构件中心的向量）
+    // 计算偏移（构件世界位置 - 鼠标世界位置，保持拖拽时相对位置不变）
     const intersectPoint = new THREE.Vector3();
     raycaster.current.ray.intersectPlane(dragPlane.current, intersectPoint);
     if (intersectPoint) {
-      dragOffset.current.copy(hit.mesh.position.clone().sub(intersectPoint));
+      dragOffset.current.copy(meshWorldPos.sub(intersectPoint));
     }
 
     onDragStart(hit.index);
@@ -146,7 +165,15 @@ export default function DragController({
 
     const intersectPoint = new THREE.Vector3();
     if (raycaster.current.ray.intersectPlane(dragPlane.current, intersectPoint)) {
-      draggedMesh.current.position.copy(intersectPoint.add(dragOffset.current));
+      // 世界空间的目标位置
+      const worldTarget = intersectPoint.add(dragOffset.current);
+      // 转回模型本地空间
+      if (modelGroup.current) {
+        const localTarget = modelGroup.current.worldToLocal(worldTarget.clone());
+        draggedMesh.current.position.copy(localTarget);
+      } else {
+        draggedMesh.current.position.copy(worldTarget);
+      }
     }
   }, [camera, updateMouse]);
 
@@ -160,10 +187,17 @@ export default function DragController({
     // 吸附目标 = 构件的原始位置（爆炸前）
     const target = originalPositions?.get(index) ?? null;
 
+    console.log('[Drag] pointerUp piece', index, 'pos', mesh.position.toArray().map(v => +v.toFixed(2)), 'target', target?.toArray().map(v => +v.toFixed(2)), 'hasTarget', !!target);
+
     if (target) {
       const distance = mesh.position.distanceTo(target);
+      // 动态吸附阈值：基于爆炸距离的 40%，最小 DEFAULT_SNAP_THRESHOLD
+      const explosionDist = explosionDistances?.get(index) ?? 0;
+      const snapThreshold = Math.max(DEFAULT_SNAP_THRESHOLD, explosionDist * SNAP_RATIO);
+      console.log('[Drag] distance to target:', distance.toFixed(2), 'threshold:', snapThreshold.toFixed(2), 'explosionDist:', explosionDist.toFixed(2));
 
-      if (distance < SNAP_THRESHOLD) {
+      if (distance < snapThreshold) {
+        console.log('[Drag] SNAP! piece', index);
         // 吸附归位：启动归位动画
         snapAnimations.current.set(index, {
           from: mesh.position.clone(),

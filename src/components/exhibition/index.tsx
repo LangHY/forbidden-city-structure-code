@@ -182,6 +182,7 @@ function Exhibition() {
         isExploded={isExploded}
         gameMode={gameMode}
         onPiecePlaced={handlePiecePlaced}
+        placedPieces={placedPieces}
       />
 
       {/* 失焦遮罩层 */}
