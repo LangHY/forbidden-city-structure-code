@@ -12,8 +12,9 @@ import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
-import type { ThemeMode } from './types';
+import type { ThemeMode, GameMode } from './types';
 import { chapterModelMap, chapters, explodedViewConfigs } from './config';
+import DragController from './DragController';
 
 // 是否使用压缩模型（优先尝试加载压缩版本）
 const USE_COMPRESSED_MODELS = true;
@@ -182,11 +183,15 @@ function GLBModel({
   slideDirection,
   isExploded,
   chapterId,
+  gameMode,
+  onPiecePlaced,
 }: {
   modelId: string;
   slideDirection?: 'up' | 'down' | null;
   isExploded?: boolean;
   chapterId?: string;
+  gameMode?: GameMode;
+  onPiecePlaced?: (index: number) => void;
 }) {
   const groupRef = useRef<THREE.Group>(null);
   const [model, setModel] = useState<THREE.Group | null>(null);
@@ -196,13 +201,7 @@ function GLBModel({
   const animationRef = useRef({
     targetY: 0,
     currentY: 0,
-    opacity: 1,
-    targetOpacity: 1,
-    isAnimating: false,
   });
-
-  // 🚀 性能优化：缓存 mesh 引用，避免每帧遍历
-  const meshesRef = useRef<THREE.Mesh[]>([]);
 
   // 爆炸图动画 refs
   const explosionProgressRef = useRef(0);
@@ -225,9 +224,6 @@ function GLBModel({
         anim.currentY = 3;
         anim.targetY = 0;
       }
-      anim.opacity = 0;
-      anim.targetOpacity = 1;
-      anim.isAnimating = true;
     }
   }, [slideDirection, modelId]);
 
@@ -241,14 +237,6 @@ function GLBModel({
       // 克隆缓存的模型，避免多个组件共享同一引用
       const clonedModel = cached.clone();
       setModel(clonedModel);
-
-      // 🚀 性能优化：缓存 mesh 引用
-      meshesRef.current = [];
-      clonedModel.traverse((child) => {
-        if (child instanceof THREE.Mesh) {
-          meshesRef.current.push(child);
-        }
-      });
       return;
     }
 
@@ -257,14 +245,6 @@ function GLBModel({
       .then(loadedModel => {
         const clonedModel = loadedModel.clone();
         setModel(clonedModel);
-
-        // 🚀 性能优化：缓存 mesh 引用
-        meshesRef.current = [];
-        clonedModel.traverse((child) => {
-          if (child instanceof THREE.Mesh) {
-            meshesRef.current.push(child);
-          }
-        });
       })
       .catch((err) => {
         console.error('Failed to load model:', modelId, err);
@@ -328,29 +308,19 @@ function GLBModel({
     const anim = animationRef.current;
     const ease = 0.1;
 
-    // 平滑插值
+    // 平滑插值（仅 Y 位移）
     anim.currentY += (anim.targetY - anim.currentY) * ease;
-    anim.opacity += (anim.targetOpacity - anim.opacity) * ease;
 
     // 检测动画是否完成
-    const isDone = Math.abs(anim.currentY - anim.targetY) < 0.01;
-    if (isDone) {
+    if (Math.abs(anim.currentY - anim.targetY) < 0.01) {
       anim.currentY = anim.targetY;
-      anim.isAnimating = false;
     }
 
     // 应用变换
     groupRef.current.position.y = anim.currentY;
-    groupRef.current.rotation.y = state.clock.getElapsedTime() * 0.2;
-
-    // 🚀 性能优化：只更新缓存的 mesh，不再遍历整个模型
-    // 仅在动画进行中或透明度未达到目标时更新
-    if (!isDone || anim.targetOpacity !== 1) {
-      meshesRef.current.forEach(mesh => {
-        const mat = mesh.material as THREE.MeshStandardMaterial;
-        mat.transparent = true;
-        mat.opacity = anim.opacity;
-      });
+    // 游戏模式下禁用自动旋转
+    if (gameMode !== 'playing') {
+      groupRef.current.rotation.y = state.clock.getElapsedTime() * 0.2;
     }
   });
 
@@ -367,6 +337,18 @@ function GLBModel({
   return (
     <group ref={groupRef}>
       <primitive object={model} />
+      {/* 游戏模式：拖拽控制器 */}
+      {gameMode === 'playing' && chapterId && (
+        <DragController
+          children={model.children}
+          explosionComponents={explodedViewConfigs[chapterId]?.components ?? []}
+          placedPieces={new Set()}
+          onPiecePlaced={(index) => onPiecePlaced?.(index)}
+          onDragStart={() => {}}
+          onDragEnd={() => {}}
+          active={true}
+        />
+      )}
     </group>
   );
 }
@@ -440,6 +422,8 @@ interface ExhibitionCanvasWithControlsProps extends ExtendedExhibitionCanvasProp
   cameraActions: ReturnType<typeof useCameraControl>;
   slideDirection?: 'up' | 'down' | null;
   isExploded?: boolean;
+  gameMode?: GameMode;
+  onPiecePlaced?: (index: number) => void;
 }
 
 function ExhibitionCanvas({
@@ -449,13 +433,15 @@ function ExhibitionCanvas({
   cameraActions,
   slideDirection = null,
   isExploded = false,
+  gameMode = 'exhibit',
+  onPiecePlaced,
 }: ExhibitionCanvasWithControlsProps) {
   // 暗色模式使用纯黑背景
   const bgColor = theme === 'dark' ? '#000000' : '#f7f3ed';
   const isDark = theme === 'dark';
 
   // 获取模型 ID
-  const modelId = chapterId ? chapterModelMap[chapterId] : 'R1L1';
+  const modelId = chapterId ? chapterModelMap[chapterId] : 'R1L3';
 
   return (
     <main
@@ -510,6 +496,8 @@ function ExhibitionCanvas({
             slideDirection={slideDirection}
             isExploded={isExploded}
             chapterId={chapterId}
+            gameMode={gameMode}
+            onPiecePlaced={onPiecePlaced}
           />
         ) : (
           <LoadingPlaceholder />
