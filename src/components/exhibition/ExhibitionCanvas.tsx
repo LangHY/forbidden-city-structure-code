@@ -185,6 +185,8 @@ function GLBModel({
   chapterId,
   gameMode,
   onPiecePlaced,
+  onDragStart,
+  onDragEnd,
 }: {
   modelId: string;
   slideDirection?: 'up' | 'down' | null;
@@ -192,6 +194,8 @@ function GLBModel({
   chapterId?: string;
   gameMode?: GameMode;
   onPiecePlaced?: (index: number) => void;
+  onDragStart?: () => void;
+  onDragEnd?: () => void;
 }) {
   const groupRef = useRef<THREE.Group>(null);
   const [model, setModel] = useState<THREE.Group | null>(null);
@@ -344,8 +348,8 @@ function GLBModel({
           explosionComponents={explodedViewConfigs[chapterId]?.components ?? []}
           placedPieces={new Set()}
           onPiecePlaced={(index) => onPiecePlaced?.(index)}
-          onDragStart={() => {}}
-          onDragEnd={() => {}}
+          onDragStart={() => onDragStart?.()}
+          onDragEnd={() => onDragEnd?.()}
           active={true}
         />
       )}
@@ -368,9 +372,11 @@ function LoadingPlaceholder() {
  * 响应外部控制事件
  */
 function CameraController({
-  onAction
+  onAction,
+  enabled = true,
 }: {
-  onAction: (callback: (action: CameraControlAction) => void) => () => void
+  onAction: (callback: (action: CameraControlAction) => void) => () => void;
+  enabled?: boolean;
 }) {
   const { camera } = useThree();
   const orbitControlsRef = useRef<React.ComponentRef<typeof OrbitControls>>(null);
@@ -407,6 +413,7 @@ function CameraController({
   return (
     <OrbitControls
       ref={orbitControlsRef}
+      enabled={enabled}
       enableDamping
       dampingFactor={0.05}
       minDistance={2}
@@ -436,6 +443,8 @@ function ExhibitionCanvas({
   gameMode = 'exhibit',
   onPiecePlaced,
 }: ExhibitionCanvasWithControlsProps) {
+  const [isDragging, setIsDragging] = useState(false);
+
   // 暗色模式使用纯黑背景
   const bgColor = theme === 'dark' ? '#000000' : '#f7f3ed';
   const isDark = theme === 'dark';
@@ -498,13 +507,15 @@ function ExhibitionCanvas({
             chapterId={chapterId}
             gameMode={gameMode}
             onPiecePlaced={onPiecePlaced}
+            onDragStart={() => setIsDragging(true)}
+            onDragEnd={() => setIsDragging(false)}
           />
         ) : (
           <LoadingPlaceholder />
         )}
 
         {/* 控制器 */}
-        <CameraController onAction={cameraActions.subscribe} />
+        <CameraController onAction={cameraActions.subscribe} enabled={!isDragging} />
       </Canvas>
     </main>
   );
