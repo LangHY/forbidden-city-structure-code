@@ -9,7 +9,7 @@
  * 🚀 重构：使用自定义 Hooks 拆分逻辑
  */
 
-import { useState, useCallback, memo } from 'react';
+import { useState, useCallback, useEffect, memo } from 'react';
 import ExhibitionCanvas, { useCameraControl, preloadAdjacentModels } from './ExhibitionCanvas';
 import ExhibitionNav from './ExhibitionNav';
 import ChapterNav from './ChapterNav';
@@ -17,8 +17,10 @@ import InfoCard from './InfoCard';
 import BottomControls from './BottomControls';
 import DecorativeChar from './DecorativeChar';
 import BootLoader from './BootLoader';
-import { chapters, artifactInfo, decorativeChars, decorativeChar } from './config';
-import type { ThemeMode } from './types';
+import GameControls from './GameControls';
+import CompletionEffect from './CompletionEffect';
+import { chapters, artifactInfo, decorativeChars, decorativeChar, explodedViewConfigs } from './config';
+import type { ThemeMode, GameMode } from './types';
 
 // 导入自定义 Hooks
 import { useBootAnimation, useChapterNavigation, useStructureData, usePreloadAdjacent } from './hooks';
@@ -61,6 +63,8 @@ function Exhibition() {
   const [theme, setTheme] = useState<ThemeMode>('light');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isExploded, setIsExploded] = useState(false);
+  const [gameMode, setGameMode] = useState<GameMode>('exhibit');
+  const [placedPieces, setPlacedPieces] = useState<Set<number>>(new Set());
 
   // 相机控制
   const cameraActions = useCameraControl();
@@ -95,8 +99,59 @@ function Exhibition() {
     setIsExploded(prev => !prev);
   }, []);
 
+  // 游戏：开始拼装
+  const handleStartGame = useCallback(() => {
+    setIsExploded(true);
+    setPlacedPieces(new Set());
+    setGameMode('playing');
+  }, []);
+
+  // 游戏：重置
+  const handleResetGame = useCallback(() => {
+    setPlacedPieces(new Set());
+    // 先合并再爆炸，触发重新散开
+    setIsExploded(false);
+    requestAnimationFrame(() => setIsExploded(true));
+  }, []);
+
+  // 游戏：退出
+  const handleExitGame = useCallback(() => {
+    setGameMode('exhibit');
+    setPlacedPieces(new Set());
+    setIsExploded(false);
+  }, []);
+
+  // 游戏：构件归位
+  const handlePiecePlaced = useCallback((index: number) => {
+    setPlacedPieces(prev => {
+      const next = new Set(prev);
+      next.add(index);
+      return next;
+    });
+  }, []);
+
+  // 通关动画结束
+  const handleCompletionDone = useCallback(() => {
+    setGameMode('exhibit');
+    setIsExploded(false);
+    setPlacedPieces(new Set());
+  }, []);
+
+  // 检测是否通关
+  useEffect(() => {
+    if (gameMode !== 'playing') return;
+    const config = explodedViewConfigs[activeChapter];
+    if (!config) return;
+
+    if (placedPieces.size >= config.components.length) {
+      setGameMode('completed');
+    }
+  }, [placedPieces, gameMode, activeChapter]);
+
   const handleChapterChangeWithReset = useCallback((chapterId: string) => {
     setIsExploded(false);
+    setGameMode('exhibit');
+    setPlacedPieces(new Set());
     handleChapterChange(chapterId);
   }, [handleChapterChange]);
 
@@ -125,6 +180,8 @@ function Exhibition() {
         cameraActions={cameraActions}
         slideDirection={slideDirection}
         isExploded={isExploded}
+        gameMode={gameMode}
+        onPiecePlaced={handlePiecePlaced}
       />
 
       {/* 失焦遮罩层 */}
@@ -161,16 +218,36 @@ function Exhibition() {
         isBlurred={isMenuOpen}
       />
 
-      {/* 底部控件 */}
-      <BottomControls
-        artifactOrigin={artifactInfo.name}
-        artifactOriginEn={artifactInfo.nameEn}
-        onZoom={handleZoom}
-        onReset={handleReset}
-        onExplodeToggle={handleExplodeToggle}
-        isExploded={isExploded}
+      {/* 底部控件 - 展览模式用 BottomControls，游戏模式用 GameControls */}
+      {gameMode === 'exhibit' ? (
+        <BottomControls
+          artifactOrigin={artifactInfo.name}
+          artifactOriginEn={artifactInfo.nameEn}
+          onZoom={handleZoom}
+          onReset={handleReset}
+          onExplodeToggle={explodedViewConfigs[activeChapter] ? handleExplodeToggle : undefined}
+          isExploded={isExploded}
+          theme={theme}
+          isBlurred={isMenuOpen}
+        />
+      ) : (
+        <GameControls
+          gameMode={gameMode}
+          theme={theme}
+          isBlurred={isMenuOpen}
+          placedCount={placedPieces.size}
+          totalCount={explodedViewConfigs[activeChapter]?.components.length ?? 0}
+          onStart={handleStartGame}
+          onReset={handleResetGame}
+          onExit={handleExitGame}
+        />
+      )}
+
+      {/* 通关祝贺 */}
+      <CompletionEffect
+        visible={gameMode === 'completed'}
         theme={theme}
-        isBlurred={isMenuOpen}
+        onComplete={handleCompletionDone}
       />
 
       {/* 装饰元素 */}
