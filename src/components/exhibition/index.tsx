@@ -227,6 +227,7 @@ function Exhibition() {
           onReset={handleReset}
           onExplodeToggle={explodedViewConfigs[activeChapter] ? handleExplodeToggle : undefined}
           isExploded={isExploded}
+          onStartGame={explodedViewConfigs[activeChapter] ? handleStartGame : undefined}
           theme={theme}
           isBlurred={isMenuOpen}
         />

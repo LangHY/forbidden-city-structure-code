@@ -73,6 +73,7 @@ function BottomControls({
   onReset,
   onExplodeToggle,
   isExploded = false,
+  onStartGame,
   theme = 'light',
   isBlurred = false,
   showZoom = true,
@@ -108,6 +109,14 @@ function BottomControls({
 
       {/* 缩放控件 */}
       <div className="flex gap-6 pointer-events-auto">
+        {onStartGame && (
+          <button
+            onClick={onStartGame}
+            className={`px-5 py-2 rounded-full ${glassClass} ${btnColor} font-serif tracking-widest text-sm transition-all duration-300 hover:scale-105 active:scale-95`}
+          >
+            开始拼装
+          </button>
+        )}
         {showZoom && (
           <button
             onClick={onZoom}

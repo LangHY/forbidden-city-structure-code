@@ -72,6 +72,7 @@ export interface BottomControlsProps {
   onReset?: () => void;
   onExplodeToggle?: () => void;
   isExploded?: boolean;
+  onStartGame?: () => void;
   className?: string;
 }
 
