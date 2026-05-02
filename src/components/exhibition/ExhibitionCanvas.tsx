@@ -188,7 +188,6 @@ function GLBModel({
   onDragStart,
   onDragEnd,
   draggedPieceIndex,
-  originalPositionsRef,
 }: {
   modelId: string;
   slideDirection?: 'up' | 'down' | null;
@@ -199,7 +198,6 @@ function GLBModel({
   onDragStart?: (index: number) => void;
   onDragEnd?: () => void;
   draggedPieceIndex?: number | null;
-  originalPositionsRef?: React.RefObject<Map<number, THREE.Vector3>>;
 }) {
   const groupRef = useRef<THREE.Group>(null);
   const [model, setModel] = useState<THREE.Group | null>(null);
