@@ -115,3 +115,8 @@ export interface DougongExplosionConfig {
   /** 各构件的爆炸配置 */
   components: ComponentExplosion[];
 }
+
+/**
+ * 游戏模式
+ */
+export type GameMode = 'exhibit' | 'playing' | 'completed';
